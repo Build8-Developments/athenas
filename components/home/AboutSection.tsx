@@ -55,7 +55,7 @@ export default function AboutSection() {
                   key={index}
                   className="group flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/50 hover:bg-white/80 border border-accent/30 hover:border-secondary/50 transition-all duration-300 hover:shadow-md"
                 >
-                  <span className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-secondary to-primary flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-sm">
+                  <span className="shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-linear-to-br from-secondary to-primary flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-sm">
                     {index + 1}
                   </span>
                   <span className="text-sm sm:text-base text-primary/90 leading-relaxed pt-0.5 sm:pt-1">
@@ -67,7 +67,7 @@ export default function AboutSection() {
           </div>
 
           {/* Right Side - Image Slider */}
-          <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px] xl:h-[700px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
+          <div className="relative w-full h-87.5 sm:h-112.5 md:h-137.5 lg:h-162.5 xl:h-175 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
             {slides.map((slide, index) => (
               <div
                 key={slide}
