@@ -45,6 +45,9 @@ export const products: Product[] = [
     descriptionKey: "greenPeas.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Green+Peas",
+    price: 1.85,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     gallery: [
       "https://placehold.co/600x600?text=Green+Peas+1",
       "https://placehold.co/600x600?text=Green+Peas+2",
@@ -65,6 +68,9 @@ export const products: Product[] = [
     descriptionKey: "greenBeans.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Green+Beans",
+    price: 1.95,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -81,6 +87,9 @@ export const products: Product[] = [
     descriptionKey: "okra.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Okra",
+    price: 2.45,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -96,6 +105,9 @@ export const products: Product[] = [
     descriptionKey: "spinach.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Spinach",
+    price: 1.65,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "18 months",
@@ -112,6 +124,9 @@ export const products: Product[] = [
     descriptionKey: "cornKernels.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Corn+Kernels",
+    price: 1.75,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -127,6 +142,9 @@ export const products: Product[] = [
     descriptionKey: "broccoli.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Broccoli",
+    price: 2.25,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -142,6 +160,9 @@ export const products: Product[] = [
     descriptionKey: "cauliflower.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Cauliflower",
+    price: 2.15,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -157,6 +178,9 @@ export const products: Product[] = [
     descriptionKey: "carrots.description",
     category: "vegetables",
     image: "https://placehold.co/600x600?text=Carrots",
+    price: 1.45,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -173,6 +197,9 @@ export const products: Product[] = [
     descriptionKey: "strawberries.description",
     category: "fruits",
     image: "https://placehold.co/600x600?text=Strawberries",
+    price: 2.85,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -189,6 +216,9 @@ export const products: Product[] = [
     descriptionKey: "mangoChunks.description",
     category: "fruits",
     image: "https://placehold.co/600x600?text=Mango+Chunks",
+    price: 3.25,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -205,6 +235,9 @@ export const products: Product[] = [
     descriptionKey: "pomegranateSeeds.description",
     category: "fruits",
     image: "https://placehold.co/600x600?text=Pomegranate",
+    price: 4.5,
+    priceUnit: "kg",
+    minOrder: "250 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -221,6 +254,9 @@ export const products: Product[] = [
     descriptionKey: "guava.description",
     category: "fruits",
     image: "https://placehold.co/600x600?text=Guava",
+    price: 2.65,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -237,6 +273,9 @@ export const products: Product[] = [
     descriptionKey: "frenchFries.description",
     category: "fries",
     image: "https://placehold.co/600x600?text=French+Fries",
+    price: 1.35,
+    priceUnit: "kg",
+    minOrder: "1000 kg",
     specifications: {
       packagingKey: "packaging.retail",
       shelfLife: "18 months",
@@ -253,6 +292,9 @@ export const products: Product[] = [
     descriptionKey: "crinkleCutFries.description",
     category: "fries",
     image: "https://placehold.co/600x600?text=Crinkle+Cut",
+    price: 1.45,
+    priceUnit: "kg",
+    minOrder: "1000 kg",
     specifications: {
       packagingKey: "packaging.retail",
       shelfLife: "18 months",
@@ -268,6 +310,9 @@ export const products: Product[] = [
     descriptionKey: "potatoWedges.description",
     category: "fries",
     image: "https://placehold.co/600x600?text=Potato+Wedges",
+    price: 1.55,
+    priceUnit: "kg",
+    minOrder: "1000 kg",
     specifications: {
       packagingKey: "packaging.retail",
       shelfLife: "18 months",
@@ -285,6 +330,9 @@ export const products: Product[] = [
     descriptionKey: "molokhia.description",
     category: "herbs",
     image: "https://placehold.co/600x600?text=Molokhia",
+    price: 2.35,
+    priceUnit: "kg",
+    minOrder: "250 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "18 months",
@@ -301,6 +349,9 @@ export const products: Product[] = [
     descriptionKey: "parsley.description",
     category: "herbs",
     image: "https://placehold.co/600x600?text=Parsley",
+    price: 2.95,
+    priceUnit: "kg",
+    minOrder: "250 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "18 months",
@@ -316,6 +367,9 @@ export const products: Product[] = [
     descriptionKey: "dill.description",
     category: "herbs",
     image: "https://placehold.co/600x600?text=Dill",
+    price: 3.15,
+    priceUnit: "kg",
+    minOrder: "250 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "18 months",
@@ -332,6 +386,9 @@ export const products: Product[] = [
     descriptionKey: "mixedVegetables.description",
     category: "mixes",
     image: "https://placehold.co/600x600?text=Mixed+Vegetables",
+    price: 1.75,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.bulk",
       shelfLife: "24 months",
@@ -348,6 +405,9 @@ export const products: Product[] = [
     descriptionKey: "stirFryMix.description",
     category: "mixes",
     image: "https://placehold.co/600x600?text=Stir+Fry+Mix",
+    price: 2.15,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.retail",
       shelfLife: "24 months",
@@ -363,6 +423,9 @@ export const products: Product[] = [
     descriptionKey: "soupMix.description",
     category: "mixes",
     image: "https://placehold.co/600x600?text=Soup+Mix",
+    price: 1.95,
+    priceUnit: "kg",
+    minOrder: "500 kg",
     specifications: {
       packagingKey: "packaging.retail",
       shelfLife: "24 months",
