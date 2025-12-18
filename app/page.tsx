@@ -1,11 +1,5 @@
-import HeroSection from "@/components/home/HeroSection";
-import AboutSection from "@/components/home/AboutSection";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
-  return (
-    <div className="w-full">
-      <HeroSection />
-      <AboutSection />
-    </div>
-  );
+export default function RootPage() {
+  redirect("/en");
 }

@@ -1,19 +1,29 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, X, Globe } from "lucide-react";
 import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 export default function FloatingNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const t = useTranslations("nav");
+  const locale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/services", label: "Services" },
-    { href: "/contact", label: "Contact" },
+    { href: "/", label: t("home") },
+    { href: "/about", label: t("about") },
+    { href: "/products", label: t("products") },
+    { href: "/contact", label: t("contact") },
   ];
+
+  const toggleLocale = () => {
+    const newLocale = locale === "en" ? "ar" : "en";
+    router.replace(pathname, { locale: newLocale });
+  };
 
   return (
     <>
@@ -46,9 +56,21 @@ export default function FloatingNavbar() {
           </ul>
 
           {/* Right Side Icons */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             {/* Divider - Desktop Only */}
             <div className="hidden md:block h-6 w-px bg-primary/20" />
+
+            {/* Language Toggle */}
+            <button
+              onClick={toggleLocale}
+              className="p-2 hover:bg-secondary/10 rounded-full transition-colors duration-200 flex items-center gap-1"
+              aria-label="Toggle language"
+            >
+              <Globe className="w-5 h-5 text-primary" />
+              <span className="text-xs font-medium text-primary uppercase">
+                {locale === "en" ? "AR" : "EN"}
+              </span>
+            </button>
 
             {/* Wishlist Icon */}
             <Link

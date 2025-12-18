@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Button from "@/components/shared/Button";
 
 export default function HeroSection() {
+  const t = useTranslations("hero");
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Background images for the slider
@@ -48,31 +50,27 @@ export default function HeroSection() {
 
       {/* Hero Content */}
       <div className="relative z-10 flex h-full items-center px-6 max-w-7xl mx-auto">
-        <div className="text-left max-w-3xl">
+        <div className="text-left max-w-3xl rtl:text-right">
           {/* Welcome Text */}
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-px bg-primary"></div>
             <p className="text-primary text-sm md:text-base font-medium tracking-wide uppercase">
-              Welcome to Athenas Foods
+              {t("welcome")}
             </p>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary mb-6 leading-tight">
-            Your trusted partner in exporting
-            <br />
-            premium Egyptian frozen products.
+            {t("title")}
           </h1>
 
           {/* Subtitle */}
           <p className="text-base md:text-lg lg:text-xl text-primary/80 mb-8 leading-relaxed">
-            We specialize in delivering high-quality frozen vegetables, fruits,
-            and herbs to global markets—ensuring freshness, flavor, and
-            reliability in every shipment.
+            {t("subtitle")}
           </p>
 
           {/* CTA Button */}
-          <Button href="/contact">Get in Touch</Button>
+          <Button href="/contact">{t("cta")}</Button>
         </div>
       </div>
 

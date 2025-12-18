@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 export default function AboutSection() {
+  const t = useTranslations("about");
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Portrait images for the slider
@@ -22,30 +24,28 @@ export default function AboutSection() {
   }, [slides.length]);
 
   const qualityPoints = [
-    "Full compliance with international food safety systems",
-    "Strict raw material selection from approved farms",
-    "Modern IQF (Individual Quick Freezing) technologies",
-    "Continuous monitoring at each production stage",
-    "Full traceability from farm to container",
+    t("points.0"),
+    t("points.1"),
+    t("points.2"),
+    t("points.3"),
+    t("points.4"),
   ];
 
   return (
     <section className="relative z-10 w-full -mt-8 sm:-mt-6 md:-mt-16 ">
       {/* Container */}
-      <div className="mx-auto rounded-tl-3xl rounded-tr-3xl md:rounded-tl-[64px] md:rounded-tr-[64px] bg-light shadow-xl border border-accent overflow-hidden">
+      <div className="mx-auto rounded-tl-3xl rounded-tr-3xl md:rounded-tl-[64px] md:rounded-tr-[64px] bg-light border border-accent overflow-hidden">
         <div className="grid max-w-7xl mx-auto p-4 sm:p-6 md:p-8 lg:p-12 grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Side - Content */}
           <div className="p-2 sm:p-4 md:p-6 flex flex-col justify-center">
             {/* Title */}
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 sm:mb-6 md:mb-8 leading-tight">
-              Quality is the core of
-              <br />
-              Athenas Foods.
+              {t("title")}
             </h2>
 
             {/* Subtitle */}
             <p className="text-base sm:text-lg md:text-xl text-primary font-semibold mb-4 sm:mb-6 md:mb-8">
-              Our quality standards include:
+              {t("subtitle")}
             </p>
 
             {/* Quality Points - Enhanced Cards */}

@@ -7,6 +7,30 @@
   --color-accent: #d2dcb6;
   --color-light: #f1f3e0;
 
+  /* Custom Animations */
+  --animate-scroll: scroll 30s linear infinite;
+  --animate-ping: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* Opacity variants */
   --color-primary-50: rgb(119 136 115 / 0.05);
   --color-primary-100: rgb(119 136 115 / 0.1);

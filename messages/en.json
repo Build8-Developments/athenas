@@ -1,0 +1,115 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "contact": "Contact"
+  },
+  "hero": {
+    "welcome": "Welcome to Athenas Foods",
+    "title": "Your trusted partner in exporting premium Egyptian frozen products.",
+    "subtitle": "We specialize in delivering high-quality frozen vegetables, fruits, and herbs to global markets—ensuring freshness, flavor, and reliability in every shipment.",
+    "cta": "Get in Touch"
+  },
+  "about": {
+    "title": "Quality is the core of Athenas Foods.",
+    "subtitle": "Our quality standards include:",
+    "points": [
+      "Full compliance with international food safety systems",
+      "Strict raw material selection from approved farms",
+      "Modern IQF (Individual Quick Freezing) technologies",
+      "Continuous monitoring at each production stage",
+      "Full traceability from farm to container"
+    ]
+  },
+  "logos": {
+    "title": "Trusted by Industry Leaders"
+  },
+  "quote": {
+    "text": "At Athenas Foods, we believe that quality is not just a standard—it's a promise. Every frozen product we export carries with it the dedication of Egyptian farmers and the excellence of our processing facilities.",
+    "author": "Ahmed Hassan",
+    "role": "Founder & CEO, Athenas Foods"
+  },
+  "products": {
+    "title": "Featured Products",
+    "subtitle": "Explore our premium selection of frozen products, carefully selected and processed to maintain the highest quality standards.",
+    "addToWishlist": "Add to Wishlist",
+    "removeFromWishlist": "Remove from Wishlist",
+    "viewAll": "View All Products"
+  },
+  "categories": {
+    "title": "Product Categories",
+    "subtitle": "Discover our wide range of frozen products across various categories.",
+    "vegetables": "Vegetables",
+    "fruits": "Fruits",
+    "fries": "Fries & Potatoes",
+    "herbs": "Herbs & Seasonings",
+    "mixes": "Mixed Blends"
+  },
+  "partners": {
+    "title": "Our Global Partners",
+    "subtitle": "We proudly serve clients across continents, building lasting relationships based on trust and quality.",
+    "locations": {
+      "egypt": "Cairo, Egypt - Headquarters",
+      "uae": "Dubai, UAE - Distribution Hub",
+      "germany": "Hamburg, Germany - European Partner"
+    }
+  },
+  "stats": {
+    "exports": "Tons Exported Annually",
+    "countries": "Countries Served",
+    "years": "Years of Experience",
+    "products": "Product Varieties"
+  },
+  "banner": {
+    "title": "Ready to Source Premium Frozen Products?",
+    "subtitle": "Partner with Athenas Foods and experience the finest quality Egyptian frozen products. From farm to your facility, we ensure excellence at every step.",
+    "cta": "Request a Quote"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our products and services.",
+    "questions": [
+      {
+        "question": "What types of frozen products do you export?",
+        "answer": "We export a wide variety of frozen products including vegetables (peas, green beans, mixed vegetables), fruits (strawberries, mangoes), herbs, and potato products. All products are IQF processed to maintain freshness."
+      },
+      {
+        "question": "What certifications do you have?",
+        "answer": "Athenas Foods holds ISO 22000, HACCP, and GLOBALG.A.P certifications. We comply with international food safety standards and undergo regular audits to ensure quality."
+      },
+      {
+        "question": "What is your minimum order quantity?",
+        "answer": "Our minimum order quantity varies by product but typically starts at one 20-foot container. Contact us for specific product MOQs and pricing."
+      },
+      {
+        "question": "How do you ensure product quality during shipping?",
+        "answer": "We use refrigerated containers maintained at -18°C throughout the shipping process. Each shipment includes temperature monitoring and documentation for complete traceability."
+      },
+      {
+        "question": "Which countries do you ship to?",
+        "answer": "We export to over 25 countries across Europe, Middle East, Asia, and Africa. Contact us to confirm shipping availability to your specific location."
+      }
+    ]
+  },
+  "footer": {
+    "description": "Your trusted partner for premium Egyptian frozen products. Quality, reliability, and excellence in every shipment.",
+    "quickLinks": "Quick Links",
+    "products": "Products",
+    "contact": "Contact Us",
+    "address": "Industrial Zone, 10th of Ramadan City, Egypt",
+    "email": "info@athenasfoods.com",
+    "phone": "+20 123 456 7890",
+    "followUs": "Follow Us",
+    "copyright": "© 2025 Athenas Foods. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "wishlist": {
+    "title": "Your Wishlist",
+    "empty": "Your wishlist is empty",
+    "sendEmail": "Send Inquiry via Email",
+    "emailSubject": "Product Inquiry from Athenas Foods",
+    "continueBrowsing": "Continue Browsing"
+  }
+}

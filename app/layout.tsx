@@ -1,4 +1,3 @@
-import FloatingNavbar from "@/components/layout/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -12,14 +11,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body className={`antialiased bg-accent/20`}>
-        <main className="w-full overflow-x-hidden flex flex-col relative">
-          <FloatingNavbar />
-          {children}
-        </main>
-      </body>
-    </html>
-  );
+  return children;
 }
