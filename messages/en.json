@@ -277,5 +277,99 @@
       "name": "Soup Mix",
       "description": "Hearty vegetable blend designed for soups and stews. Includes carrots, peas, beans, and more."
     }
+  },
+  "dashboard": {
+    "backToSite": "Back to Site",
+    "nav": {
+      "overview": "Overview",
+      "products": "Products",
+      "categories": "Categories",
+      "settings": "Settings"
+    },
+    "overview": {
+      "title": "Dashboard Overview",
+      "subtitle": "Welcome back! Here's what's happening with your products.",
+      "recentProducts": "Recent Products",
+      "recentProductsDesc": "The latest products added to your catalog",
+      "viewAll": "View All"
+    },
+    "stats": {
+      "totalProducts": "Total Products",
+      "categories": "Categories",
+      "featuredProducts": "Featured Products",
+      "newProducts": "New Products"
+    },
+    "quickActions": {
+      "addProduct": "Add New Product",
+      "addProductDesc": "Create a new product listing",
+      "manageCategories": "Manage Categories",
+      "manageCategoriesDesc": "Organize your product categories"
+    },
+    "table": {
+      "product": "Product",
+      "category": "Category",
+      "price": "Price",
+      "status": "Status",
+      "actions": "Actions",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "products": {
+      "title": "Products Management",
+      "subtitle": "Manage your product catalog",
+      "addProduct": "Add Product",
+      "searchPlaceholder": "Search products...",
+      "allCategories": "All Categories",
+      "allStatus": "All Status",
+      "featured": "Featured",
+      "new": "New",
+      "active": "Active",
+      "selectedCount": "{count} selected",
+      "deleteSelected": "Delete Selected",
+      "showing": "Showing {from} to {to} of {total} products",
+      "noResults": "No products found matching your criteria",
+      "deleteConfirmTitle": "Delete Product",
+      "deleteConfirmDesc": "Are you sure you want to delete this product? This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirmDelete": "Delete"
+    },
+    "productForm": {
+      "addTitle": "Add New Product",
+      "addSubtitle": "Fill in the details to create a new product",
+      "editTitle": "Edit Product",
+      "editSubtitle": "Update the product information",
+      "basicInfo": "Basic Information",
+      "slug": "URL Slug",
+      "slugHelp": "URL-friendly identifier (lowercase, hyphens only)",
+      "category": "Category",
+      "nameKey": "Name Translation Key",
+      "descriptionKey": "Description Translation Key",
+      "media": "Media",
+      "mainImage": "Main Image URL",
+      "gallery": "Gallery Images",
+      "pricing": "Pricing",
+      "price": "Price (USD)",
+      "priceUnit": "Price Unit",
+      "perKg": "Per Kilogram",
+      "perTon": "Per Ton",
+      "minOrder": "Minimum Order",
+      "specifications": "Specifications",
+      "packaging": "Packaging",
+      "shelfLife": "Shelf Life",
+      "storage": "Storage Temperature",
+      "origin": "Country of Origin",
+      "certifications": "Certifications",
+      "addCertification": "Add certification (e.g. ISO 22000)",
+      "status": "Product Status",
+      "markFeatured": "Mark as Featured",
+      "featuredHelp": "Featured products appear on the homepage",
+      "markNew": "Mark as New",
+      "newHelp": "New products get a special badge",
+      "cancel": "Cancel",
+      "create": "Create Product",
+      "update": "Update Product",
+      "saving": "Saving..."
+    }
   }
 }

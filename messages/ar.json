@@ -277,5 +277,99 @@
       "name": "خليط الشوربة",
       "description": "خليط خضروات شهي مصمم للشوربات والطواجن. يشمل الجزر والبازلاء والفاصوليا والمزيد."
     }
+  },
+  "dashboard": {
+    "backToSite": "العودة للموقع",
+    "nav": {
+      "overview": "نظرة عامة",
+      "products": "المنتجات",
+      "categories": "التصنيفات",
+      "settings": "الإعدادات"
+    },
+    "overview": {
+      "title": "لوحة التحكم",
+      "subtitle": "مرحباً! إليك ما يحدث مع منتجاتك.",
+      "recentProducts": "أحدث المنتجات",
+      "recentProductsDesc": "آخر المنتجات المضافة إلى الكتالوج",
+      "viewAll": "عرض الكل"
+    },
+    "stats": {
+      "totalProducts": "إجمالي المنتجات",
+      "categories": "التصنيفات",
+      "featuredProducts": "المنتجات المميزة",
+      "newProducts": "المنتجات الجديدة"
+    },
+    "quickActions": {
+      "addProduct": "إضافة منتج جديد",
+      "addProductDesc": "إنشاء قائمة منتج جديدة",
+      "manageCategories": "إدارة التصنيفات",
+      "manageCategoriesDesc": "تنظيم تصنيفات المنتجات"
+    },
+    "table": {
+      "product": "المنتج",
+      "category": "التصنيف",
+      "price": "السعر",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "view": "عرض",
+      "edit": "تعديل",
+      "delete": "حذف"
+    },
+    "products": {
+      "title": "إدارة المنتجات",
+      "subtitle": "إدارة كتالوج المنتجات",
+      "addProduct": "إضافة منتج",
+      "searchPlaceholder": "بحث عن المنتجات...",
+      "allCategories": "كل التصنيفات",
+      "allStatus": "كل الحالات",
+      "featured": "مميز",
+      "new": "جديد",
+      "active": "نشط",
+      "selectedCount": "{count} محدد",
+      "deleteSelected": "حذف المحدد",
+      "showing": "عرض {from} إلى {to} من {total} منتج",
+      "noResults": "لا توجد منتجات تطابق معايير البحث",
+      "deleteConfirmTitle": "حذف المنتج",
+      "deleteConfirmDesc": "هل أنت متأكد أنك تريد حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.",
+      "cancel": "إلغاء",
+      "confirmDelete": "حذف"
+    },
+    "productForm": {
+      "addTitle": "إضافة منتج جديد",
+      "addSubtitle": "أدخل التفاصيل لإنشاء منتج جديد",
+      "editTitle": "تعديل المنتج",
+      "editSubtitle": "تحديث معلومات المنتج",
+      "basicInfo": "المعلومات الأساسية",
+      "slug": "معرف الرابط",
+      "slugHelp": "معرف صديق للروابط (أحرف صغيرة وشرطات فقط)",
+      "category": "التصنيف",
+      "nameKey": "مفتاح ترجمة الاسم",
+      "descriptionKey": "مفتاح ترجمة الوصف",
+      "media": "الوسائط",
+      "mainImage": "رابط الصورة الرئيسية",
+      "gallery": "صور المعرض",
+      "pricing": "التسعير",
+      "price": "السعر (دولار)",
+      "priceUnit": "وحدة السعر",
+      "perKg": "لكل كيلوجرام",
+      "perTon": "لكل طن",
+      "minOrder": "الحد الأدنى للطلب",
+      "specifications": "المواصفات",
+      "packaging": "التغليف",
+      "shelfLife": "مدة الصلاحية",
+      "storage": "درجة حرارة التخزين",
+      "origin": "بلد المنشأ",
+      "certifications": "الشهادات",
+      "addCertification": "أضف شهادة (مثل ISO 22000)",
+      "status": "حالة المنتج",
+      "markFeatured": "تعيين كمميز",
+      "featuredHelp": "المنتجات المميزة تظهر في الصفحة الرئيسية",
+      "markNew": "تعيين كجديد",
+      "newHelp": "المنتجات الجديدة تحصل على شارة خاصة",
+      "cancel": "إلغاء",
+      "create": "إنشاء المنتج",
+      "update": "تحديث المنتج",
+      "saving": "جاري الحفظ..."
+    }
   }
 }
