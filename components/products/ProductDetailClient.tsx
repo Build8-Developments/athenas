@@ -20,12 +20,12 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
-import type { Product } from "@/data/products";
+import type { ProductData } from "@/lib/data";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 interface ProductDetailClientProps {
-  product: Product;
-  relatedProducts: Product[];
+  product: ProductData;
+  relatedProducts: ProductData[];
 }
 
 export default function ProductDetailClient({
@@ -34,7 +34,6 @@ export default function ProductDetailClient({
 }: ProductDetailClientProps) {
   const t = useTranslations("productDetail");
   const tPage = useTranslations("productsPage");
-  const tItems = useTranslations("productItems");
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -49,9 +48,9 @@ export default function ProductDetailClient({
     const saved = localStorage.getItem("athenas-wishlist");
     if (saved) {
       const wishlist = JSON.parse(saved) as { id: string; quantity: number }[];
-      setIsInWishlist(wishlist.some((item) => item.id === product.id));
+      setIsInWishlist(wishlist.some((item) => item.id === product._id));
     }
-  }, [product.id]);
+  }, [product._id]);
 
   // All images including main and gallery
   const allImages = [product.image, ...(product.gallery || [])];
@@ -68,14 +67,14 @@ export default function ProductDetailClient({
       : [];
 
     let newWishlist;
-    const existingIndex = wishlist.findIndex((item) => item.id === product.id);
+    const existingIndex = wishlist.findIndex((item) => item.id === product._id);
 
     if (existingIndex !== -1) {
       // Remove from wishlist
-      newWishlist = wishlist.filter((item) => item.id !== product.id);
+      newWishlist = wishlist.filter((item) => item.id !== product._id);
     } else {
       // Add to wishlist with quantity
-      newWishlist = [...wishlist, { id: product.id, quantity }];
+      newWishlist = [...wishlist, { id: product._id, quantity }];
     }
 
     localStorage.setItem("athenas-wishlist", JSON.stringify(newWishlist));
@@ -85,7 +84,7 @@ export default function ProductDetailClient({
   // Share functionality
   const handleShare = async () => {
     const url = window.location.href;
-    const title = tItems(product.nameKey);
+    const title = product.name;
 
     if (navigator.share) {
       try {
@@ -122,11 +121,11 @@ export default function ProductDetailClient({
 
   // Generate inquiry email
   const generateInquiryEmail = () => {
-    const subject = encodeURIComponent(`Inquiry: ${tItems(product.nameKey)}`);
+    const subject = encodeURIComponent(`Inquiry: ${product.name}`);
     const body = encodeURIComponent(
       `Hello,\n\nI am interested in the following product:\n\n` +
-        `Product: ${tItems(product.nameKey)}\n` +
-        `Category: ${tPage(`categories.${product.category}`)}\n` +
+        `Product: ${product.name}\n` +
+        `Category: ${product.category}\n` +
         `Quantity: ${quantity} ${product.priceUnit}\n` +
         `Price: ${formatPrice(product.price)} per ${product.priceUnit}\n\n` +
         `Please provide more information about:\n` +
@@ -161,9 +160,7 @@ export default function ProductDetailClient({
             {t("breadcrumb.products")}
           </Link>
           <ChevronRight className="w-4 h-4 text-primary/40 rtl:rotate-180" />
-          <span className="text-primary font-medium">
-            {tItems(product.nameKey)}
-          </span>
+          <span className="text-primary font-medium">{product.name}</span>
         </nav>
 
         {/* Back Button - Mobile */}
@@ -191,7 +188,7 @@ export default function ProductDetailClient({
             <div className="relative aspect-square rounded-3xl overflow-hidden bg-white shadow-lg mb-4">
               <Image
                 src={allImages[selectedImage]}
-                alt={tItems(product.nameKey)}
+                alt={product.name}
                 fill
                 className="object-cover"
                 priority
@@ -248,7 +245,7 @@ export default function ProductDetailClient({
                   >
                     <Image
                       src={img}
-                      alt={`${tItems(product.nameKey)} ${index + 1}`}
+                      alt={`${product.name} ${index + 1}`}
                       fill
                       className="object-cover"
                       unoptimized
@@ -268,18 +265,18 @@ export default function ProductDetailClient({
             }`}
           >
             {/* Category */}
-            <span className="inline-block px-3 py-1 bg-accent/60 text-primary/80 text-sm font-medium rounded-full mb-4">
-              {tPage(`categories.${product.category}`)}
+            <span className="inline-block px-3 py-1 bg-accent/60 text-primary/80 text-sm font-medium rounded-full mb-4 capitalize">
+              {product.category}
             </span>
 
             {/* Title */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
-              {tItems(product.nameKey)}
+              {product.name}
             </h1>
 
             {/* Description */}
             <p className="text-primary/70 text-lg mb-6 leading-relaxed">
-              {tItems(product.descriptionKey)}
+              {product.description}
             </p>
 
             {/* Price */}
@@ -412,7 +409,7 @@ export default function ProductDetailClient({
                         {tPage("specifications.packaging")}
                       </p>
                       <p className="text-sm font-medium text-primary">
-                        {tPage(product.specifications.packagingKey)}
+                        {product.specifications.packaging}
                       </p>
                     </div>
                   </div>
@@ -476,14 +473,14 @@ export default function ProductDetailClient({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {relatedProducts.map((relatedProduct) => (
                 <Link
-                  key={relatedProduct.id}
+                  key={relatedProduct._id}
                   href={`/products/${relatedProduct.slug}`}
                   className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-accent/30"
                 >
                   <div className="relative aspect-square overflow-hidden">
                     <Image
                       src={relatedProduct.image}
-                      alt={tItems(relatedProduct.nameKey)}
+                      alt={relatedProduct.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       unoptimized
@@ -491,7 +488,7 @@ export default function ProductDetailClient({
                   </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-primary group-hover:text-secondary transition-colors line-clamp-1">
-                      {tItems(relatedProduct.nameKey)}
+                      {relatedProduct.name}
                     </h3>
                     <p className="text-sm text-secondary font-bold mt-1">
                       {formatPrice(relatedProduct.price)}

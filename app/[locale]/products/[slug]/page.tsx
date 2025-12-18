@@ -1,11 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { setRequestLocale, getTranslations } from "next-intl/server";
-import {
-  products,
-  getProductBySlug,
-  getProductsByCategory,
-} from "@/data/products";
+import { setRequestLocale } from "next-intl/server";
+import { getProductBySlug, getRelatedProducts, getProducts } from "@/lib/data";
 import ProductDetailClient from "@/components/products/ProductDetailClient";
 import Footer from "@/components/layout/Footer";
 
@@ -13,8 +9,9 @@ interface Props {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-// Generate static params for all products
+// Generate static params for all products (using English locale to get slugs)
 export async function generateStaticParams() {
+  const { products } = await getProducts("en");
   return products.map((product) => ({
     slug: product.slug,
   }));
@@ -23,7 +20,7 @@ export async function generateStaticParams() {
 // Generate metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug, locale);
 
   if (!product) {
     return {
@@ -31,18 +28,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const t = await getTranslations({ locale, namespace: "productItems" });
-
-  const productName = t(product.nameKey);
-  const productDescription = t(product.descriptionKey);
-
   return {
-    title: `${productName} | Athenas Foods`,
-    description: productDescription,
-    keywords: `${productName}, frozen ${product.category}, Egyptian exports, IQF products, Athenas Foods`,
+    title: `${product.name} | Athenas Foods`,
+    description: product.description,
+    keywords: `${product.name}, frozen ${product.category}, Egyptian exports, IQF products, Athenas Foods`,
     openGraph: {
-      title: `${productName} | Athenas Foods`,
-      description: productDescription,
+      title: `${product.name} | Athenas Foods`,
+      description: product.description,
       type: "website",
       locale: locale === "ar" ? "ar_EG" : "en_US",
       siteName: "Athenas Foods",
@@ -51,14 +43,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: product.image,
           width: 600,
           height: 600,
-          alt: productName,
+          alt: product.name,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${productName} | Athenas Foods`,
-      description: productDescription,
+      title: `${product.name} | Athenas Foods`,
+      description: product.description,
       images: [product.image],
     },
     alternates: {
@@ -74,16 +66,19 @@ export default async function ProductPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug, locale);
 
   if (!product) {
     notFound();
   }
 
   // Get related products from the same category
-  const relatedProducts = getProductsByCategory(product.category)
-    .filter((p) => p.id !== product.id)
-    .slice(0, 4);
+  const relatedProducts = await getRelatedProducts(
+    slug,
+    product.category,
+    locale,
+    4
+  );
 
   return (
     <>

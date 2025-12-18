@@ -2,79 +2,16 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "@/components/shared/Button";
+import ProductCard from "@/components/products/ProductCard";
+import type { ProductData } from "@/lib/data";
 
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
-  description: string;
+interface FeaturedProductsProps {
+  products: ProductData[];
 }
 
-const products: Product[] = [
-  {
-    id: "1",
-    name: "Frozen Green Peas",
-    category: "Vegetables",
-    image: "https://placehold.co/400x400?text=Green+Peas",
-    description:
-      "Premium quality IQF green peas, freshly harvested and frozen.",
-  },
-  {
-    id: "2",
-    name: "Frozen Strawberries",
-    category: "Fruits",
-    image: "https://placehold.co/400x400?text=Strawberries",
-    description: "Sweet and juicy frozen strawberries, perfect for desserts.",
-  },
-  {
-    id: "3",
-    name: "French Fries",
-    category: "Fries",
-    image: "https://placehold.co/400x400?text=French+Fries",
-    description: "Crispy pre-fried French fries, ready to cook.",
-  },
-  {
-    id: "4",
-    name: "Mixed Vegetables",
-    category: "Vegetables",
-    image: "https://placehold.co/400x400?text=Mixed+Veggies",
-    description: "A colorful blend of carrots, peas, corn, and green beans.",
-  },
-  {
-    id: "5",
-    name: "Frozen Mango Chunks",
-    category: "Fruits",
-    image: "https://placehold.co/400x400?text=Mango+Chunks",
-    description: "Ripe Egyptian mangoes, cut and frozen at peak freshness.",
-  },
-  {
-    id: "6",
-    name: "Frozen Green Beans",
-    category: "Vegetables",
-    image: "https://placehold.co/400x400?text=Green+Beans",
-    description: "Tender green beans, carefully selected and IQF frozen.",
-  },
-  {
-    id: "7",
-    name: "Frozen Corn Kernels",
-    category: "Vegetables",
-    image: "https://placehold.co/400x400?text=Corn+Kernels",
-    description: "Sweet golden corn kernels, perfect for any dish.",
-  },
-  {
-    id: "8",
-    name: "Frozen Okra",
-    category: "Vegetables",
-    image: "https://placehold.co/400x400?text=Okra",
-    description: "Traditional Egyptian okra, carefully processed and frozen.",
-  },
-];
-
-export default function FeaturedProducts() {
+export default function FeaturedProducts({ products }: FeaturedProductsProps) {
   const t = useTranslations("products");
   const locale = useLocale();
   const isRTL = locale === "ar";
@@ -126,9 +63,9 @@ export default function FeaturedProducts() {
       );
     }, 4000);
     return () => clearInterval(timer);
-  }, [isAutoPlaying, visibleItems]);
+  }, [isAutoPlaying, visibleItems, products.length]);
 
-  // Save wishlist to localStorage
+  // Toggle wishlist
   const toggleWishlist = (productId: string) => {
     setWishlist((prev) => {
       const newWishlist = prev.includes(productId)
@@ -196,54 +133,15 @@ export default function FeaturedProducts() {
             >
               {products.map((product) => (
                 <div
-                  key={product.id}
-                  className="flex-shrink-0 px-2 md:px-3"
+                  key={product._id}
+                  className="shrink-0 px-2 md:px-3"
                   style={{ width: `${100 / visibleItems}%` }}
                 >
-                  <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-accent/30 h-full">
-                    {/* Product Image */}
-                    <div className="relative aspect-square overflow-hidden">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        unoptimized
-                      />
-                      {/* Wishlist Button */}
-                      <button
-                        onClick={() => toggleWishlist(product.id)}
-                        className="absolute top-4 end-4 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors duration-200"
-                        aria-label={
-                          wishlist.includes(product.id)
-                            ? t("removeFromWishlist")
-                            : t("addToWishlist")
-                        }
-                      >
-                        <Heart
-                          className={`w-5 h-5 transition-colors duration-200 ${
-                            wishlist.includes(product.id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-primary"
-                          }`}
-                        />
-                      </button>
-                      {/* Category Badge */}
-                      <span className="absolute bottom-4 start-4 px-3 py-1 bg-secondary/90 backdrop-blur-sm text-white text-sm font-medium rounded-full">
-                        {product.category}
-                      </span>
-                    </div>
-
-                    {/* Product Info */}
-                    <div className="p-5">
-                      <h3 className="text-lg font-bold text-primary mb-2">
-                        {product.name}
-                      </h3>
-                      <p className="text-primary/60 text-sm line-clamp-2">
-                        {product.description}
-                      </p>
-                    </div>
-                  </div>
+                  <ProductCard
+                    product={product}
+                    wishlist={wishlist}
+                    onToggleWishlist={toggleWishlist}
+                  />
                 </div>
               ))}
             </div>

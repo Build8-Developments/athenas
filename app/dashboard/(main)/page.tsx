@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Package,
@@ -8,54 +9,93 @@ import {
   ShoppingCart,
   Eye,
   ArrowUpRight,
-  ArrowDownRight,
+  Loader2,
 } from "lucide-react";
-import { products, categories } from "@/data/products";
+
+interface Product {
+  _id: string;
+  slug: string;
+  locale: string;
+  name: string;
+  category: string;
+  image: string;
+  price: number;
+  priceUnit: string;
+  featured: boolean;
+  new: boolean;
+}
+
+interface Category {
+  _id: string;
+  slug: string;
+  locale: string;
+  name: string;
+}
 
 export default function DashboardPage() {
-  const stats: {
-    name: string;
-    value: number;
-    change: string;
-    trend: "up" | "down" | "neutral";
-    icon: typeof Package;
-    color: string;
-  }[] = [
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [productsRes, categoriesRes] = await Promise.all([
+          fetch("/api/products?locale=en"),
+          fetch("/api/categories?locale=en"),
+        ]);
+
+        const productsData = await productsRes.json();
+        const categoriesData = await categoriesRes.json();
+
+        setProducts(productsData.products || []);
+        setCategories(categoriesData.categories || []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const stats = [
     {
       name: "Total Products",
       value: products.length,
-      change: "+12%",
-      trend: "up",
       icon: Package,
       color: "bg-blue-500",
     },
     {
       name: "Categories",
       value: categories.length,
-      change: "0%",
-      trend: "neutral",
       icon: FolderOpen,
       color: "bg-purple-500",
     },
     {
       name: "Featured Products",
       value: products.filter((p) => p.featured).length,
-      change: "+5%",
-      trend: "up",
       icon: TrendingUp,
       color: "bg-green-500",
     },
     {
       name: "New Products",
       value: products.filter((p) => p.new).length,
-      change: "+20%",
-      trend: "up",
       icon: ShoppingCart,
       color: "bg-orange-500",
     },
   ];
 
   const recentProducts = products.slice(0, 5);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -78,23 +118,7 @@ export default function DashboardPage() {
               <div className={`p-2 ${stat.color} rounded-lg`}>
                 <stat.icon className="w-5 h-5 text-white" />
               </div>
-              <span
-                className={`flex items-center text-sm font-medium ${
-                  stat.trend === "up"
-                    ? "text-green-600"
-                    : stat.trend === "down"
-                    ? "text-red-600"
-                    : "text-gray-500"
-                }`}
-              >
-                {stat.change}
-                {stat.trend === "up" && (
-                  <ArrowUpRight className="w-4 h-4 ml-1" />
-                )}
-                {stat.trend === "down" && (
-                  <ArrowDownRight className="w-4 h-4 ml-1" />
-                )}
-              </span>
+              <ArrowUpRight className="w-4 h-4 text-green-600" />
             </div>
             <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
             <p className="text-sm text-gray-500 mt-1">{stat.name}</p>
@@ -143,63 +167,80 @@ export default function DashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {recentProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden">
-                        <img
-                          src={product.image}
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <span className="font-medium text-gray-900">
-                        {product.slug
-                          .split("-")
-                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                          .join(" ")}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full capitalize">
-                      {product.category}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                    ${product.price.toFixed(2)}/{product.priceUnit}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex gap-1">
-                      {product.featured && (
-                        <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">
-                          Featured
-                        </span>
-                      )}
-                      {product.new && (
-                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded">
-                          New
-                        </span>
-                      )}
-                      {!product.featured && !product.new && (
-                        <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded">
-                          Active
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
+              {recentProducts.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="px-6 py-8 text-center text-gray-500"
+                  >
+                    No products found.{" "}
                     <Link
-                      href={`/en/products/${product.slug}`}
-                      className="inline-flex items-center gap-1 text-sm text-primary hover:text-secondary transition-colors"
+                      href="/dashboard/products/new"
+                      className="text-primary hover:underline"
                     >
-                      <Eye className="w-4 h-4" />
-                      View
+                      Add your first product
                     </Link>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                recentProducts.map((product) => (
+                  <tr key={product._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gray-100 rounded-lg overflow-hidden">
+                          <img
+                            src={
+                              product.image ||
+                              "https://placehold.co/100x100?text=No+Image"
+                            }
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <span className="font-medium text-gray-900">
+                          {product.name}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full capitalize">
+                        {product.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                      ${product.price.toFixed(2)}/{product.priceUnit}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex gap-1">
+                        {product.featured && (
+                          <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">
+                            Featured
+                          </span>
+                        )}
+                        {product.new && (
+                          <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded">
+                            New
+                          </span>
+                        )}
+                        {!product.featured && !product.new && (
+                          <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded">
+                            Active
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right">
+                      <Link
+                        href={`/en/products/${product.slug}`}
+                        className="inline-flex items-center gap-1 text-sm text-primary hover:text-secondary transition-colors"
+                      >
+                        <Eye className="w-4 h-4" />
+                        View
+                      </Link>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

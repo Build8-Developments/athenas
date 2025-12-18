@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import {
   Plus,
   Search,
-  Filter,
   Edit,
   Trash2,
   Eye,
@@ -13,12 +12,36 @@ import {
   ChevronRight,
   Star,
   Sparkles,
+  Loader2,
+  Filter,
 } from "lucide-react";
-import { products, categories } from "@/data/products";
+
+interface Product {
+  _id: string;
+  slug: string;
+  locale: string;
+  name: string;
+  category: string;
+  image: string;
+  price: number;
+  priceUnit: string;
+  minOrder: string;
+  featured: boolean;
+  new: boolean;
+}
+
+interface Category {
+  _id: string;
+  slug: string;
+  name: string;
+}
 
 const ITEMS_PER_PAGE = 10;
 
 export default function ProductsManagementPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -26,11 +49,36 @@ export default function ProductsManagementPage() {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const fetchProducts = async () => {
+    try {
+      const [productsRes, categoriesRes] = await Promise.all([
+        fetch("/api/products?locale=en"),
+        fetch("/api/categories?locale=en"),
+      ]);
+
+      const productsData = await productsRes.json();
+      const categoriesData = await categoriesRes.json();
+
+      setProducts(productsData.products || []);
+      setCategories(categoriesData.categories || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   // Filter products
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesSearch =
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.category.toLowerCase().includes(searchQuery.toLowerCase());
 
@@ -45,7 +93,7 @@ export default function ProductsManagementPage() {
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
-  }, [searchQuery, categoryFilter, statusFilter]);
+  }, [products, searchQuery, categoryFilter, statusFilter]);
 
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
@@ -59,24 +107,25 @@ export default function ProductsManagementPage() {
     if (selectedProducts.length === paginatedProducts.length) {
       setSelectedProducts([]);
     } else {
-      setSelectedProducts(paginatedProducts.map((p) => p.id));
+      setSelectedProducts(paginatedProducts.map((p) => p.slug));
     }
   };
 
-  const toggleSelectProduct = (id: string) => {
+  const toggleSelectProduct = (slug: string) => {
     setSelectedProducts((prev) =>
-      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]
+      prev.includes(slug) ? prev.filter((p) => p !== slug) : [...prev, slug]
     );
   };
 
   // Delete handlers
-  const handleDeleteClick = (id: string) => {
-    setProductToDelete(id);
+  const handleDeleteClick = (slug: string) => {
+    setProductToDelete(slug);
     setShowDeleteModal(true);
   };
 
   const confirmDelete = async () => {
     if (!productToDelete) return;
+    setDeleting(true);
 
     try {
       const res = await fetch(`/api/products/${productToDelete}`, {
@@ -84,38 +133,40 @@ export default function ProductsManagementPage() {
       });
 
       if (res.ok) {
-        // In a real app, you'd refresh the product list
-        console.log("Product deleted:", productToDelete);
+        await fetchProducts();
       }
     } catch (error) {
       console.error("Error deleting product:", error);
     }
 
+    setDeleting(false);
     setShowDeleteModal(false);
     setProductToDelete(null);
   };
 
   const bulkDelete = async () => {
+    setDeleting(true);
     try {
       await Promise.all(
-        selectedProducts.map((id) =>
-          fetch(`/api/products/${id}`, { method: "DELETE" })
+        selectedProducts.map((slug) =>
+          fetch(`/api/products/${slug}`, { method: "DELETE" })
         )
       );
-      console.log("Products deleted:", selectedProducts);
+      await fetchProducts();
     } catch (error) {
       console.error("Error deleting products:", error);
     }
+    setDeleting(false);
     setSelectedProducts([]);
   };
 
-  const categoryLabels: Record<string, string> = {
-    vegetables: "Vegetables",
-    fruits: "Fruits",
-    fries: "Fries",
-    herbs: "Herbs",
-    mixes: "Mixes",
-  };
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -165,8 +216,8 @@ export default function ProductsManagementPage() {
           >
             <option value="all">All Categories</option>
             {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {categoryLabels[cat.id] || cat.id}
+              <option key={cat._id} value={cat.slug}>
+                {cat.name}
               </option>
             ))}
           </select>
@@ -195,9 +246,10 @@ export default function ProductsManagementPage() {
             </span>
             <button
               onClick={bulkDelete}
-              className="text-sm text-red-600 hover:text-red-700 font-medium"
+              disabled={deleting}
+              className="text-sm text-red-600 hover:text-red-700 font-medium disabled:opacity-50"
             >
-              Delete Selected
+              {deleting ? "Deleting..." : "Delete Selected"}
             </button>
           </div>
         )}
@@ -238,103 +290,115 @@ export default function ProductsManagementPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {paginatedProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
-                    <input
-                      type="checkbox"
-                      checked={selectedProducts.includes(product.id)}
-                      onChange={() => toggleSelectProduct(product.id)}
-                      className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
-                    />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0">
-                        <img
-                          src={product.image}
-                          alt=""
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {product.slug
-                            .split("-")
-                            .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                            .join(" ")}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          ID: {product.id}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full capitalize">
-                      {product.category}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-900">
-                    <div>
-                      <p className="font-medium">
-                        ${product.price.toFixed(2)}/{product.priceUnit}
-                      </p>
-                      {product.minOrder && (
-                        <p className="text-xs text-gray-500">
-                          Min: {product.minOrder}
-                        </p>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex gap-1">
-                      {product.featured && (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">
-                          <Star className="w-3 h-3" />
-                          Featured
-                        </span>
-                      )}
-                      {product.new && (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded">
-                          <Sparkles className="w-3 h-3" />
-                          New
-                        </span>
-                      )}
-                      {!product.featured && !product.new && (
-                        <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded">
-                          Active
-                        </span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link
-                        href={`/en/products/${product.slug}`}
-                        className="p-2 text-gray-500 hover:text-primary hover:bg-gray-100 rounded-lg transition-colors"
-                        title="View"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </Link>
-                      <Link
-                        href={`/dashboard/products/${product.id}/edit`}
-                        className="p-2 text-gray-500 hover:text-primary hover:bg-gray-100 rounded-lg transition-colors"
-                        title="Edit"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Link>
-                      <button
-                        onClick={() => handleDeleteClick(product.id)}
-                        className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
+              {paginatedProducts.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-6 py-8 text-center text-gray-500"
+                  >
+                    <Filter className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                    <p>No products found matching your criteria</p>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                paginatedProducts.map((product) => (
+                  <tr key={product._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      <input
+                        type="checkbox"
+                        checked={selectedProducts.includes(product.slug)}
+                        onChange={() => toggleSelectProduct(product.slug)}
+                        className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                      />
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden shrink-0">
+                          <img
+                            src={
+                              product.image ||
+                              "https://placehold.co/100x100?text=No+Image"
+                            }
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">
+                            {product.name}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            {product.slug}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2.5 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full capitalize">
+                        {product.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-900">
+                      <div>
+                        <p className="font-medium">
+                          ${product.price.toFixed(2)}/{product.priceUnit}
+                        </p>
+                        {product.minOrder && (
+                          <p className="text-xs text-gray-500">
+                            Min: {product.minOrder}
+                          </p>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex gap-1">
+                        {product.featured && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">
+                            <Star className="w-3 h-3" />
+                            Featured
+                          </span>
+                        )}
+                        {product.new && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded">
+                            <Sparkles className="w-3 h-3" />
+                            New
+                          </span>
+                        )}
+                        {!product.featured && !product.new && (
+                          <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium rounded">
+                            Active
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/en/products/${product.slug}`}
+                          className="p-2 text-gray-500 hover:text-primary hover:bg-gray-100 rounded-lg transition-colors"
+                          title="View"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </Link>
+                        <Link
+                          href={`/dashboard/products/${product.slug}/edit`}
+                          className="p-2 text-gray-500 hover:text-primary hover:bg-gray-100 rounded-lg transition-colors"
+                          title="Edit"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Link>
+                        <button
+                          onClick={() => handleDeleteClick(product.slug)}
+                          className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -355,21 +419,22 @@ export default function ProductsManagementPage() {
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`w-9 h-9 rounded-lg font-medium text-sm transition-colors ${
-                      currentPage === page
-                        ? "bg-primary text-white"
-                        : "hover:bg-gray-100 text-gray-600"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                )
-              )}
+              {Array.from(
+                { length: Math.min(totalPages, 5) },
+                (_, i) => i + 1
+              ).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-9 h-9 rounded-lg font-medium text-sm transition-colors ${
+                    currentPage === page
+                      ? "bg-primary text-white"
+                      : "hover:bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
               <button
                 onClick={() =>
                   setCurrentPage((p) => Math.min(totalPages, p + 1))
@@ -382,16 +447,6 @@ export default function ProductsManagementPage() {
             </div>
           </div>
         )}
-
-        {/* Empty State */}
-        {filteredProducts.length === 0 && (
-          <div className="py-12 text-center">
-            <Filter className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">
-              No products found matching your criteria
-            </p>
-          </div>
-        )}
       </div>
 
       {/* Delete Modal */}
@@ -402,21 +457,24 @@ export default function ProductsManagementPage() {
               Delete Product
             </h3>
             <p className="text-gray-500 mb-6">
-              Are you sure you want to delete this product? This action cannot
-              be undone.
+              Are you sure you want to delete this product? This will remove
+              both the English and Arabic versions. This action cannot be
+              undone.
             </p>
             <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="px-4 py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 font-medium"
+                disabled={deleting}
+                className="px-4 py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 font-medium disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium"
+                disabled={deleting}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 font-medium disabled:opacity-50"
               >
-                Delete
+                {deleting ? "Deleting..." : "Delete"}
               </button>
             </div>
           </div>

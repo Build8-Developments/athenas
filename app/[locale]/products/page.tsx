@@ -2,9 +2,11 @@ import { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import ProductsClient from "@/components/products/ProductsClient";
 import Footer from "@/components/layout/Footer";
+import { getProducts, getCategoriesWithCounts } from "@/lib/data";
 
 interface Props {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ category?: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -36,13 +38,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ProductsPage({ params }: Props) {
+export default async function ProductsPage({ params, searchParams }: Props) {
   const { locale } = await params;
+  const { category } = await searchParams;
   setRequestLocale(locale);
+
+  // Fetch data server-side
+  const [productsData, categories] = await Promise.all([
+    getProducts(locale),
+    getCategoriesWithCounts(locale),
+  ]);
 
   return (
     <div className="w-full pt-24 bg-light min-h-screen">
-      <ProductsClient />
+      <ProductsClient
+        initialProducts={productsData.products}
+        categories={categories}
+        initialCategory={category || null}
+      />
       <Footer />
     </div>
   );

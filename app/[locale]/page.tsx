@@ -11,6 +11,7 @@ import StatsSection from "@/components/home/StatsSection";
 import BannerSection from "@/components/home/BannerSection";
 import FAQSection from "@/components/home/FAQSection";
 import Footer from "@/components/layout/Footer";
+import { getFeaturedProducts, getCategories } from "@/lib/data";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -49,14 +50,20 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
+  // Fetch data server-side
+  const [featuredProducts, categories] = await Promise.all([
+    getFeaturedProducts(locale, 8),
+    getCategories(locale),
+  ]);
+
   return (
     <div className="w-full">
       <HeroSection />
       <AboutSection />
       <LogosSection />
       <QuoteSection />
-      <FeaturedProducts />
-      <CategoriesSection />
+      <FeaturedProducts products={featuredProducts} />
+      <CategoriesSection categories={categories} />
       <PartnersSection />
       <StatsSection />
       <BannerSection />

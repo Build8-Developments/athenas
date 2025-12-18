@@ -1,43 +1,41 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { Carrot, Cherry, Leaf, Layers, Salad } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
+import Link from "next/link";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import type { CategoryData } from "@/lib/data";
 
-export default function CategoriesSection() {
+// Default images for categories (fallback)
+const categoryImages: Record<string, string> = {
+  vegetables: "https://placehold.co/800x600?text=Vegetables",
+  fruits: "https://placehold.co/600x400?text=Fruits",
+  fries: "https://placehold.co/600x400?text=Fries",
+  herbs: "https://placehold.co/600x400?text=Herbs",
+  mixes: "https://placehold.co/800x600?text=Mixes",
+};
+
+// Grid layout config for 5 categories
+const gridLayouts = [
+  "col-span-2 row-span-2", // Large left
+  "col-span-2 row-span-1", // Top right
+  "col-span-2 row-span-2", // Middle right
+  "col-span-2 row-span-1", // Bottom center
+  "col-span-4 md:col-span-2 row-span-1", // Bottom span
+];
+
+interface CategoriesSectionProps {
+  categories: CategoryData[];
+}
+
+export default function CategoriesSection({
+  categories,
+}: CategoriesSectionProps) {
   const t = useTranslations("categories");
+  const locale = useLocale();
   const [sectionRef, isVisible] = useScrollAnimation<HTMLElement>({
     threshold: 0.15,
   });
-
-  const categories = [
-    {
-      key: "vegetables",
-      icon: Carrot,
-      image: "https://placehold.co/800x600?text=Vegetables",
-    },
-    {
-      key: "fruits",
-      icon: Cherry,
-      image: "https://placehold.co/600x400?text=Fruits",
-    },
-    {
-      key: "fries",
-      icon: Salad,
-      image: "https://placehold.co/600x400?text=Fries",
-    },
-    {
-      key: "herbs",
-      icon: Leaf,
-      image: "https://placehold.co/600x400?text=Herbs",
-    },
-    {
-      key: "mixes",
-      icon: Layers,
-      image: "https://placehold.co/800x600?text=Mixes",
-    },
-  ];
 
   return (
     <section ref={sectionRef} className="py-16 md:py-24 bg-accent/30">
@@ -64,52 +62,24 @@ export default function CategoriesSection() {
           </p>
         </div>
 
-        {/* Bento Grid - 5 Categories */}
+        {/* Bento Grid - Categories */}
         <div className="grid grid-cols-4 md:grid-cols-6 gap-3 md:gap-4 auto-rows-[120px] md:auto-rows-[160px] lg:auto-rows-[200px]">
-          {/* Vegetables - Large Left */}
-          <CategoryCard
-            category={categories[0]}
-            label={t(categories[0].key)}
-            className="col-span-2 row-span-2"
-            isVisible={isVisible}
-            delay={0}
-          />
-
-          {/* Fruits - Top Right */}
-          <CategoryCard
-            category={categories[1]}
-            label={t(categories[1].key)}
-            className="col-span-2 row-span-1"
-            isVisible={isVisible}
-            delay={100}
-          />
-
-          {/* Fries - Middle Right */}
-          <CategoryCard
-            category={categories[2]}
-            label={t(categories[2].key)}
-            className="col-span-2 row-span-2"
-            isVisible={isVisible}
-            delay={200}
-          />
-
-          {/* Herbs - Bottom Center */}
-          <CategoryCard
-            category={categories[3]}
-            label={t(categories[3].key)}
-            className="col-span-2 row-span-1"
-            isVisible={isVisible}
-            delay={300}
-          />
-
-          {/* Mixes - Bottom Span */}
-          <CategoryCard
-            category={categories[4]}
-            label={t(categories[4].key)}
-            className="col-span-4 md:col-span-2 row-span-1"
-            isVisible={isVisible}
-            delay={400}
-          />
+          {categories.slice(0, 5).map((category, index) => (
+            <CategoryCard
+              key={category._id}
+              category={category}
+              image={
+                categoryImages[category.slug] ||
+                `https://placehold.co/600x400?text=${encodeURIComponent(
+                  category.name
+                )}`
+              }
+              className={gridLayouts[index] || "col-span-2 row-span-1"}
+              isVisible={isVisible}
+              delay={index * 100}
+              locale={locale}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -118,21 +88,22 @@ export default function CategoriesSection() {
 
 function CategoryCard({
   category,
-  label,
+  image,
   className,
   isVisible,
   delay,
+  locale,
 }: {
-  category: { key: string; icon: React.ElementType; image: string };
-  label: string;
+  category: CategoryData;
+  image: string;
   className: string;
   isVisible: boolean;
   delay: number;
+  locale: string;
 }) {
-  const Icon = category.icon;
-
   return (
-    <div
+    <Link
+      href={`/${locale}/products?category=${category.slug}`}
       className={`${className} relative group rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ${
         isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
       }`}
@@ -140,8 +111,8 @@ function CategoryCard({
     >
       {/* Background Image */}
       <Image
-        src={category.image}
-        alt={label}
+        src={image}
+        alt={category.name}
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-110"
         unoptimized
@@ -153,14 +124,14 @@ function CategoryCard({
       {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-end p-4 md:p-6">
         <div className="flex items-center gap-2 md:gap-3 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-            <Icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
+          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-2xl">
+            {category.icon}
           </div>
           <span className="text-white font-bold text-lg md:text-xl lg:text-2xl drop-shadow-lg">
-            {label}
+            {category.name}
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -2,31 +2,50 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { products, getCategoriesWithCount } from "@/data/products";
 import ProductCard from "@/components/products/ProductCard";
 import ProductListCard from "@/components/products/ProductListCard";
 import ProductFilters, {
   CategoryList,
 } from "@/components/products/ProductFilters";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import type { ProductData, CategoryData } from "@/lib/data";
 
-export default function ProductsClient() {
+interface ProductsClientProps {
+  initialProducts: ProductData[];
+  categories: (CategoryData & { count: number })[];
+  initialCategory?: string | null;
+}
+
+export default function ProductsClient({
+  initialProducts,
+  categories,
+  initialCategory,
+}: ProductsClientProps) {
   const t = useTranslations("productsPage");
-  const tItems = useTranslations("productItems");
   const [sectionRef, isVisible] = useScrollAnimation<HTMLDivElement>({
     threshold: 0.1,
   });
 
   // Filter states
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(
+    initialCategory || null
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("default");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
 
-  // Get categories with counts
-  const categories = useMemo(() => getCategoriesWithCount(), []);
+  // Get categories formatted for the filter component
+  const categoriesForFilter = useMemo(
+    () =>
+      categories.map((cat) => ({
+        slug: cat.slug,
+        name: cat.name,
+        count: cat.count,
+      })),
+    [categories]
+  );
 
   // Load wishlist from localStorage
   useEffect(() => {
@@ -49,7 +68,7 @@ export default function ProductsClient() {
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let result = [...products];
+    let result = [...initialProducts];
 
     // Filter by category
     if (selectedCategory) {
@@ -60,8 +79,8 @@ export default function ProductsClient() {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       result = result.filter((p) => {
-        const name = tItems(p.nameKey).toLowerCase();
-        const description = tItems(p.descriptionKey).toLowerCase();
+        const name = p.name.toLowerCase();
+        const description = p.description.toLowerCase();
         return name.includes(query) || description.includes(query);
       });
     }
@@ -69,14 +88,10 @@ export default function ProductsClient() {
     // Sort
     switch (sortBy) {
       case "name-asc":
-        result.sort((a, b) =>
-          tItems(a.nameKey).localeCompare(tItems(b.nameKey))
-        );
+        result.sort((a, b) => a.name.localeCompare(b.name));
         break;
       case "name-desc":
-        result.sort((a, b) =>
-          tItems(b.nameKey).localeCompare(tItems(a.nameKey))
-        );
+        result.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case "newest":
         result.sort((a, b) => (b.new ? 1 : 0) - (a.new ? 1 : 0));
@@ -93,7 +108,7 @@ export default function ProductsClient() {
     }
 
     return result;
-  }, [selectedCategory, searchQuery, sortBy, tItems]);
+  }, [initialProducts, selectedCategory, searchQuery, sortBy]);
 
   return (
     <div ref={sectionRef} className="max-w-7xl mx-auto px-6 py-8">
@@ -122,7 +137,7 @@ export default function ProductsClient() {
         }`}
       >
         <ProductFilters
-          categories={categories}
+          categories={categoriesForFilter}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
           searchQuery={searchQuery}
@@ -147,7 +162,7 @@ export default function ProductsClient() {
         >
           <div className="sticky top-28">
             <CategoryList
-              categories={categories}
+              categories={categoriesForFilter}
               selectedCategory={selectedCategory}
               onCategoryChange={setSelectedCategory}
               t={t}
@@ -180,7 +195,7 @@ export default function ProductsClient() {
             >
               {filteredProducts.map((product, index) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className={`transition-all duration-500 ${
                     isVisible
                       ? "opacity-100 translate-y-0"

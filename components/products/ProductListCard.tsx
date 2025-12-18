@@ -4,10 +4,10 @@ import { Heart, Eye } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import type { Product } from "@/data/products";
+import type { ProductData } from "@/lib/data";
 
 interface ProductListCardProps {
-  product: Product;
+  product: ProductData;
   wishlist: string[];
   onToggleWishlist: (productId: string) => void;
 }
@@ -18,9 +18,8 @@ export default function ProductListCard({
   onToggleWishlist,
 }: ProductListCardProps) {
   const t = useTranslations("productsPage");
-  const tItems = useTranslations("productItems");
 
-  const isInWishlist = wishlist.includes(product.id);
+  const isInWishlist = wishlist.includes(product._id);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -38,7 +37,7 @@ export default function ProductListCard({
           <div className="relative h-48 sm:h-full w-full">
             <Image
               src={product.image}
-              alt={tItems(product.nameKey)}
+              alt={product.name}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
               sizes="(max-width: 640px) 100vw, 256px"
@@ -61,7 +60,7 @@ export default function ProductListCard({
 
             {/* Category Badge - Mobile Only */}
             <span className="sm:hidden absolute bottom-3 start-3 px-2.5 py-1 bg-secondary/90 backdrop-blur-sm text-white text-xs font-medium rounded-full capitalize">
-              {t(`categories.${product.category}`)}
+              {product.category}
             </span>
           </div>
         </div>
@@ -73,7 +72,7 @@ export default function ProductListCard({
               <div>
                 {/* Category - Desktop */}
                 <span className="hidden sm:inline-block px-2.5 py-1 bg-accent/60 text-primary/80 text-xs font-medium rounded-full capitalize mb-3">
-                  {t(`categories.${product.category}`)}
+                  {product.category}
                 </span>
 
                 <Link
@@ -81,7 +80,7 @@ export default function ProductListCard({
                   className="group/title"
                 >
                   <h3 className="text-xl md:text-2xl font-bold text-primary mb-2 group-hover/title:text-secondary transition-colors duration-200">
-                    {tItems(product.nameKey)}
+                    {product.name}
                   </h3>
                 </Link>
               </div>
@@ -108,7 +107,7 @@ export default function ProductListCard({
             </div>
 
             <p className="text-primary/60 text-sm md:text-base line-clamp-2 sm:line-clamp-3 mb-4">
-              {tItems(product.descriptionKey)}
+              {product.description}
             </p>
 
             {/* Price - Mobile */}
@@ -168,7 +167,7 @@ export default function ProductListCard({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                onToggleWishlist(product.id);
+                onToggleWishlist(product._id);
               }}
               className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 ${
                 isInWishlist

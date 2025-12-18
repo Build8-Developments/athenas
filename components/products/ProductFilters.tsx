@@ -2,10 +2,16 @@
 
 import { Search, SlidersHorizontal, X, Grid, List } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { Category } from "@/data/products";
+
+// Simple category type for filters
+interface FilterCategory {
+  slug: string;
+  name: string;
+  count: number;
+}
 
 interface ProductFiltersProps {
-  categories: Category[];
+  categories: FilterCategory[];
   selectedCategory: string | null;
   onCategoryChange: (category: string | null) => void;
   searchQuery: string;
@@ -172,7 +178,7 @@ export function CategoryList({
   onCategoryChange,
   t,
 }: {
-  categories: Category[];
+  categories: FilterCategory[];
   selectedCategory: string | null;
   onCategoryChange: (category: string | null) => void;
   t: ReturnType<typeof useTranslations>;
@@ -201,7 +207,7 @@ export function CategoryList({
       </button>
       {categories.map((category) => (
         <button
-          key={category.id}
+          key={category.slug}
           onClick={() => onCategoryChange(category.slug)}
           className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${
             selectedCategory === category.slug
@@ -209,12 +215,7 @@ export function CategoryList({
               : "bg-white text-primary hover:bg-accent/50 border border-accent/30"
           }`}
         >
-          <span className="flex items-center gap-3">
-            <span className="text-lg">{category.icon}</span>
-            <span className="font-medium">
-              {t(`categories.${category.id}`)}
-            </span>
-          </span>
+          <span className="font-medium">{category.name}</span>
           <span
             className={`text-sm ${
               selectedCategory === category.slug

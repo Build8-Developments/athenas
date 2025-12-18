@@ -5,10 +5,10 @@ import { Heart, Eye } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import type { Product } from "@/data/products";
+import type { ProductData } from "@/lib/data";
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductData;
   wishlist: string[];
   onToggleWishlist: (productId: string) => void;
 }
@@ -19,10 +19,9 @@ export default function ProductCard({
   onToggleWishlist,
 }: ProductCardProps) {
   const t = useTranslations("productsPage");
-  const tItems = useTranslations("productItems");
   const [isHovered, setIsHovered] = useState(false);
 
-  const isInWishlist = wishlist.includes(product.id);
+  const isInWishlist = wishlist.includes(product._id);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -42,7 +41,7 @@ export default function ProductCard({
       <div className="relative aspect-square overflow-hidden">
         <Image
           src={product.image}
-          alt={tItems(product.nameKey)}
+          alt={product.name}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -72,7 +71,7 @@ export default function ProductCard({
           <button
             onClick={(e) => {
               e.preventDefault();
-              onToggleWishlist(product.id);
+              onToggleWishlist(product._id);
             }}
             className="p-3 bg-white/95 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
             aria-label={
@@ -96,7 +95,7 @@ export default function ProductCard({
 
         {/* Category */}
         <span className="absolute bottom-4 start-4 px-3 py-1 bg-secondary/90 backdrop-blur-sm text-white text-xs font-medium rounded-full capitalize">
-          {t(`categories.${product.category}`)}
+          {product.category}
         </span>
       </div>
 
@@ -104,11 +103,11 @@ export default function ProductCard({
       <div className="p-5 flex flex-col grow">
         <Link href={`/products/${product.slug}`} className="group/title">
           <h3 className="text-lg font-bold text-primary mb-2 group-hover/title:text-secondary transition-colors duration-200">
-            {tItems(product.nameKey)}
+            {product.name}
           </h3>
         </Link>
         <p className="text-primary/60 text-sm line-clamp-2 mb-3 grow">
-          {tItems(product.descriptionKey)}
+          {product.description}
         </p>
 
         {/* Price */}
@@ -149,7 +148,7 @@ export default function ProductCard({
         <button
           onClick={(e) => {
             e.preventDefault();
-            onToggleWishlist(product.id);
+            onToggleWishlist(product._id);
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-all duration-200 ${
             isInWishlist
