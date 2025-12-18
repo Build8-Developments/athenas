@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
 @theme {
   /* Custom Color Palette */
   --color-primary: #778873;

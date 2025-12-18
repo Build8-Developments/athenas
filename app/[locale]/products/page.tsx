@@ -1,0 +1,49 @@
+import { Metadata } from "next";
+import { setRequestLocale, getTranslations } from "next-intl/server";
+import ProductsClient from "@/components/products/ProductsClient";
+import Footer from "@/components/layout/Footer";
+
+interface Props {
+  params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "productsPage" });
+
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    keywords: t("metaKeywords"),
+    openGraph: {
+      title: t("metaTitle"),
+      description: t("metaDescription"),
+      type: "website",
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      siteName: "Athenas Foods",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("metaTitle"),
+      description: t("metaDescription"),
+    },
+    alternates: {
+      languages: {
+        en: "/en/products",
+        ar: "/ar/products",
+      },
+    },
+  };
+}
+
+export default async function ProductsPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  return (
+    <div className="w-full pt-24 bg-light min-h-screen">
+      <ProductsClient />
+      <Footer />
+    </div>
+  );
+}

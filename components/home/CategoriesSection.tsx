@@ -3,9 +3,13 @@
 import { useTranslations } from "next-intl";
 import { Carrot, Cherry, Leaf, Layers, Salad } from "lucide-react";
 import Image from "next/image";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function CategoriesSection() {
   const t = useTranslations("categories");
+  const [sectionRef, isVisible] = useScrollAnimation<HTMLElement>({
+    threshold: 0.15,
+  });
 
   const categories = [
     {
@@ -36,14 +40,26 @@ export default function CategoriesSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-accent/30">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-accent/30">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
+          <h2
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 transition-all duration-700 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-6"
+            }`}
+          >
             {t("title")}
           </h2>
-          <p className="text-primary/70 text-lg max-w-2xl mx-auto">
+          <p
+            className={`text-primary/70 text-lg max-w-2xl mx-auto transition-all duration-700 delay-100 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-6"
+            }`}
+          >
             {t("subtitle")}
           </p>
         </div>
@@ -55,34 +71,44 @@ export default function CategoriesSection() {
             category={categories[0]}
             label={t(categories[0].key)}
             className="col-span-2 row-span-2"
+            isVisible={isVisible}
+            delay={0}
           />
-          
+
           {/* Fruits - Top Right */}
           <CategoryCard
             category={categories[1]}
             label={t(categories[1].key)}
             className="col-span-2 row-span-1"
+            isVisible={isVisible}
+            delay={100}
           />
-          
+
           {/* Fries - Middle Right */}
           <CategoryCard
             category={categories[2]}
             label={t(categories[2].key)}
             className="col-span-2 row-span-2"
+            isVisible={isVisible}
+            delay={200}
           />
-          
+
           {/* Herbs - Bottom Center */}
           <CategoryCard
             category={categories[3]}
             label={t(categories[3].key)}
             className="col-span-2 row-span-1"
+            isVisible={isVisible}
+            delay={300}
           />
-          
+
           {/* Mixes - Bottom Span */}
           <CategoryCard
             category={categories[4]}
             label={t(categories[4].key)}
             className="col-span-4 md:col-span-2 row-span-1"
+            isVisible={isVisible}
+            delay={400}
           />
         </div>
       </div>
@@ -94,16 +120,23 @@ function CategoryCard({
   category,
   label,
   className,
+  isVisible,
+  delay,
 }: {
   category: { key: string; icon: React.ElementType; image: string };
   label: string;
   className: string;
+  isVisible: boolean;
+  delay: number;
 }) {
   const Icon = category.icon;
-  
+
   return (
     <div
-      className={`${className} relative group rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer`}
+      className={`${className} relative group rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ${
+        isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {/* Background Image */}
       <Image

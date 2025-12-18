@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { Heart, Menu, X, Globe } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 export default function FloatingNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
@@ -20,6 +22,21 @@ export default function FloatingNavbar() {
     { href: "/contact", label: t("contact") },
   ];
 
+  // Entrance animation on mount
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  // Handle scroll effects for styling only
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const toggleLocale = () => {
     const newLocale = locale === "en" ? "ar" : "en";
     router.replace(pathname, { locale: newLocale });
@@ -28,7 +45,13 @@ export default function FloatingNavbar() {
   return (
     <>
       {/* Desktop & Mobile Navbar */}
-      <nav className="fixed top-6 left-1/2 z-50 -translate-x-1/2 w-[calc(100%-2rem)] md:w-fit md:min-w-max rounded-full bg-white/90 px-4 md:px-6 py-3 shadow-lg backdrop-blur border border-primary/10">
+      <nav
+        className={`fixed left-1/2 z-50 -translate-x-1/2 w-[calc(100%-2rem)] md:w-fit md:min-w-max rounded-full px-4 md:px-6 py-3 shadow-lg backdrop-blur border transition-all duration-500 ${
+          isScrolled
+            ? "bg-white/95 border-primary/15 shadow-xl"
+            : "bg-white/90 border-primary/10"
+        } ${isLoaded ? "top-6 opacity-100" : "-top-8 opacity-0"}`}
+      >
         <div className="flex items-center justify-between md:gap-8">
           {/* Logo */}
           <Link href="/" className="shrink-0">

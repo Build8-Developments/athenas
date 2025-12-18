@@ -1,0 +1,403 @@
+export interface Product {
+  id: string;
+  slug: string;
+  nameKey: string;
+  descriptionKey: string;
+  category: string;
+  image: string;
+  gallery?: string[];
+  price: number; // Price per kg in USD
+  priceUnit: "kg" | "ton"; // Unit for pricing display
+  minOrder?: string; // Minimum order quantity
+  specifications?: {
+    packagingKey: string;
+    shelfLife: string;
+    storage: string;
+    origin: string;
+  };
+  certifications?: string[];
+  featured?: boolean;
+  new?: boolean;
+}
+
+export interface Category {
+  id: string;
+  nameKey: string;
+  slug: string;
+  icon: string;
+  count?: number;
+}
+
+export const categories: Category[] = [
+  { id: "vegetables", nameKey: "vegetables", slug: "vegetables", icon: "🥕" },
+  { id: "fruits", nameKey: "fruits", slug: "fruits", icon: "🍓" },
+  { id: "fries", nameKey: "fries", slug: "fries", icon: "🍟" },
+  { id: "herbs", nameKey: "herbs", slug: "herbs", icon: "🌿" },
+  { id: "mixes", nameKey: "mixes", slug: "mixes", icon: "🥗" },
+];
+
+export const products: Product[] = [
+  // Vegetables
+  {
+    id: "green-peas",
+    slug: "green-peas",
+    nameKey: "greenPeas.name",
+    descriptionKey: "greenPeas.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Green+Peas",
+    gallery: [
+      "https://placehold.co/600x600?text=Green+Peas+1",
+      "https://placehold.co/600x600?text=Green+Peas+2",
+    ],
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+    featured: true,
+  },
+  {
+    id: "green-beans",
+    slug: "green-beans",
+    nameKey: "greenBeans.name",
+    descriptionKey: "greenBeans.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Green+Beans",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+    featured: true,
+  },
+  {
+    id: "okra",
+    slug: "okra",
+    nameKey: "okra.name",
+    descriptionKey: "okra.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Okra",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+  },
+  {
+    id: "spinach",
+    slug: "spinach",
+    nameKey: "spinach.name",
+    descriptionKey: "spinach.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Spinach",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "18 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+    new: true,
+  },
+  {
+    id: "corn-kernels",
+    slug: "corn-kernels",
+    nameKey: "cornKernels.name",
+    descriptionKey: "cornKernels.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Corn+Kernels",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+  },
+  {
+    id: "broccoli",
+    slug: "broccoli",
+    nameKey: "broccoli.name",
+    descriptionKey: "broccoli.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Broccoli",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+  },
+  {
+    id: "cauliflower",
+    slug: "cauliflower",
+    nameKey: "cauliflower.name",
+    descriptionKey: "cauliflower.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Cauliflower",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+  },
+  {
+    id: "carrots",
+    slug: "carrots",
+    nameKey: "carrots.name",
+    descriptionKey: "carrots.description",
+    category: "vegetables",
+    image: "https://placehold.co/600x600?text=Carrots",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+  },
+  // Fruits
+  {
+    id: "strawberries",
+    slug: "strawberries",
+    nameKey: "strawberries.name",
+    descriptionKey: "strawberries.description",
+    category: "fruits",
+    image: "https://placehold.co/600x600?text=Strawberries",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+    featured: true,
+  },
+  {
+    id: "mango-chunks",
+    slug: "mango-chunks",
+    nameKey: "mangoChunks.name",
+    descriptionKey: "mangoChunks.description",
+    category: "fruits",
+    image: "https://placehold.co/600x600?text=Mango+Chunks",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+    featured: true,
+  },
+  {
+    id: "pomegranate-seeds",
+    slug: "pomegranate-seeds",
+    nameKey: "pomegranateSeeds.name",
+    descriptionKey: "pomegranateSeeds.description",
+    category: "fruits",
+    image: "https://placehold.co/600x600?text=Pomegranate",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+    new: true,
+  },
+  {
+    id: "guava",
+    slug: "guava",
+    nameKey: "guava.name",
+    descriptionKey: "guava.description",
+    category: "fruits",
+    image: "https://placehold.co/600x600?text=Guava",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+  },
+  // Fries
+  {
+    id: "french-fries",
+    slug: "french-fries",
+    nameKey: "frenchFries.name",
+    descriptionKey: "frenchFries.description",
+    category: "fries",
+    image: "https://placehold.co/600x600?text=French+Fries",
+    specifications: {
+      packagingKey: "packaging.retail",
+      shelfLife: "18 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+    featured: true,
+  },
+  {
+    id: "crinkle-cut-fries",
+    slug: "crinkle-cut-fries",
+    nameKey: "crinkleCutFries.name",
+    descriptionKey: "crinkleCutFries.description",
+    category: "fries",
+    image: "https://placehold.co/600x600?text=Crinkle+Cut",
+    specifications: {
+      packagingKey: "packaging.retail",
+      shelfLife: "18 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+  },
+  {
+    id: "wedges",
+    slug: "potato-wedges",
+    nameKey: "potatoWedges.name",
+    descriptionKey: "potatoWedges.description",
+    category: "fries",
+    image: "https://placehold.co/600x600?text=Potato+Wedges",
+    specifications: {
+      packagingKey: "packaging.retail",
+      shelfLife: "18 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+    new: true,
+  },
+  // Herbs
+  {
+    id: "molokhia",
+    slug: "molokhia",
+    nameKey: "molokhia.name",
+    descriptionKey: "molokhia.description",
+    category: "herbs",
+    image: "https://placehold.co/600x600?text=Molokhia",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "18 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+    featured: true,
+  },
+  {
+    id: "parsley",
+    slug: "parsley",
+    nameKey: "parsley.name",
+    descriptionKey: "parsley.description",
+    category: "herbs",
+    image: "https://placehold.co/600x600?text=Parsley",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "18 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+  },
+  {
+    id: "dill",
+    slug: "dill",
+    nameKey: "dill.name",
+    descriptionKey: "dill.description",
+    category: "herbs",
+    image: "https://placehold.co/600x600?text=Dill",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "18 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+  },
+  // Mixes
+  {
+    id: "mixed-vegetables",
+    slug: "mixed-vegetables",
+    nameKey: "mixedVegetables.name",
+    descriptionKey: "mixedVegetables.description",
+    category: "mixes",
+    image: "https://placehold.co/600x600?text=Mixed+Vegetables",
+    specifications: {
+      packagingKey: "packaging.bulk",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP", "BRC"],
+    featured: true,
+  },
+  {
+    id: "stir-fry-mix",
+    slug: "stir-fry-mix",
+    nameKey: "stirFryMix.name",
+    descriptionKey: "stirFryMix.description",
+    category: "mixes",
+    image: "https://placehold.co/600x600?text=Stir+Fry+Mix",
+    specifications: {
+      packagingKey: "packaging.retail",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+  },
+  {
+    id: "soup-mix",
+    slug: "soup-mix",
+    nameKey: "soupMix.name",
+    descriptionKey: "soupMix.description",
+    category: "mixes",
+    image: "https://placehold.co/600x600?text=Soup+Mix",
+    specifications: {
+      packagingKey: "packaging.retail",
+      shelfLife: "24 months",
+      storage: "-18°C",
+      origin: "Egypt",
+    },
+    certifications: ["ISO 22000", "HACCP"],
+    new: true,
+  },
+];
+
+// Helper functions
+export function getProductsByCategory(categorySlug: string): Product[] {
+  return products.filter((p) => p.category === categorySlug);
+}
+
+export function getFeaturedProducts(): Product[] {
+  return products.filter((p) => p.featured);
+}
+
+export function getNewProducts(): Product[] {
+  return products.filter((p) => p.new);
+}
+
+export function getProductBySlug(slug: string): Product | undefined {
+  return products.find((p) => p.slug === slug);
+}
+
+export function getCategoryBySlug(slug: string): Category | undefined {
+  return categories.find((c) => c.slug === slug);
+}
+
+export function getCategoriesWithCount(): Category[] {
+  return categories.map((cat) => ({
+    ...cat,
+    count: products.filter((p) => p.category === cat.id).length,
+  }));
+}

@@ -1,4 +1,12 @@
 {
+  "meta": {
+    "homeTitle": "Athenas Foods | Premium Egyptian Frozen Products Exporter",
+    "homeDescription": "Your trusted partner for premium Egyptian frozen vegetables, fruits, and herbs. ISO 22000 & HACCP certified. Exporting to 25+ countries worldwide.",
+    "homeKeywords": "frozen vegetables, frozen fruits, Egyptian exports, IQF products, frozen food supplier, wholesale frozen produce, Athenas Foods",
+    "productsTitle": "Our Products | Athenas Foods - Premium Frozen Products",
+    "productsDescription": "Browse our complete range of premium frozen vegetables, fruits, herbs, and mixed blends. IQF processed, certified quality, ready for global export.",
+    "productsKeywords": "frozen vegetables, frozen fruits, frozen herbs, IQF products, frozen food catalog, Egyptian frozen produce"
+  },
   "nav": {
     "home": "Home",
     "about": "About",
@@ -9,7 +17,8 @@
     "welcome": "Welcome to Athenas Foods",
     "title": "Your trusted partner in exporting premium Egyptian frozen products.",
     "subtitle": "We specialize in delivering high-quality frozen vegetables, fruits, and herbs to global markets—ensuring freshness, flavor, and reliability in every shipment.",
-    "cta": "Get in Touch"
+    "cta": "Get in Touch",
+    "scrollDown": "Scroll"
   },
   "about": {
     "title": "Quality is the core of Athenas Foods.",
@@ -111,5 +120,141 @@
     "sendEmail": "Send Inquiry via Email",
     "emailSubject": "Product Inquiry from Athenas Foods",
     "continueBrowsing": "Continue Browsing"
+  },
+  "productsPage": {
+    "metaTitle": "Our Products | Athenas Foods - Premium Frozen Products",
+    "metaDescription": "Browse our complete range of premium frozen vegetables, fruits, herbs, and mixed blends. IQF processed, certified quality, ready for global export.",
+    "metaKeywords": "frozen vegetables, frozen fruits, frozen herbs, IQF products, frozen food catalog, Egyptian frozen produce",
+    "title": "Our Products",
+    "subtitle": "Discover our premium range of frozen products, carefully sourced and processed to meet international standards.",
+    "searchPlaceholder": "Search products...",
+    "filters": "Filters",
+    "allCategories": "All Categories",
+    "allProducts": "All Products",
+    "sortBy": "Sort by",
+    "sortDefault": "Sort by",
+    "sortNameAsc": "Name (A-Z)",
+    "sortNameDesc": "Name (Z-A)",
+    "sortNewest": "Newest First",
+    "gridView": "Grid View",
+    "listView": "List View",
+    "showingResults": "Showing {count} products",
+    "resultsCount": "{count} products found",
+    "noResults": "No products found matching your criteria.",
+    "clearFilters": "Clear Filters",
+    "closeFilters": "Close Filters",
+    "clearSearch": "Clear Search",
+    "featured": "Featured",
+    "new": "New",
+    "addToWishlist": "Add to Wishlist",
+    "removeFromWishlist": "Remove from Wishlist",
+    "viewDetails": "View Details",
+    "addToInquiry": "Add to Inquiry",
+    "categories": {
+      "title": "Categories",
+      "vegetables": "Vegetables",
+      "fruits": "Fruits",
+      "fries": "Fries & Potatoes",
+      "herbs": "Herbs & Seasonings",
+      "mixes": "Mixed Blends"
+    },
+    "certifications": "Certifications",
+    "specifications": {
+      "title": "Specifications",
+      "packaging": "Packaging",
+      "shelfLife": "Shelf Life",
+      "storage": "Storage",
+      "origin": "Origin"
+    },
+    "packaging": {
+      "bulk": "Bulk (10-25 kg)",
+      "retail": "Retail (500g - 2.5 kg)"
+    }
+  },
+  "productItems": {
+    "greenPeas": {
+      "name": "Green Peas",
+      "description": "Premium IQF green peas, carefully selected and processed to preserve freshness, color, and nutritional value. Perfect for soups, salads, and side dishes."
+    },
+    "greenBeans": {
+      "name": "Green Beans",
+      "description": "Fresh whole green beans, IQF processed to maintain crispness and vibrant color. Ideal for stir-fries, casseroles, and healthy side dishes."
+    },
+    "okra": {
+      "name": "Okra",
+      "description": "Traditional Egyptian okra, carefully selected and frozen. Perfect for Middle Eastern dishes and stews."
+    },
+    "spinach": {
+      "name": "Spinach",
+      "description": "Nutrient-rich frozen spinach, blanched and IQF processed. Great for smoothies, soups, and traditional recipes."
+    },
+    "cornKernels": {
+      "name": "Sweet Corn Kernels",
+      "description": "Golden sweet corn kernels, harvested at peak sweetness and IQF frozen. Perfect for salads, soups, and side dishes."
+    },
+    "broccoli": {
+      "name": "Broccoli Florets",
+      "description": "Fresh broccoli florets, carefully cut and IQF processed. Rich in vitamins and perfect for healthy meals."
+    },
+    "cauliflower": {
+      "name": "Cauliflower Florets",
+      "description": "Premium cauliflower florets, IQF processed to maintain texture. Versatile for roasting, steaming, or adding to curries."
+    },
+    "carrots": {
+      "name": "Diced Carrots",
+      "description": "Sweet Egyptian carrots, diced and IQF frozen. Perfect for soups, stews, and mixed vegetable preparations."
+    },
+    "strawberries": {
+      "name": "Strawberries",
+      "description": "Juicy Egyptian strawberries, IQF frozen at peak ripeness. Ideal for desserts, smoothies, and jams."
+    },
+    "mangoChunks": {
+      "name": "Mango Chunks",
+      "description": "Sweet Egyptian mango chunks, carefully cut and frozen. Perfect for smoothies, desserts, and exotic dishes."
+    },
+    "pomegranateSeeds": {
+      "name": "Pomegranate Seeds",
+      "description": "Ruby-red pomegranate arils, hand-extracted and IQF frozen. Rich in antioxidants, perfect for salads and toppings."
+    },
+    "guava": {
+      "name": "Guava",
+      "description": "Tropical Egyptian guava, sliced and IQF frozen. Great for juices, desserts, and tropical blends."
+    },
+    "frenchFries": {
+      "name": "French Fries",
+      "description": "Classic straight-cut French fries, par-fried and frozen. Crispy exterior, fluffy interior when prepared."
+    },
+    "crinkleCutFries": {
+      "name": "Crinkle Cut Fries",
+      "description": "Wavy-cut potato fries with extra crunch. Perfect for restaurants, catering, and food service."
+    },
+    "potatoWedges": {
+      "name": "Potato Wedges",
+      "description": "Seasoned potato wedges, par-fried for convenience. Great as appetizers or side dishes."
+    },
+    "molokhia": {
+      "name": "Molokhia (Jute Leaves)",
+      "description": "Traditional Egyptian molokhia leaves, finely chopped and frozen. Essential for authentic Middle Eastern cuisine."
+    },
+    "parsley": {
+      "name": "Parsley",
+      "description": "Fresh parsley, chopped and IQF frozen. Convenient herb addition for soups, sauces, and garnishes."
+    },
+    "dill": {
+      "name": "Dill",
+      "description": "Aromatic dill, chopped and frozen fresh. Perfect for seafood dishes, salads, and Middle Eastern recipes."
+    },
+    "mixedVegetables": {
+      "name": "Mixed Vegetables",
+      "description": "A colorful blend of peas, carrots, corn, and green beans. Convenient and versatile for quick meal preparation."
+    },
+    "stirFryMix": {
+      "name": "Stir Fry Mix",
+      "description": "Asian-inspired vegetable blend with broccoli, peppers, and snap peas. Ready for quick stir-fry meals."
+    },
+    "soupMix": {
+      "name": "Soup Mix",
+      "description": "Hearty vegetable blend designed for soups and stews. Includes carrots, peas, beans, and more."
+    }
   }
 }

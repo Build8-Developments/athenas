@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function FAQSection() {
   const t = useTranslations("faq");
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [sectionRef, isVisible] = useScrollAnimation<HTMLElement>({
+    threshold: 0.15,
+  });
 
   // Get questions array from translations
   const questions = [
@@ -33,14 +37,26 @@ export default function FAQSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-accent/30">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-accent/30">
       <div className="max-w-4xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
+          <h2
+            className={`text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 transition-all duration-700 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-6"
+            }`}
+          >
             {t("title")}
           </h2>
-          <p className="text-primary/70 text-lg max-w-2xl mx-auto">
+          <p
+            className={`text-primary/70 text-lg max-w-2xl mx-auto transition-all duration-700 delay-100 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-6"
+            }`}
+          >
             {t("subtitle")}
           </p>
         </div>
@@ -50,7 +66,12 @@ export default function FAQSection() {
           {questions.map((faq, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-accent/30 transition-all duration-300 hover:shadow-md"
+              className={`bg-white rounded-2xl overflow-hidden shadow-sm border border-accent/30 transition-all duration-500 hover:shadow-md ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
               {/* Question Button */}
               <button

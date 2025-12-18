@@ -1,4 +1,5 @@
-import { setRequestLocale } from "next-intl/server";
+import { Metadata } from "next";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
 import LogosSection from "@/components/home/LogosSection";
@@ -11,11 +12,40 @@ import BannerSection from "@/components/home/BannerSection";
 import FAQSection from "@/components/home/FAQSection";
 import Footer from "@/components/layout/Footer";
 
-export default async function HomePage({
-  params,
-}: {
+interface Props {
   params: Promise<{ locale: string }>;
-}) {
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    title: t("homeTitle"),
+    description: t("homeDescription"),
+    keywords: t("homeKeywords"),
+    openGraph: {
+      title: t("homeTitle"),
+      description: t("homeDescription"),
+      type: "website",
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      siteName: "Athenas Foods",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("homeTitle"),
+      description: t("homeDescription"),
+    },
+    alternates: {
+      languages: {
+        en: "/en",
+        ar: "/ar",
+      },
+    },
+  };
+}
+
+export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 

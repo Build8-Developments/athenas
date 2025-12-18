@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Heart, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Button from "@/components/shared/Button";
@@ -76,6 +76,8 @@ const products: Product[] = [
 
 export default function FeaturedProducts() {
   const t = useTranslations("products");
+  const locale = useLocale();
+  const isRTL = locale === "ar";
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -159,17 +161,17 @@ export default function FeaturedProducts() {
           {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-secondary hover:text-white transition-colors duration-200 border border-accent/30"
+            className="absolute start-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-secondary hover:text-white transition-colors duration-200 border border-accent/30"
             aria-label="Previous products"
           >
-            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 rtl:rotate-180" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-secondary hover:text-white transition-colors duration-200 border border-accent/30"
+            className="absolute end-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 md:w-12 md:h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-secondary hover:text-white transition-colors duration-200 border border-accent/30"
             aria-label="Next products"
           >
-            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6 rtl:rotate-180" />
           </button>
 
           {/* Slider Container */}
@@ -177,7 +179,7 @@ export default function FeaturedProducts() {
             <div
               className="flex transition-transform duration-500 ease-out"
               style={{
-                transform: `translateX(-${
+                transform: `translateX(${isRTL ? "" : "-"}${
                   currentIndex * (100 / visibleItems)
                 }%)`,
               }}
@@ -201,7 +203,7 @@ export default function FeaturedProducts() {
                       {/* Wishlist Button */}
                       <button
                         onClick={() => toggleWishlist(product.id)}
-                        className="absolute top-4 right-4 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors duration-200"
+                        className="absolute top-4 end-4 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors duration-200"
                         aria-label={
                           wishlist.includes(product.id)
                             ? t("removeFromWishlist")
@@ -217,7 +219,7 @@ export default function FeaturedProducts() {
                         />
                       </button>
                       {/* Category Badge */}
-                      <span className="absolute bottom-4 left-4 px-3 py-1 bg-secondary/90 backdrop-blur-sm text-white text-sm font-medium rounded-full">
+                      <span className="absolute bottom-4 start-4 px-3 py-1 bg-secondary/90 backdrop-blur-sm text-white text-sm font-medium rounded-full">
                         {product.category}
                       </span>
                     </div>
