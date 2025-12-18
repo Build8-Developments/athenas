@@ -177,6 +177,21 @@
       "retail": "تجزئة (500 جم - 2.5 كجم)"
     }
   },
+  "productDetail": {
+    "breadcrumb": {
+      "home": "الرئيسية",
+      "products": "المنتجات"
+    },
+    "backToProducts": "العودة للمنتجات",
+    "quantity": "الكمية",
+    "requestQuote": "اطلب عرض سعر",
+    "share": "مشاركة",
+    "linkCopied": "تم نسخ الرابط!",
+    "relatedProducts": "منتجات ذات صلة",
+    "inquirySubject": "استفسار عن المنتج",
+    "productNotFound": "المنتج غير موجود",
+    "productNotFoundDesc": "المنتج الذي تبحث عنه غير موجود أو تمت إزالته."
+  },
   "productItems": {
     "greenPeas": {
       "name": "البازلاء الخضراء",

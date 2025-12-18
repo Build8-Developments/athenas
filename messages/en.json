@@ -177,6 +177,21 @@
       "retail": "Retail (500g - 2.5 kg)"
     }
   },
+  "productDetail": {
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Products"
+    },
+    "backToProducts": "Back to Products",
+    "quantity": "Quantity",
+    "requestQuote": "Request a Quote",
+    "share": "Share",
+    "linkCopied": "Link copied!",
+    "relatedProducts": "Related Products",
+    "inquirySubject": "Product Inquiry",
+    "productNotFound": "Product Not Found",
+    "productNotFoundDesc": "The product you're looking for doesn't exist or has been removed."
+  },
   "productItems": {
     "greenPeas": {
       "name": "Green Peas",
