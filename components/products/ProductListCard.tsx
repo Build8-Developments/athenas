@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, ArrowRight } from "lucide-react";
+import { Heart, Eye } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -21,6 +21,14 @@ export default function ProductListCard({
   const tItems = useTranslations("productItems");
 
   const isInWishlist = wishlist.includes(product.id);
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(price);
+  };
 
   return (
     <article className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-accent/30">
@@ -61,20 +69,60 @@ export default function ProductListCard({
         {/* Product Info */}
         <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
           <div>
-            {/* Category - Desktop */}
-            <span className="hidden sm:inline-block px-2.5 py-1 bg-accent/60 text-primary/80 text-xs font-medium rounded-full capitalize mb-3">
-              {t(`categories.${product.category}`)}
-            </span>
+            <div className="flex items-start justify-between gap-4 mb-2">
+              <div>
+                {/* Category - Desktop */}
+                <span className="hidden sm:inline-block px-2.5 py-1 bg-accent/60 text-primary/80 text-xs font-medium rounded-full capitalize mb-3">
+                  {t(`categories.${product.category}`)}
+                </span>
 
-            <Link href={`/products/${product.slug}`} className="group/title">
-              <h3 className="text-xl md:text-2xl font-bold text-primary mb-2 group-hover/title:text-secondary transition-colors duration-200">
-                {tItems(product.nameKey)}
-              </h3>
-            </Link>
+                <Link
+                  href={`/products/${product.slug}`}
+                  className="group/title"
+                >
+                  <h3 className="text-xl md:text-2xl font-bold text-primary mb-2 group-hover/title:text-secondary transition-colors duration-200">
+                    {tItems(product.nameKey)}
+                  </h3>
+                </Link>
+              </div>
+
+              {/* Price - Desktop */}
+              <div className="hidden sm:flex flex-col items-end shrink-0">
+                <span className="text-xs text-primary/50">
+                  {t("fromPrice")}
+                </span>
+                <span className="text-2xl font-bold text-secondary">
+                  {formatPrice(product.price)}
+                </span>
+                <span className="text-xs text-primary/50">
+                  {product.priceUnit === "kg"
+                    ? t("pricePerKg")
+                    : t("pricePerTon")}
+                </span>
+                {product.minOrder && (
+                  <span className="text-xs text-primary/40 mt-1">
+                    {t("minOrder")}: {product.minOrder}
+                  </span>
+                )}
+              </div>
+            </div>
 
             <p className="text-primary/60 text-sm md:text-base line-clamp-2 sm:line-clamp-3 mb-4">
               {tItems(product.descriptionKey)}
             </p>
+
+            {/* Price - Mobile */}
+            <div className="sm:hidden flex items-baseline gap-1.5 mb-4">
+              <span className="text-xs text-primary/50">{t("fromPrice")}</span>
+              <span className="text-xl font-bold text-secondary">
+                {formatPrice(product.price)}
+              </span>
+              <span className="text-xs text-primary/50">
+                {product.priceUnit === "kg"
+                  ? t("pricePerKg")
+                  : t("pricePerTon")}
+              </span>
+            </div>
 
             {/* Certifications */}
             {product.certifications && product.certifications.length > 0 && (
@@ -116,37 +164,35 @@ export default function ProductListCard({
           </div>
 
           {/* Actions */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-accent/30">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  onToggleWishlist(product.id);
-                }}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                  isInWishlist
-                    ? "bg-red-50 text-red-500 hover:bg-red-100"
-                    : "bg-accent/50 text-primary hover:bg-accent"
-                }`}
-                aria-label={
-                  isInWishlist ? t("removeFromWishlist") : t("addToWishlist")
-                }
-              >
-                <Heart
-                  className={`w-4 h-4 ${isInWishlist ? "fill-red-500" : ""}`}
-                />
-                <span className="hidden sm:inline text-sm font-medium">
-                  {isInWishlist ? t("removeFromWishlist") : t("addToWishlist")}
-                </span>
-              </button>
-            </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-4 pt-4 border-t border-accent/30">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                onToggleWishlist(product.id);
+              }}
+              className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+                isInWishlist
+                  ? "bg-red-50 text-red-500 hover:bg-red-100"
+                  : "bg-accent/50 text-primary hover:bg-accent"
+              }`}
+              aria-label={
+                isInWishlist ? t("removeFromWishlist") : t("addToWishlist")
+              }
+            >
+              <Heart
+                className={`w-4 h-4 ${isInWishlist ? "fill-red-500" : ""}`}
+              />
+              <span className="text-sm font-medium">
+                {isInWishlist ? t("inWishlist") : t("addToWishlist")}
+              </span>
+            </button>
 
             <Link
               href={`/products/${product.slug}`}
-              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-sm hover:shadow-lg hover:scale-105 transition-all duration-200"
+              className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-medium text-sm hover:shadow-lg hover:scale-105 transition-all duration-200"
             >
+              <Eye className="w-4 h-4" />
               <span>{t("viewDetails")}</span>
-              <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
           </div>
         </div>

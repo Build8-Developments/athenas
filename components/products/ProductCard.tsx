@@ -24,6 +24,14 @@ export default function ProductCard({
 
   const isInWishlist = wishlist.includes(product.id);
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(price);
+  };
+
   return (
     <article
       className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-accent/30 h-full flex flex-col"
@@ -93,15 +101,33 @@ export default function ProductCard({
       </div>
 
       {/* Product Info */}
-      <div className="p-5 flex flex-col flex-grow">
+      <div className="p-5 flex flex-col grow">
         <Link href={`/products/${product.slug}`} className="group/title">
           <h3 className="text-lg font-bold text-primary mb-2 group-hover/title:text-secondary transition-colors duration-200">
             {tItems(product.nameKey)}
           </h3>
         </Link>
-        <p className="text-primary/60 text-sm line-clamp-2 mb-4 flex-grow">
+        <p className="text-primary/60 text-sm line-clamp-2 mb-3 grow">
           {tItems(product.descriptionKey)}
         </p>
+
+        {/* Price */}
+        <div className="flex items-baseline gap-1.5 mb-3">
+          <span className="text-xs text-primary/50">{t("fromPrice")}</span>
+          <span className="text-xl font-bold text-secondary">
+            {formatPrice(product.price)}
+          </span>
+          <span className="text-xs text-primary/50">
+            {product.priceUnit === "kg" ? t("pricePerKg") : t("pricePerTon")}
+          </span>
+        </div>
+
+        {/* Min Order */}
+        {product.minOrder && (
+          <p className="text-xs text-primary/50 mb-3">
+            {t("minOrder")}: {product.minOrder}
+          </p>
+        )}
 
         {/* Certifications */}
         {product.certifications && product.certifications.length > 0 && (
@@ -118,13 +144,32 @@ export default function ProductCard({
         )}
       </div>
 
-      {/* Quick View Link */}
-      <Link
-        href={`/products/${product.slug}`}
-        className="block w-full py-3 bg-gradient-to-r from-primary to-secondary text-white text-center font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      >
-        {t("viewDetails")}
-      </Link>
+      {/* Quick Actions */}
+      <div className="flex border-t border-accent/30">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            onToggleWishlist(product.id);
+          }}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-all duration-200 ${
+            isInWishlist
+              ? "bg-red-50 text-red-500 hover:bg-red-100"
+              : "bg-accent/30 text-primary hover:bg-accent/50"
+          }`}
+        >
+          <Heart className={`w-4 h-4 ${isInWishlist ? "fill-red-500" : ""}`} />
+          <span className="hidden sm:inline">
+            {isInWishlist ? t("inWishlist") : t("addToWishlist")}
+          </span>
+        </button>
+        <Link
+          href={`/products/${product.slug}`}
+          className="flex-1 flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-primary to-secondary text-white text-sm font-medium hover:shadow-lg transition-all duration-200"
+        >
+          <Eye className="w-4 h-4" />
+          <span className="hidden sm:inline">{t("viewDetails")}</span>
+        </Link>
+      </div>
     </article>
   );
 }

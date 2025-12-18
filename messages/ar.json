@@ -42,8 +42,8 @@
   "products": {
     "title": "المنتجات المميزة",
     "subtitle": "استكشف مجموعتنا الفاخرة من المنتجات المجمدة، المختارة والمعالجة بعناية للحفاظ على أعلى معايير الجودة.",
-    "addToWishlist": "أضف إلى قائمة الأمنيات",
-    "removeFromWishlist": "إزالة من قائمة الأمنيات",
+    "addToWishlist": "أضف إلى قائمة الطلبات",
+    "removeFromWishlist": "إزالة من قائمة الطلبات",
     "viewAll": "عرض جميع المنتجات"
   },
   "categories": {
@@ -146,9 +146,9 @@
     "clearSearch": "مسح البحث",
     "featured": "مميز",
     "new": "جديد",
-    "addToWishlist": "أضف إلى قائمة الأمنيات",
-    "removeFromWishlist": "إزالة من قائمة الأمنيات",
-    "inWishlist": "في قائمة الأمنيات",
+    "addToWishlist": "أضف إلى الطلبات",
+    "removeFromWishlist": "إزالة من الطلبات",
+    "inWishlist": "في الطلبات",
     "viewDetails": "عرض التفاصيل",
     "addToInquiry": "أضف للاستفسار",
     "requestQuote": "اطلب عرض سعر",
