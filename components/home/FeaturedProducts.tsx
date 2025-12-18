@@ -93,10 +93,20 @@ export default function FeaturedProducts() {
       return 3;
     };
 
-    const handleResize = () => setVisibleItems(getVisibleItems());
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setVisibleItems(getVisibleItems());
+      }, 100);
+    };
+
+    setVisibleItems(getVisibleItems());
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
   // Load wishlist from localStorage on mount

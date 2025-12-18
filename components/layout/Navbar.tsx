@@ -29,8 +29,16 @@ export default function FloatingNavbar() {
 
   // Handle scroll effects for styling only
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 50);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -61,6 +69,8 @@ export default function FloatingNavbar() {
               width={40}
               height={40}
               className="w-10 h-10 object-contain"
+              priority
+              fetchPriority="high"
             />
           </Link>
 
