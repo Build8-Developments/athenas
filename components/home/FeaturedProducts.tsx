@@ -134,7 +134,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
               {products.map((product) => (
                 <div
                   key={product._id}
-                  className="shrink-0 px-2 md:px-3"
+                  className="shrink-0 px-2 md:px-3 py-2 md:py-3"
                   style={{ width: `${100 / visibleItems}%` }}
                 >
                   <ProductCard

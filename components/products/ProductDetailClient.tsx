@@ -99,15 +99,6 @@ export default function ProductDetailClient({
     }
   };
 
-  // Format price
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(price);
-  };
-
   // Navigate gallery
   const nextImage = () => {
     setSelectedImage((prev) => (prev + 1) % allImages.length);
@@ -127,7 +118,6 @@ export default function ProductDetailClient({
         `Product: ${product.name}\n` +
         `Category: ${product.category}\n` +
         `Quantity: ${quantity} ${product.priceUnit}\n` +
-        `Price: ${formatPrice(product.price)} per ${product.priceUnit}\n\n` +
         `Please provide more information about:\n` +
         `- Bulk pricing for this quantity\n` +
         `- Shipping options\n` +
@@ -278,29 +268,6 @@ export default function ProductDetailClient({
             <p className="text-primary/70 text-lg mb-6 leading-relaxed">
               {product.description}
             </p>
-
-            {/* Price */}
-            <div className="bg-white rounded-2xl p-6 shadow-md border border-accent/30 mb-6">
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-sm text-primary/50">
-                  {tPage("fromPrice")}
-                </span>
-                <span className="text-4xl font-bold text-secondary">
-                  {formatPrice(product.price)}
-                </span>
-                <span className="text-primary/50">
-                  {product.priceUnit === "kg"
-                    ? tPage("pricePerKg")
-                    : tPage("pricePerTon")}
-                </span>
-              </div>
-              {product.minOrder && (
-                <p className="text-sm text-primary/60">
-                  {tPage("minOrder")}:{" "}
-                  <span className="font-medium">{product.minOrder}</span>
-                </p>
-              )}
-            </div>
 
             {/* Certifications */}
             {product.certifications && product.certifications.length > 0 && (
@@ -490,13 +457,6 @@ export default function ProductDetailClient({
                     <h3 className="font-semibold text-primary group-hover:text-secondary transition-colors line-clamp-1">
                       {relatedProduct.name}
                     </h3>
-                    <p className="text-sm text-secondary font-bold mt-1">
-                      {formatPrice(relatedProduct.price)}
-                      <span className="text-primary/50 font-normal text-xs">
-                        {" "}
-                        / {relatedProduct.priceUnit}
-                      </span>
-                    </p>
                   </div>
                 </Link>
               ))}

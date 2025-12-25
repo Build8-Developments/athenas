@@ -23,9 +23,9 @@ interface Product {
   name: string;
   category: string;
   image: string;
-  price: number;
-  priceUnit: string;
+  weight: string;
   minOrder: string;
+  grade: string;
   featured: boolean;
   new: boolean;
 }
@@ -279,7 +279,7 @@ export default function ProductsManagementPage() {
                   Category
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Price
+                  Weight/Order
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
@@ -340,14 +340,28 @@ export default function ProductsManagementPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-900">
                       <div>
-                        <p className="font-medium">
-                          ${product.price.toFixed(2)}/{product.priceUnit}
-                        </p>
-                        {product.minOrder && (
-                          <p className="text-xs text-gray-500">
-                            Min: {product.minOrder}
+                        {product.weight && (
+                          <p className="font-medium">
+                            Weight: {product.weight}
                           </p>
                         )}
+                        {product.minOrder && (
+                          <p className="text-xs text-gray-500">
+                            Min Order: {product.minOrder}
+                          </p>
+                        )}
+                        {product.grade && (
+                          <p className="text-xs text-gray-500">
+                            Grade: {product.grade}
+                          </p>
+                        )}
+                        {!product.weight &&
+                          !product.minOrder &&
+                          !product.grade && (
+                            <p className="text-sm text-gray-400">
+                              Contact for details
+                            </p>
+                          )}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">

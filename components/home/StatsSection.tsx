@@ -36,7 +36,7 @@ export default function StatsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-16 md:py-20 bg-gradient-to-r from-secondary to-primary"
+      className="py-16 md:py-20 bg-linear-to-br from-secondary/80 to-primary/70"
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">

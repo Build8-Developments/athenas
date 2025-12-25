@@ -13,7 +13,7 @@ export default function QuoteSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-16 md:py-24 bg-gradient-to-br from-primary to-secondary relative overflow-hidden"
+      className="py-16 md:py-24 bg-linear-to-br from-primary/40 to-secondary/80 relative overflow-hidden"
     >
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />

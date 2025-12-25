@@ -28,11 +28,9 @@ interface ProductData {
   category: string;
   image: string;
   gallery: string[];
-  price: number;
-  priceUnit: string;
+  weight: string;
   minOrder: string;
-  specifications: Record<string, string>;
-  certifications: string[];
+  grade: string;
   featured: boolean;
   new: boolean;
 }
@@ -46,18 +44,15 @@ interface ProductFormProps {
       category: string;
       image: string;
       gallery: string[];
-      price: number;
-      priceUnit: string;
+      weight: string;
       minOrder: string;
-      specifications: Record<string, string>;
-      certifications: string[];
+      grade: string;
       featured: boolean;
       new: boolean;
     };
     ar: {
       name: string;
       description: string;
-      specifications: Record<string, string>;
     };
   };
   isEdit?: boolean;
@@ -69,7 +64,7 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState<"general" | "media" | "pricing">(
+  const [activeTab, setActiveTab] = useState<"general" | "media" | "details">(
     "general"
   );
 
@@ -83,19 +78,14 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
     category: "",
     image: "",
     gallery: [],
-    price: 0,
-    priceUnit: "kg",
+    weight: "",
     minOrder: "",
-    specifications: {},
-    certifications: [],
+    grade: "",
     featured: false,
     new: false,
   });
 
-  // Specs and certs input state
-  const [newSpecKey, setNewSpecKey] = useState("");
-  const [newSpecValue, setNewSpecValue] = useState("");
-  const [newCert, setNewCert] = useState("");
+  // Remove unused state variables
   const [newGalleryImage, setNewGalleryImage] = useState("");
 
   // Fetch categories
@@ -127,11 +117,9 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
         category: initialData.en.category,
         image: initialData.en.image,
         gallery: initialData.en.gallery || [],
-        price: initialData.en.price,
-        priceUnit: initialData.en.priceUnit,
+        weight: initialData.en.weight,
         minOrder: initialData.en.minOrder,
-        specifications: initialData.en.specifications || {},
-        certifications: initialData.en.certifications || [],
+        grade: initialData.en.grade,
         featured: initialData.en.featured,
         new: initialData.en.new,
       });
@@ -162,11 +150,9 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
         category: formData.category,
         image: formData.image,
         gallery: formData.gallery,
-        price: formData.price,
-        priceUnit: formData.priceUnit,
+        weight: formData.weight,
         minOrder: formData.minOrder,
-        specifications: formData.specifications,
-        certifications: formData.certifications,
+        grade: formData.grade,
         featured: formData.featured,
         new: formData.new,
       };
@@ -194,46 +180,6 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
     } finally {
       setSaving(false);
     }
-  };
-
-  // Add specification
-  const addSpec = () => {
-    if (newSpecKey && newSpecValue) {
-      setFormData((prev) => ({
-        ...prev,
-        specifications: { ...prev.specifications, [newSpecKey]: newSpecValue },
-      }));
-      setNewSpecKey("");
-      setNewSpecValue("");
-    }
-  };
-
-  // Remove specification
-  const removeSpec = (key: string) => {
-    setFormData((prev) => {
-      const newSpecs = { ...prev.specifications };
-      delete newSpecs[key];
-      return { ...prev, specifications: newSpecs };
-    });
-  };
-
-  // Add certification
-  const addCert = () => {
-    if (newCert) {
-      setFormData((prev) => ({
-        ...prev,
-        certifications: [...prev.certifications, newCert],
-      }));
-      setNewCert("");
-    }
-  };
-
-  // Remove certification
-  const removeCert = (cert: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      certifications: prev.certifications.filter((c) => c !== cert),
-    }));
   };
 
   // Add gallery image
@@ -314,7 +260,7 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
       {/* Tabs */}
       <div className="border-b border-gray-200">
         <nav className="flex gap-6">
-          {["general", "media", "pricing"].map((tab) => (
+          {["general", "media", "details"].map((tab) => (
             <button
               key={tab}
               type="button"
@@ -530,88 +476,59 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
             </div>
           </div>
 
-          {/* Specifications */}
+          {/* Product Details */}
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h2 className="font-semibold text-gray-900 mb-4">Specifications</h2>
-            <div className="space-y-3">
-              {Object.entries(formData.specifications).map(([key, value]) => (
-                <div
-                  key={key}
-                  className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg"
-                >
-                  <span className="font-medium text-gray-700">{key}:</span>
-                  <span className="text-gray-600 flex-1">{value}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeSpec(key)}
-                    className="p-1 hover:bg-gray-200 rounded"
-                  >
-                    <X className="w-4 h-4 text-gray-400" />
-                  </button>
-                </div>
-              ))}
-
-              <div className="flex gap-2">
+            <h2 className="font-semibold text-gray-900 mb-4">
+              Product Details
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Weight
+                </label>
                 <input
                   type="text"
-                  value={newSpecKey}
-                  onChange={(e) => setNewSpecKey(e.target.value)}
-                  placeholder="Key (e.g., Weight)"
-                  className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  value={formData.weight}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, weight: e.target.value }))
+                  }
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="e.g., 2.5 kg"
                 />
-                <input
-                  type="text"
-                  value={newSpecValue}
-                  onChange={(e) => setNewSpecValue(e.target.value)}
-                  placeholder="Value (e.g., 1kg)"
-                  className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
-                <button
-                  type="button"
-                  onClick={addSpec}
-                  className="p-2 bg-primary text-white rounded-lg hover:bg-primary/90"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
               </div>
-            </div>
-          </div>
 
-          {/* Certifications */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 lg:col-span-2">
-            <h2 className="font-semibold text-gray-900 mb-4">Certifications</h2>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {formData.certifications.map((cert) => (
-                <span
-                  key={cert}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-accent/50 text-primary text-sm rounded-full"
-                >
-                  {cert}
-                  <button
-                    type="button"
-                    onClick={() => removeCert(cert)}
-                    className="hover:text-red-600"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={newCert}
-                onChange={(e) => setNewCert(e.target.value)}
-                placeholder="Add certification (e.g., ISO 22000)"
-                className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-              />
-              <button
-                type="button"
-                onClick={addCert}
-                className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
-              >
-                Add
-              </button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Minimum Order
+                </label>
+                <input
+                  type="text"
+                  value={formData.minOrder}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      minOrder: e.target.value,
+                    }))
+                  }
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="e.g., 500 kg minimum"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Grade
+                </label>
+                <input
+                  type="text"
+                  value={formData.grade}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, grade: e.target.value }))
+                  }
+                  className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  placeholder="e.g., Grade A, Premium"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -696,55 +613,26 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
         </div>
       )}
 
-      {/* Pricing Tab */}
-      {activeTab === "pricing" && (
+      {/* Details Tab */}
+      {activeTab === "details" && (
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
           <h2 className="font-semibold text-gray-900 mb-4">
-            Pricing & Order Details
+            Product Details & Specifications
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price (USD) *
+                Weight
               </label>
               <input
-                type="number"
-                required
-                min="0"
-                step="0.01"
-                value={formData.price}
+                type="text"
+                value={formData.weight}
                 onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    price: parseFloat(e.target.value) || 0,
-                  }))
+                  setFormData((prev) => ({ ...prev, weight: e.target.value }))
                 }
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                placeholder="0.00"
+                placeholder="e.g., 2.5 kg"
               />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price Unit *
-              </label>
-              <select
-                required
-                value={formData.priceUnit}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    priceUnit: e.target.value,
-                  }))
-                }
-                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-white"
-              >
-                <option value="kg">per kg</option>
-                <option value="ton">per ton</option>
-                <option value="piece">per piece</option>
-                <option value="box">per box</option>
-                <option value="carton">per carton</option>
-              </select>
             </div>
 
             <div>
@@ -755,15 +643,34 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
                 type="text"
                 value={formData.minOrder}
                 onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    minOrder: e.target.value,
-                  }))
+                  setFormData((prev) => ({ ...prev, minOrder: e.target.value }))
                 }
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                placeholder="e.g., 500 kg"
+                placeholder="e.g., 500 kg minimum"
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Grade
+              </label>
+              <input
+                type="text"
+                value={formData.grade}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, grade: e.target.value }))
+                }
+                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                placeholder="e.g., Grade A, Premium"
+              />
+            </div>
+          </div>
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-sm text-blue-700">
+              <Info className="w-4 h-4 inline mr-1" />
+              These fields are optional. Leave empty if not applicable to your
+              product.
+            </p>
           </div>
         </div>
       )}

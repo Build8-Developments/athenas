@@ -41,7 +41,7 @@ export default function AboutSection() {
       className="relative z-10 w-full -mt-8 sm:-mt-6 md:-mt-16 "
     >
       {/* Container */}
-      <div className="mx-auto rounded-tl-3xl rounded-tr-3xl md:rounded-tl-[64px] md:rounded-tr-[64px] bg-light border border-accent overflow-hidden">
+      <div className="mx-auto rounded-tl-3xl rounded-tr-3xl md:rounded-tl-[64px] md:rounded-tr-[64px] bg-light  overflow-hidden">
         <div className="grid max-w-7xl mx-auto p-4 sm:p-6 md:p-8 lg:p-12 grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
           {/* Left Side - Content */}
           <div className="p-2 sm:p-4 md:p-6 flex flex-col justify-center">
@@ -79,7 +79,7 @@ export default function AboutSection() {
                   }`}
                   style={{ transitionDelay: `${200 + index * 100}ms` }}
                 >
-                  <span className="shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-linear-to-br from-secondary to-primary flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-sm">
+                  <span className="shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-linear-to-br from-secondary to-primary/50 flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-sm">
                     {index + 1}
                   </span>
                   <span className="text-sm sm:text-base text-primary/90 leading-relaxed pt-0.5 sm:pt-1">

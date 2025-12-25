@@ -15,29 +15,17 @@ export interface IProduct extends Document {
   name: string;
   description: string;
   category: string; // Category slug reference
+  weight: string; // From CSV: Weight column
+  minOrder: string; // From CSV: Minimum Order column
+  grade: string; // From CSV: Grade column
   image: string;
   gallery: string[];
-  price: number;
-  priceUnit: "kg" | "ton";
-  minOrder: string;
-  specifications: IProductSpecifications;
-  certifications: string[];
   featured: boolean;
   new: boolean;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
-
-const ProductSpecificationsSchema = new Schema<IProductSpecifications>(
-  {
-    packaging: { type: String, default: "" },
-    shelfLife: { type: String, default: "" },
-    storage: { type: String, default: "" },
-    origin: { type: String, default: "" },
-  },
-  { _id: false }
-);
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -66,34 +54,23 @@ const ProductSchema = new Schema<IProduct>(
       required: true,
       lowercase: true,
     },
-    image: {
+    weight: {
       type: String,
-      required: true,
-    },
-    gallery: {
-      type: [String],
-      default: [],
-    },
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    priceUnit: {
-      type: String,
-      required: true,
-      enum: ["kg", "ton"],
-      default: "kg",
+      default: "",
     },
     minOrder: {
       type: String,
       default: "",
     },
-    specifications: {
-      type: ProductSpecificationsSchema,
-      default: () => ({}),
+    grade: {
+      type: String,
+      default: "",
     },
-    certifications: {
+    image: {
+      type: String,
+      required: true,
+    },
+    gallery: {
       type: [String],
       default: [],
     },
