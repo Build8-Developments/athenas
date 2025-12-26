@@ -68,7 +68,7 @@ export default function FloatingNavbar() {
               alt="Athenas Logo"
               width={300}
               height={80}
-              className="h-[40px] w-auto object-contain"
+              className="h-[32px] md:h-[40px] w-auto object-contain"
               priority
               fetchPriority="high"
             />

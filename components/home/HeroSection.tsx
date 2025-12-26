@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Button from "@/components/shared/Button";
 import { ChevronDown } from "lucide-react";
+import { useSwipe } from "@/hooks/useSwipe";
 
 export default function HeroSection() {
   const t = useTranslations("hero");
@@ -18,6 +19,16 @@ export default function HeroSection() {
     "/hero/hero-bg-3.jpg",
   ];
 
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () =>
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  // Touch gestures
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: nextSlide,
+    onSwipeRight: prevSlide,
+  });
+
   // Trigger entrance animation on mount
   useEffect(() => {
     setIsLoaded(true);
@@ -25,9 +36,7 @@ export default function HeroSection() {
 
   // Auto-advance slides every 5 seconds
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    const timer = setInterval(nextSlide, 5000);
     return () => clearInterval(timer);
   }, [slides.length]);
 
@@ -36,7 +45,10 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section
+      className="relative w-full h-screen overflow-hidden"
+      {...swipeHandlers}
+    >
       {/* Background Image Slider */}
       {slides.map((slide, index) => (
         <div

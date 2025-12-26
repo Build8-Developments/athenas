@@ -315,7 +315,6 @@ export default function ProductDetailClient({
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <span className="text-sm text-primary/50">{t("units")}</span>
             </div>
 
             {/* Actions */}

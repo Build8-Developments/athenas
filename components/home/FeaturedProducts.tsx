@@ -5,18 +5,12 @@ import { useTranslations, useLocale } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "@/components/shared/Button";
 import ProductCard from "@/components/products/ProductCard";
+import { useSwipe } from "@/hooks/useSwipe";
 import type { ProductData } from "@/lib/data";
 
 interface FeaturedProductsProps {
   products: ProductData[];
 }
-
-const getVisibleItems = () => {
-  if (typeof window === "undefined") return 3;
-  if (window.innerWidth < 640) return 1;
-  if (window.innerWidth < 1024) return 2;
-  return 3;
-};
 
 export default function FeaturedProducts({ products }: FeaturedProductsProps) {
   const t = useTranslations("products");
@@ -24,20 +18,32 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
   const isRTL = locale === "ar";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [visibleItems, setVisibleItems] = useState(() => getVisibleItems());
+  const [visibleItems, setVisibleItems] = useState(3); // Default to 3 for SSR
+  const [hasMounted, setHasMounted] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  // Handle resize with useCallback to avoid recreating the handler
-  const handleResize = useCallback(() => {
-    setVisibleItems(getVisibleItems());
+  // Calculate visible items based on window width
+  const getVisibleItems = useCallback(() => {
+    if (typeof window === "undefined") return 3;
+    if (window.innerWidth < 640) return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 3;
   }, []);
 
-  // Number of visible items based on screen size
+  // Set mounted state and initial visible items on client
   useEffect(() => {
-    let resizeTimeout: NodeJS.Timeout;
+    setHasMounted(true);
+    setVisibleItems(getVisibleItems());
+  }, [getVisibleItems]);
+
+  // Handle resize
+  useEffect(() => {
+    if (!hasMounted) return;
+
+    let resizeTimeout: ReturnType<typeof setTimeout>;
     const debouncedResize = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(handleResize, 100);
+      resizeTimeout = setTimeout(() => setVisibleItems(getVisibleItems()), 100);
     };
 
     window.addEventListener("resize", debouncedResize, { passive: true });
@@ -45,7 +51,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
       window.removeEventListener("resize", debouncedResize);
       clearTimeout(resizeTimeout);
     };
-  }, [handleResize]);
+  }, [hasMounted, getVisibleItems]);
 
   // Auto-play slider
   useEffect(() => {
@@ -71,6 +77,12 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
       prev <= 0 ? products.length - visibleItems : prev - 1
     );
   };
+
+  // Touch gestures (RTL-aware)
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: isRTL ? prevSlide : nextSlide,
+    onSwipeRight: isRTL ? nextSlide : prevSlide,
+  });
 
   return (
     <section className="py-16 md:py-24 bg-light">
@@ -104,7 +116,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
           </button>
 
           {/* Slider Container */}
-          <div className="overflow-hidden" ref={sliderRef}>
+          <div className="overflow-hidden" ref={sliderRef} {...swipeHandlers}>
             <div
               className="flex transition-transform duration-500 ease-out"
               style={{
@@ -126,9 +138,11 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
           </div>
 
           {/* Slider Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
-            {Array.from({ length: products.length - visibleItems + 1 }).map(
-              (_, index) => (
+          {hasMounted && (
+            <div className="flex justify-center gap-2 mt-8">
+              {Array.from({
+                length: Math.max(1, products.length - visibleItems + 1),
+              }).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => {
@@ -142,9 +156,9 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                   }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
-              )
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* View All Button */}

@@ -17,7 +17,25 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return;
+    if (!element) {
+      // If no element, show content anyway to prevent white screen
+      setIsVisible(true);
+      return;
+    }
+
+    // Check if IntersectionObserver is supported
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return;
+    }
+
+    // Check if element is already in viewport on mount
+    const rect = element.getBoundingClientRect();
+    const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+    if (isInViewport) {
+      setIsVisible(true);
+      if (triggerOnce) return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {

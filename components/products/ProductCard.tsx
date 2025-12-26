@@ -22,7 +22,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <article
-      className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-accent/30 h-full flex flex-col"
+      className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-accent/30 h-full flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -34,19 +34,19 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={product.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             unoptimized
           />
 
           {/* Badges */}
-          <div className="absolute top-4 start-4 flex flex-col gap-2">
+          <div className="absolute top-2 sm:top-4 start-2 sm:start-4 flex flex-col gap-1 sm:gap-2">
             {product.featured && (
-              <span className="px-3 py-1 bg-primary text-white text-xs font-bold rounded-full">
+              <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-primary text-white text-[10px] sm:text-xs font-bold rounded-full">
                 {t("featured")}
               </span>
             )}
             {product.new && (
-              <span className="px-3 py-1 bg-secondary text-white text-xs font-bold rounded-full">
+              <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-secondary text-white text-[10px] sm:text-xs font-bold rounded-full">
                 {t("new")}
               </span>
             )}
@@ -84,25 +84,25 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Category */}
-          <span className="absolute bottom-4 start-4 px-3 py-1 bg-secondary/90 backdrop-blur-sm text-white text-xs font-medium rounded-full capitalize">
+          <span className="absolute bottom-2 sm:bottom-4 start-2 sm:start-4 px-2 sm:px-3 py-0.5 sm:py-1 bg-secondary/90 backdrop-blur-sm text-white text-[10px] sm:text-xs font-medium rounded-full capitalize">
             {product.category}
           </span>
         </div>
 
         {/* Product Info */}
-        <div className="p-5 flex flex-col grow">
+        <div className="p-2 sm:p-4 flex flex-col grow">
           <button className="group/title">
-            <h3 className="text-lg font-bold text-primary mb-2 group-hover/title:text-secondary transition-colors duration-200">
+            <h3 className="text-xs sm:text-base font-bold text-primary mb-0.5 sm:mb-1 group-hover/title:text-secondary transition-colors duration-200 line-clamp-1 text-start">
               {product.name}
             </h3>
           </button>
-          <p className="text-primary/60 text-sm line-clamp-2 mb-3 grow">
+          <p className="text-primary/60 text-[10px] sm:text-sm line-clamp-2 mb-1 sm:mb-2 grow">
             {product.description}
           </p>
 
           {/* Min Order */}
           {product.minOrder && (
-            <p className="text-xs text-primary/50 mb-3">
+            <p className="text-[9px] sm:text-xs text-primary/50 mb-1 sm:mb-2 hidden sm:block">
               {t("minOrder")}: {product.minOrder}
             </p>
           )}
@@ -115,19 +115,23 @@ export default function ProductCard({ product }: ProductCardProps) {
               e.preventDefault();
               toggleWishlist(product.slug);
             }}
-            className={`flex-1 flex cursor-pointer items-center justify-center gap-2 py-3 text-sm font-medium transition-all duration-200 ${
+            className={`flex-1 flex cursor-pointer items-center justify-center gap-1 sm:gap-2 py-2 sm:py-3 text-xs sm:text-sm font-medium transition-all duration-200 ${
               inWishlist
                 ? "bg-red-50 text-red-500 hover:bg-red-100"
                 : "bg-accent/30 text-primary hover:bg-accent/50"
             }`}
           >
-            <Heart className={`w-4 h-4 ${inWishlist ? "fill-red-500" : ""}`} />
+            <Heart
+              className={`w-3 h-3 sm:w-4 sm:h-4 ${
+                inWishlist ? "fill-red-500" : ""
+              }`}
+            />
             <span className="hidden sm:inline">
               {inWishlist ? t("inWishlist") : t("addToWishlist")}
             </span>
           </button>
-          <button className="flex-1 cursor-pointer flex items-center justify-center gap-2 py-3 bg-secondary hover:bg-primary text-white text-sm font-medium hover:shadow-lg transition-all duration-200">
-            <Eye className="w-4 h-4" />
+          <button className="flex-1 cursor-pointer flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-3 bg-secondary hover:bg-primary text-white text-xs sm:text-sm font-medium hover:shadow-lg transition-all duration-200">
+            <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
             <span className="hidden sm:inline">{t("viewDetails")}</span>
           </button>
         </div>

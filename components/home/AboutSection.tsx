@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useSwipe } from "@/hooks/useSwipe";
 
 export default function AboutSection() {
   const t = useTranslations("about");
@@ -19,11 +20,19 @@ export default function AboutSection() {
     "https://placehold.co/600x800?text=Portrait%203",
   ];
 
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () =>
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  // Touch gestures
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: nextSlide,
+    onSwipeRight: prevSlide,
+  });
+
   // Auto-advance slides every 4 seconds
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 4000);
+    const timer = setInterval(nextSlide, 4000);
     return () => clearInterval(timer);
   }, [slides.length]);
 
@@ -97,6 +106,7 @@ export default function AboutSection() {
                 ? "opacity-100 translate-x-0 scale-100"
                 : "opacity-0 translate-x-12 scale-95"
             }`}
+            {...swipeHandlers}
           >
             {slides.map((slide, index) => (
               <div

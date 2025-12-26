@@ -39,13 +39,13 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="mb-6">
-              <Link href={"/"}>
+              <Link href={"/"} className="w-full ">
                 <Image
                   src="/logo/logo-white.png"
                   alt="Athenas Logo"
                   width={800}
                   height={450}
-                  className="h-30 w-auto object-contain object-left"
+                  className="h-30 w-auto object-contain mx-auto object-left"
                 />
               </Link>
             </div>
