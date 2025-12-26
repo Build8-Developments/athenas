@@ -11,16 +11,9 @@ export interface ProductData {
   category: string;
   image: string;
   gallery: string[];
-  price: number;
-  priceUnit: string;
+  weight: string;
   minOrder: string;
-  specifications: {
-    packaging: string;
-    shelfLife: string;
-    storage: string;
-    origin: string;
-  };
-  certifications: string[];
+  grade: string;
   featured: boolean;
   new: boolean;
   active: boolean;

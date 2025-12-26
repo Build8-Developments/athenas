@@ -3,6 +3,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import FloatingNavbar from "@/components/layout/Navbar";
+import { WishlistProvider } from "@/hooks/useWishlist";
 import "../globals.css";
 import type { Metadata } from "next";
 
@@ -50,10 +51,12 @@ export default async function LocaleLayout({
       </head>
       <body className={`antialiased bg-accent/20 font-['Tajawal',sans-serif]`}>
         <NextIntlClientProvider messages={messages}>
-          <main className="w-full overflow-x-hidden flex flex-col relative">
-            <FloatingNavbar />
-            {children}
-          </main>
+          <WishlistProvider>
+            <main className="w-full overflow-x-hidden flex flex-col relative">
+              <FloatingNavbar />
+              {children}
+            </main>
+          </WishlistProvider>
         </NextIntlClientProvider>
       </body>
     </html>

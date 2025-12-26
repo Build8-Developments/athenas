@@ -117,9 +117,55 @@
   "wishlist": {
     "title": "Your Wishlist",
     "empty": "Your wishlist is empty",
+    "emptyDescription": "Start adding products to your wishlist by clicking the heart icon on any product.",
+    "browseProducts": "Browse Products",
     "sendEmail": "Send Inquiry via Email",
     "emailSubject": "Product Inquiry from Athenas Foods",
-    "continueBrowsing": "Continue Browsing"
+    "continueBrowsing": "Continue Browsing",
+    "removeFromWishlist": "Remove from Wishlist",
+    "gridView": "Grid View",
+    "listView": "List View",
+    "itemCount": "{count} items",
+    "viewDetails": "View Details",
+    "minOrder": "Min. Order",
+    "product": "Product",
+    "category": "Category",
+    "actions": "Actions",
+    "totalItems": "Total Items",
+    "requestQuote": "Request Quote",
+    "quoteForm": {
+      "title": "Request a Quote",
+      "subtitle": "Fill in your details and we'll get back to you with a quote for your selected products.",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter your email address",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "company": "Company Name",
+      "companyPlaceholder": "Enter your company name (optional)",
+      "message": "Additional Message",
+      "messagePlaceholder": "Any additional requirements or questions...",
+      "submit": "Submit Quote Request",
+      "submitting": "Submitting...",
+      "required": "Required",
+      "optional": "Optional"
+    },
+    "quoteSuccess": {
+      "title": "Quote Request Sent!",
+      "message": "Thank you for your interest. Our team will review your request and get back to you within 24-48 hours."
+    },
+    "quoteError": {
+      "title": "Something went wrong",
+      "message": "We couldn't send your quote request. Please try again or contact us directly.",
+      "retry": "Try Again"
+    },
+    "validation": {
+      "fullNameRequired": "Full name is required",
+      "emailRequired": "Email address is required",
+      "emailInvalid": "Please enter a valid email address",
+      "phoneRequired": "Phone number is required"
+    }
   },
   "productsPage": {
     "noProductsFound": "No Products found",

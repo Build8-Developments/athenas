@@ -2,117 +2,214 @@
 
 ## Overview
 
-This design document outlines the implementation of a centralized wishlist management system and dedicated wishlist page for the Athenas e-commerce platform. The solution uses a React Context with a custom hook pattern to provide consistent wishlist operations across all components, along with updates to the data layer to match the current Product model schema.
+This design document outlines the implementation of an enhanced wishlist page that functions as a quote request/checkout experience for the Athenas e-commerce platform. The solution includes a centralized wishlist management system, a checkout-style page with product table, loading skeletons, a contact form modal, and an email service for quote requests.
 
 ## Architecture
 
 The wishlist feature follows a layered architecture:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    Presentation Layer                        │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-│  │ WishlistPage│  │ ProductCard │  │ ProductsClient      │  │
-│  └──────┬──────┘  └──────┬──────┘  └──────────┬──────────┘  │
-│         │                │                     │             │
-│         └────────────────┼─────────────────────┘             │
-│                          │                                   │
-│                          ▼                                   │
-│              ┌───────────────────────┐                       │
-│              │   useWishlist Hook    │                       │
-│              └───────────┬───────────┘                       │
-│                          │                                   │
-│                          ▼                                   │
-│              ┌───────────────────────┐                       │
-│              │  WishlistContext      │                       │
-│              └───────────┬───────────┘                       │
-└──────────────────────────┼──────────────────────────────────┘
-                           │
-┌──────────────────────────┼──────────────────────────────────┐
-│                    Storage Layer                             │
-│                          ▼                                   │
-│              ┌───────────────────────┐                       │
-│              │    localStorage       │                       │
-│              └───────────────────────┘                       │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         Presentation Layer                               │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────────┐  │
+│  │  WishlistPage   │  │ ContactFormModal│  │   LoadingSkeleton       │  │
+│  │  (checkout UI)  │  │ (user info form)│  │   (placeholder UI)      │  │
+│  └────────┬────────┘  └────────┬────────┘  └───────────┬─────────────┘  │
+│           │                    │                       │                 │
+│           └────────────────────┼───────────────────────┘                 │
+│                                │                                         │
+│                                ▼                                         │
+│                    ┌───────────────────────┐                             │
+│                    │   WishlistClient      │                             │
+│                    │   (product table)     │                             │
+│                    └───────────┬───────────┘                             │
+│                                │                                         │
+│                                ▼                                         │
+│                    ┌───────────────────────┐                             │
+│                    │   useWishlist Hook    │                             │
+│                    └───────────┬───────────┘                             │
+└────────────────────────────────┼────────────────────────────────────────┘
+                                 │
+┌────────────────────────────────┼────────────────────────────────────────┐
+│                          API Layer                                       │
+│                                ▼                                         │
+│                    ┌───────────────────────┐                             │
+│                    │  /api/quote-request   │                             │
+│                    │  (email endpoint)     │                             │
+│                    └───────────┬───────────┘                             │
+│                                │                                         │
+│                                ▼                                         │
+│                    ┌───────────────────────┐                             │
+│                    │    Email Service      │                             │
+│                    │  (console → nodemailer)│                            │
+│                    └───────────────────────┘                             │
+└─────────────────────────────────────────────────────────────────────────┘
+                                 │
+┌────────────────────────────────┼────────────────────────────────────────┐
+│                         Storage Layer                                    │
+│                                ▼                                         │
+│                    ┌───────────────────────┐                             │
+│                    │    localStorage       │                             │
+│                    └───────────────────────┘                             │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Key Design Decisions
 
-1. **React Context + Hook Pattern**: Provides global state management without external dependencies, keeping the solution lightweight and Next.js-friendly.
+1. **React Context + Hook Pattern**: Provides global state management without external dependencies.
 
-2. **localStorage for Persistence**: Simple client-side persistence that works without authentication. Wishlist data persists across browser sessions.
+2. **Table-Based Product Display**: Products shown in a clean table/list format for better checkout UX.
 
-3. **Provider at Locale Layout Level**: The WishlistProvider wraps the application at the locale layout level, ensuring all pages have access to wishlist state.
+3. **Modal Form Pattern**: Contact form in a modal keeps the page clean and focused.
 
-4. **Optimistic Updates**: UI updates immediately on wishlist actions, with localStorage sync happening synchronously.
+4. **Console Logging First**: Email service logs to console for development, structured for easy nodemailer integration.
+
+5. **Suspense + Loading Skeleton**: React Suspense with skeleton components for smooth loading states.
 
 ## Components and Interfaces
 
-### WishlistContext and Provider
+### Loading Skeleton Component
 
 ```typescript
-// hooks/useWishlist.tsx
+// components/wishlist/WishlistSkeleton.tsx
 
-interface WishlistContextType {
-  wishlist: string[]; // Array of product IDs
-  addToWishlist: (productId: string) => void; // Add product to wishlist
-  removeFromWishlist: (productId: string) => void; // Remove product from wishlist
-  toggleWishlist: (productId: string) => void; // Toggle product in wishlist
-  isInWishlist: (productId: string) => boolean; // Check if product is in wishlist
-  wishlistCount: number; // Total items in wishlist
-  clearWishlist: () => void; // Clear all items from wishlist
-}
+// Displays animated placeholder UI while page loads
+// Matches the layout of the actual wishlist page
+// Includes: header skeleton, table row skeletons, summary skeleton
 ```
 
-### WishlistProvider Component
-
-```typescript
-// Wraps children with wishlist context
-// Handles localStorage initialization and persistence
-// Provides all wishlist operations to descendants
-
-interface WishlistProviderProps {
-  children: React.ReactNode;
-}
-```
-
-### Wishlist Page Component
-
-```typescript
-// app/[locale]/wishlist/page.tsx
-
-// Server component that fetches product data for wishlist items
-// Renders WishlistClient with product data
-
-interface WishlistPageProps {
-  params: Promise<{ locale: string }>;
-}
-```
-
-### WishlistClient Component
+### WishlistClient Component (Updated)
 
 ```typescript
 // components/wishlist/WishlistClient.tsx
 
-// Client component that displays wishlist products
-// Uses useWishlist hook for state management
-// Handles empty state and product removal
-
 interface WishlistClientProps {
+  products: ProductData[];
   locale: string;
 }
+
+// Displays products in a table format
+// Includes: product image thumbnail, name, category, remove button
+// Shows summary section with item count
+// "Request Quote" button opens ContactFormModal
+```
+
+### Product Table Component
+
+```typescript
+// Embedded in WishlistClient
+
+// Table columns:
+// - Product (image + name)
+// - Category
+// - Actions (remove button)
+
+// Responsive: collapses to list on mobile
+```
+
+### ContactFormModal Component
+
+```typescript
+// components/wishlist/ContactFormModal.tsx
+
+interface ContactFormModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  products: ProductData[];
+  locale: string;
+}
+
+interface ContactFormData {
+  fullName: string; // Required
+  email: string; // Required, validated
+  phone: string; // Required
+  company: string; // Optional
+  message: string; // Optional
+}
+
+// Modal with form fields
+// Client-side validation
+// Submits to /api/quote-request
+// Shows loading, success, and error states
+```
+
+### Quote Request API Route
+
+```typescript
+// app/api/quote-request/route.ts
+
+interface QuoteRequestBody {
+  customerInfo: {
+    fullName: string;
+    email: string;
+    phone: string;
+    company?: string;
+    message?: string;
+  };
+  products: Array<{
+    id: string;
+    name: string;
+    category: string;
+  }>;
+  locale: string;
+}
+
+// POST handler
+// Validates request body
+// Calls email service
+// Returns success/error response
+```
+
+### Email Service
+
+```typescript
+// lib/email.ts
+
+interface EmailData {
+  to: string;
+  subject: string;
+  customerInfo: ContactFormData;
+  products: ProductInfo[];
+}
+
+// sendQuoteRequestEmail function
+// Currently: logs formatted email to console
+// Future: integrates with nodemailer
+// Returns: { success: boolean, error?: string }
 ```
 
 ## Data Models
 
-### Updated ProductData Interface
-
-The ProductData interface must be updated to match the current Product model:
+### ContactFormData Interface
 
 ```typescript
-// lib/data.ts
+interface ContactFormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  company?: string;
+  message?: string;
+}
+```
 
+### QuoteRequestPayload Interface
+
+```typescript
+interface QuoteRequestPayload {
+  customerInfo: ContactFormData;
+  products: Array<{
+    id: string;
+    name: string;
+    category: string;
+  }>;
+  locale: string;
+  timestamp: string;
+}
+```
+
+### ProductData Interface (Existing)
+
+```typescript
 export interface ProductData {
   _id: string;
   slug: string;
@@ -122,28 +219,13 @@ export interface ProductData {
   category: string;
   image: string;
   gallery: string[];
-  weight: string; // NEW: From Product model
+  weight: string;
   minOrder: string;
-  grade: string; // NEW: From Product model
+  grade: string;
   featured: boolean;
   new: boolean;
   active: boolean;
 }
-
-// REMOVED fields:
-// - price: number
-// - priceUnit: string
-// - specifications: { packaging, shelfLife, storage, origin }
-// - certifications: string[]
-```
-
-### Wishlist Storage Format
-
-```typescript
-// localStorage key: "athenas-wishlist"
-// Value: JSON stringified array of product IDs
-
-type WishlistStorage = string[]; // e.g., ["product-id-1", "product-id-2"]
 ```
 
 ## Correctness Properties
@@ -162,29 +244,35 @@ _For any_ product ID that exists in the wishlist, removing that product ID shoul
 
 **Validates: Requirements 1.2, 1.3**
 
-### Property 3: Toggle idempotence (double toggle)
-
-_For any_ product ID and any initial wishlist state, toggling the wishlist twice for the same product should return the wishlist to its original state with respect to that product.
-
-**Validates: Requirements 1.1, 1.2**
-
-### Property 4: Wishlist count consistency
+### Property 3: Wishlist count consistency
 
 _For any_ wishlist state, the `wishlistCount` value should equal the length of the `wishlist` array.
 
 **Validates: Requirements 1.4, 1.5**
 
-### Property 5: localStorage round-trip
+### Property 4: localStorage round-trip
 
 _For any_ valid wishlist state (array of product IDs), persisting to localStorage and then loading should produce an equivalent wishlist array.
 
 **Validates: Requirements 1.6, 1.7, 1.8**
 
-### Property 6: Add uniqueness (no duplicates)
+### Property 5: Form validation blocks submission
 
-_For any_ product ID that already exists in the wishlist, adding it again should not change the wishlist length or create duplicates.
+_For any_ contact form state where any required field (fullName, email, phone) is empty or invalid, form submission should be prevented.
 
-**Validates: Requirements 1.1, 1.4**
+**Validates: Requirements 4.4**
+
+### Property 6: Email content completeness
+
+_For any_ valid quote request with customer info and products, the generated email content should contain all customer fields (name, email, phone, and optional company/message if provided) and all product names and categories.
+
+**Validates: Requirements 5.1, 5.2, 5.3**
+
+### Property 7: Product table row completeness
+
+_For any_ product in the wishlist, the rendered table row should contain the product image, name, category, and a remove action.
+
+**Validates: Requirements 2.3**
 
 ## Error Handling
 
@@ -200,11 +288,23 @@ _For any_ product ID that already exists in the wishlist, adding it again should
 - **Recovery**: Clear corrupted data and initialize with empty wishlist
 - **Logging**: Console warning for debugging purposes
 
-### Product Not Found
+### Form Validation Errors
 
-- **Scenario**: Wishlist contains ID for deleted/inactive product
-- **Handling**: Filter out invalid products when displaying wishlist page
-- **User Feedback**: Show only valid products; no error message needed
+- **Detection**: Client-side validation on blur and submit
+- **Display**: Inline error messages below each invalid field
+- **Recovery**: User corrects fields and resubmits
+
+### API Request Failures
+
+- **Detection**: Non-2xx response or network error
+- **Display**: Error message in modal with retry option
+- **Recovery**: User can retry submission or close modal
+
+### Email Service Failures
+
+- **Detection**: Exception during email processing
+- **Response**: Return error status to client
+- **Logging**: Log error details to console for debugging
 
 ## Testing Strategy
 
@@ -216,25 +316,33 @@ Unit tests will verify specific examples and edge cases:
 
    - Adding a product to empty wishlist
    - Removing a product from wishlist
-   - Toggle behavior for products in/not in wishlist
-   - Clear wishlist functionality
    - Initial state from localStorage
+   - Empty localStorage handling
 
 2. **Component Tests**
-   - WishlistClient renders products correctly
+
+   - WishlistClient renders product table correctly
    - Empty state displays when wishlist is empty
-   - Remove button triggers correct callback
+   - Loading skeleton renders placeholder elements
+   - ContactFormModal opens and closes correctly
+   - Form validation displays errors
+
+3. **API Tests**
+   - Quote request endpoint accepts valid data
+   - Quote request endpoint rejects invalid data
+   - Error responses formatted correctly
 
 ### Property-Based Tests
 
-Property-based tests will verify universal properties across all inputs using a testing library like fast-check:
+Property-based tests will verify universal properties across all inputs using fast-check:
 
-1. **Property 1**: Add then contains - verify adding any product ID results in it being in the wishlist
-2. **Property 2**: Remove then not contains - verify removing any product ID results in it not being in the wishlist
-3. **Property 3**: Toggle idempotence - verify double toggle returns to original state
-4. **Property 4**: Count consistency - verify count always equals array length
-5. **Property 5**: localStorage round-trip - verify persist/load cycle preserves data
-6. **Property 6**: Add uniqueness - verify no duplicates are created
+1. **Property 1**: Add then contains
+2. **Property 2**: Remove then not contains
+3. **Property 3**: Count consistency
+4. **Property 4**: localStorage round-trip
+5. **Property 5**: Form validation blocks submission
+6. **Property 6**: Email content completeness
+7. **Property 7**: Product table row completeness
 
 **Configuration**:
 
@@ -244,6 +352,6 @@ Property-based tests will verify universal properties across all inputs using a 
 
 ### Integration Tests
 
-1. **Full Flow Test**: Add product → Navigate to wishlist → Verify product appears → Remove → Verify empty state
+1. **Full Quote Request Flow**: Add products → Open modal → Fill form → Submit → Verify email logged
 2. **Persistence Test**: Add products → Refresh page → Verify products still in wishlist
-3. **Cross-Component Test**: Add from ProductCard → Verify in ProductsClient → Verify on WishlistPage
+3. **Empty State Flow**: Clear wishlist → Verify empty state → Click browse → Navigate to products

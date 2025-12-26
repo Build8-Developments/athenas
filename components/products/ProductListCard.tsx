@@ -4,30 +4,19 @@ import { Heart, Eye } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { useWishlist } from "@/hooks/useWishlist";
 import type { ProductData } from "@/lib/data";
 
 interface ProductListCardProps {
   product: ProductData;
-  wishlist: string[];
-  onToggleWishlist: (productId: string) => void;
 }
 
-export default function ProductListCard({
-  product,
-  wishlist,
-  onToggleWishlist,
-}: ProductListCardProps) {
+export default function ProductListCard({ product }: ProductListCardProps) {
   const t = useTranslations("productsPage");
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
-  const isInWishlist = wishlist.includes(product._id);
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(price);
-  };
+  // Use slug for wishlist to support cross-locale consistency
+  const inWishlist = isInWishlist(product.slug);
 
   return (
     <article className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-accent/30">
@@ -86,43 +75,33 @@ export default function ProductListCard({
                 {product.description}
               </p>
 
-              {/* Certifications */}
-              {product.certifications && product.certifications.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {product.certifications.map((cert) => (
-                    <span
-                      key={cert}
-                      className="px-2.5 py-1 bg-accent/50 text-primary/70 text-xs font-medium rounded-md"
-                    >
-                      {cert}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Specifications Preview */}
-              {product.specifications && (
-                <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 text-sm text-primary/60">
+              {/* Product Details */}
+              <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 text-sm text-primary/60">
+                {product.weight && (
                   <div className="flex items-center gap-1.5">
                     <span className="font-medium text-primary/80">
-                      {t("specifications.origin")}:
+                      {t("weight")}:
                     </span>
-                    <span>{product.specifications.origin}</span>
+                    <span>{product.weight}</span>
                   </div>
+                )}
+                {product.grade && (
                   <div className="flex items-center gap-1.5">
                     <span className="font-medium text-primary/80">
-                      {t("specifications.storage")}:
+                      {t("grade")}:
                     </span>
-                    <span>{product.specifications.storage}</span>
+                    <span>{product.grade}</span>
                   </div>
+                )}
+                {product.minOrder && (
                   <div className="flex items-center gap-1.5">
                     <span className="font-medium text-primary/80">
-                      {t("specifications.shelfLife")}:
+                      {t("minOrder")}:
                     </span>
-                    <span>{product.specifications.shelfLife}</span>
+                    <span>{product.minOrder}</span>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Actions */}
@@ -130,22 +109,22 @@ export default function ProductListCard({
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  onToggleWishlist(product._id);
+                  toggleWishlist(product.slug);
                 }}
                 className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg transition-all duration-200 ${
-                  isInWishlist
+                  inWishlist
                     ? "bg-red-50 text-red-500 hover:bg-red-100"
                     : "bg-accent/50 text-primary hover:bg-accent"
                 }`}
                 aria-label={
-                  isInWishlist ? t("removeFromWishlist") : t("addToWishlist")
+                  inWishlist ? t("removeFromWishlist") : t("addToWishlist")
                 }
               >
                 <Heart
-                  className={`w-4 h-4 ${isInWishlist ? "fill-red-500" : ""}`}
+                  className={`w-4 h-4 ${inWishlist ? "fill-red-500" : ""}`}
                 />
                 <span className="text-sm font-medium">
-                  {isInWishlist ? t("inWishlist") : t("addToWishlist")}
+                  {inWishlist ? t("inWishlist") : t("addToWishlist")}
                 </span>
               </button>
 

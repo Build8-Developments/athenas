@@ -5,23 +5,20 @@ import { Heart, Eye } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { useWishlist } from "@/hooks/useWishlist";
 import type { ProductData } from "@/lib/data";
 
 interface ProductCardProps {
   product: ProductData;
-  wishlist: string[];
-  onToggleWishlist: (productId: string) => void;
 }
 
-export default function ProductCard({
-  product,
-  wishlist,
-  onToggleWishlist,
-}: ProductCardProps) {
+export default function ProductCard({ product }: ProductCardProps) {
   const t = useTranslations("productsPage");
   const [isHovered, setIsHovered] = useState(false);
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
-  const isInWishlist = wishlist.includes(product._id);
+  // Use slug for wishlist to support cross-locale consistency
+  const inWishlist = isInWishlist(product.slug);
 
   return (
     <article
@@ -55,7 +52,6 @@ export default function ProductCard({
             )}
           </div>
 
-          {/* Action Buttons */}
           <div
             className={`absolute  top-4 end-4 flex flex-col gap-2  transition-all duration-300  ${
               isHovered
@@ -66,16 +62,16 @@ export default function ProductCard({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                onToggleWishlist(product._id);
+                toggleWishlist(product.slug);
               }}
               className="p-3 cursor-pointer bg-white/95 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-110 transition-all duration-200"
               aria-label={
-                isInWishlist ? t("removeFromWishlist") : t("addToWishlist")
+                inWishlist ? t("removeFromWishlist") : t("addToWishlist")
               }
             >
               <Heart
                 className={`w-5 h-5 transition-colors duration-200 ${
-                  isInWishlist ? "fill-red-500 text-red-500" : "text-primary"
+                  inWishlist ? "fill-red-500 text-red-500" : "text-primary"
                 }`}
               />
             </button>
@@ -110,20 +106,6 @@ export default function ProductCard({
               {t("minOrder")}: {product.minOrder}
             </p>
           )}
-
-          {/* Certifications */}
-          {product.certifications && product.certifications.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-auto">
-              {product.certifications.slice(0, 3).map((cert) => (
-                <span
-                  key={cert}
-                  className="px-2 py-0.5 bg-accent/50 text-primary/70 text-xs rounded-md"
-                >
-                  {cert}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Quick Actions */}
@@ -131,19 +113,17 @@ export default function ProductCard({
           <button
             onClick={(e) => {
               e.preventDefault();
-              onToggleWishlist(product._id);
+              toggleWishlist(product.slug);
             }}
             className={`flex-1 flex cursor-pointer items-center justify-center gap-2 py-3 text-sm font-medium transition-all duration-200 ${
-              isInWishlist
+              inWishlist
                 ? "bg-red-50 text-red-500 hover:bg-red-100"
                 : "bg-accent/30 text-primary hover:bg-accent/50"
             }`}
           >
-            <Heart
-              className={`w-4 h-4 ${isInWishlist ? "fill-red-500" : ""}`}
-            />
+            <Heart className={`w-4 h-4 ${inWishlist ? "fill-red-500" : ""}`} />
             <span className="hidden sm:inline">
-              {isInWishlist ? t("inWishlist") : t("addToWishlist")}
+              {inWishlist ? t("inWishlist") : t("addToWishlist")}
             </span>
           </button>
           <button className="flex-1 cursor-pointer flex items-center justify-center gap-2 py-3 bg-secondary hover:bg-primary text-white text-sm font-medium hover:shadow-lg transition-all duration-200">

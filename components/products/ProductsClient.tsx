@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import ProductCard from "@/components/products/ProductCard";
 import ProductListCard from "@/components/products/ProductListCard";
@@ -34,7 +34,6 @@ export default function ProductsClient({
   const [sortBy, setSortBy] = useState("default");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
-  const [wishlist, setWishlist] = useState<string[]>([]);
 
   // Get categories formatted for the filter component
   const categoriesForFilter = useMemo(
@@ -46,25 +45,6 @@ export default function ProductsClient({
       })),
     [categories]
   );
-
-  // Load wishlist from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("athenas-wishlist");
-    if (saved) {
-      setWishlist(JSON.parse(saved));
-    }
-  }, []);
-
-  // Toggle wishlist
-  const toggleWishlist = (productId: string) => {
-    setWishlist((prev) => {
-      const newWishlist = prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId];
-      localStorage.setItem("athenas-wishlist", JSON.stringify(newWishlist));
-      return newWishlist;
-    });
-  };
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
@@ -204,17 +184,9 @@ export default function ProductsClient({
                   style={{ transitionDelay: `${300 + index * 50}ms` }}
                 >
                   {viewMode === "grid" ? (
-                    <ProductCard
-                      product={product}
-                      wishlist={wishlist}
-                      onToggleWishlist={toggleWishlist}
-                    />
+                    <ProductCard product={product} />
                   ) : (
-                    <ProductListCard
-                      product={product}
-                      wishlist={wishlist}
-                      onToggleWishlist={toggleWishlist}
-                    />
+                    <ProductListCard product={product} />
                   )}
                 </div>
               ))}

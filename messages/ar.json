@@ -117,9 +117,55 @@
   "wishlist": {
     "title": "قائمة أمنياتك",
     "empty": "قائمة أمنياتك فارغة",
+    "emptyDescription": "ابدأ بإضافة المنتجات إلى قائمة أمنياتك بالنقر على أيقونة القلب على أي منتج.",
+    "browseProducts": "تصفح المنتجات",
     "sendEmail": "أرسل استفسار عبر البريد الإلكتروني",
     "emailSubject": "استفسار عن المنتجات من أثينا للأغذية",
-    "continueBrowsing": "تابع التصفح"
+    "continueBrowsing": "تابع التصفح",
+    "removeFromWishlist": "إزالة من قائمة الأمنيات",
+    "gridView": "عرض شبكي",
+    "listView": "عرض قائمة",
+    "itemCount": "{count} عناصر",
+    "viewDetails": "عرض التفاصيل",
+    "minOrder": "الحد الأدنى للطلب",
+    "product": "المنتج",
+    "category": "الفئة",
+    "actions": "الإجراءات",
+    "totalItems": "إجمالي العناصر",
+    "requestQuote": "طلب عرض سعر",
+    "quoteForm": {
+      "title": "طلب عرض سعر",
+      "subtitle": "أدخل بياناتك وسنتواصل معك بعرض سعر للمنتجات المختارة.",
+      "fullName": "الاسم الكامل",
+      "fullNamePlaceholder": "أدخل اسمك الكامل",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "phone": "رقم الهاتف",
+      "phonePlaceholder": "أدخل رقم هاتفك",
+      "company": "اسم الشركة",
+      "companyPlaceholder": "أدخل اسم شركتك (اختياري)",
+      "message": "رسالة إضافية",
+      "messagePlaceholder": "أي متطلبات أو أسئلة إضافية...",
+      "submit": "إرسال طلب عرض السعر",
+      "submitting": "جاري الإرسال...",
+      "required": "مطلوب",
+      "optional": "اختياري"
+    },
+    "quoteSuccess": {
+      "title": "تم إرسال طلب عرض السعر!",
+      "message": "شكراً لاهتمامك. سيقوم فريقنا بمراجعة طلبك والرد عليك خلال 24-48 ساعة."
+    },
+    "quoteError": {
+      "title": "حدث خطأ ما",
+      "message": "لم نتمكن من إرسال طلب عرض السعر. يرجى المحاولة مرة أخرى أو التواصل معنا مباشرة.",
+      "retry": "حاول مرة أخرى"
+    },
+    "validation": {
+      "fullNameRequired": "الاسم الكامل مطلوب",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+      "phoneRequired": "رقم الهاتف مطلوب"
+    }
   },
   "productsPage": {
     "noProductsFound": "لم نعثر علي منتجات",
