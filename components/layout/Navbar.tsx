@@ -60,15 +60,15 @@ export default function FloatingNavbar() {
             : "bg-white/90 border-primary/10"
         } ${isLoaded ? "top-6 opacity-100" : "-top-8 opacity-0"}`}
       >
-        <div className="flex items-center justify-between md:gap-8">
+        <div className="flex items-center justify-between md:gap-4">
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Image
-              src="/logo/logo-twilight.png"
+              src="/logo/logo.png"
               alt="Athenas Logo"
-              width={120}
-              height={36}
-              className="h-8 w-auto object-contain"
+              width={300}
+              height={80}
+              className="h-[40px] w-auto object-contain"
               priority
               fetchPriority="high"
             />

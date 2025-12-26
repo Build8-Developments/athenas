@@ -38,15 +38,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <Image
-                src="/logo/logo-white.png"
-                alt="Athenas Logo"
-                width={140}
-                height={42}
-                className="h-10 w-auto object-contain"
-              />
-              <span className="text-xl font-bold">Athenas Foods</span>
+            <div className="mb-6">
+              <Link href={"/"}>
+                <Image
+                  src="/logo/logo-white.png"
+                  alt="Athenas Logo"
+                  width={800}
+                  height={450}
+                  className="h-30 w-auto object-contain object-left"
+                />
+              </Link>
             </div>
             <p className="text-white/70 leading-relaxed mb-6">
               {t("description")}

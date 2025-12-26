@@ -325,6 +325,121 @@
       "description": "Hearty vegetable blend designed for soups and stews. Includes carrots, peas, beans, and more."
     }
   },
+  "contact": {
+    "hero": {
+      "title": "Contact Us",
+      "subtitle": "We'd love to hear from you. Get in touch with our team."
+    },
+    "methods": {
+      "title": "Get in Touch",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "form": {
+      "title": "Send us a Message",
+      "subtitle": "Fill out the form below and we'll get back to you as soon as possible.",
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter your email address",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "subject": "Subject",
+      "subjectPlaceholder": "Enter the subject",
+      "message": "Message",
+      "messagePlaceholder": "Enter your message...",
+      "submit": "Send Message",
+      "submitting": "Sending..."
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "phoneRequired": "Phone number is required",
+      "subjectRequired": "Subject is required",
+      "messageRequired": "Message is required"
+    },
+    "success": {
+      "title": "Message Sent!",
+      "message": "Thank you for contacting us. We'll get back to you within 24-48 hours."
+    },
+    "error": {
+      "title": "Something went wrong",
+      "message": "We couldn't send your message. Please try again or contact us directly.",
+      "retry": "Try Again"
+    }
+  },
+  "aboutPage": {
+    "hero": {
+      "title": "About Athenas Foods",
+      "subtitle": "Your trusted partner in premium Egyptian frozen products since 2010"
+    },
+    "story": {
+      "title": "Our Story",
+      "paragraph1": "Founded in 2010, Athenas Foods began with a simple mission: to bring the finest Egyptian frozen products to the world. What started as a small family operation has grown into one of Egypt's leading exporters of premium frozen vegetables, fruits, and herbs.",
+      "paragraph2": "Our journey has been driven by an unwavering commitment to quality and a deep respect for traditional Egyptian agriculture. We work directly with local farmers, ensuring that every product meets our rigorous standards from farm to freezer.",
+      "paragraph3": "Today, we proudly serve customers across 25+ countries, delivering the authentic taste of Egypt to tables around the globe. Our state-of-the-art facilities and dedicated team ensure that every shipment maintains the freshness and quality our partners expect."
+    },
+    "values": {
+      "title": "Our Core Values",
+      "subtitle": "The principles that guide everything we do",
+      "quality": {
+        "title": "Quality Excellence",
+        "description": "We maintain the highest standards in every step of our process, from sourcing to delivery."
+      },
+      "reliability": {
+        "title": "Global Reliability",
+        "description": "Our partners trust us to deliver consistently, on time, every time."
+      },
+      "sustainability": {
+        "title": "Sustainability",
+        "description": "We are committed to environmentally responsible practices throughout our operations."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We continuously invest in modern processing technologies to ensure the best products."
+      }
+    },
+    "team": {
+      "title": "Meet Our Team",
+      "subtitle": "The people behind Athenas Foods",
+      "members": {
+        "ceo": {
+          "name": "Ahmed Hassan",
+          "role": "Founder & CEO"
+        },
+        "operations": {
+          "name": "Sara Mohamed",
+          "role": "Operations Director"
+        },
+        "quality": {
+          "name": "Omar Farouk",
+          "role": "Quality Manager"
+        }
+      }
+    },
+    "certifications": {
+      "title": "Our Certifications",
+      "subtitle": "Quality you can trust",
+      "iso": {
+        "name": "ISO 22000",
+        "description": "Food Safety Management System certification ensuring the highest food safety standards."
+      },
+      "haccp": {
+        "name": "HACCP",
+        "description": "Hazard Analysis Critical Control Points certification for systematic food safety."
+      },
+      "globalGap": {
+        "name": "GLOBALG.A.P",
+        "description": "Good Agricultural Practices certification ensuring responsible farming."
+      }
+    },
+    "map": {
+      "title": "Our Location",
+      "subtitle": "Visit us at our headquarters in 10th of Ramadan City, Egypt"
+    }
+  },
   "dashboard": {
     "backToSite": "Back to Site",
     "nav": {
