@@ -13,18 +13,15 @@ interface ProductData {
     category: string;
     image: string;
     gallery: string[];
-    price: number;
-    priceUnit: string;
+    weight: string;
     minOrder: string;
-    specifications: Record<string, string>;
-    certifications: string[];
+    grade: string;
     featured: boolean;
     new: boolean;
   };
   ar: {
     name: string;
     description: string;
-    specifications: Record<string, string>;
   };
 }
 

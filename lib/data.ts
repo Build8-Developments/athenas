@@ -17,6 +17,13 @@ export interface ProductData {
   featured: boolean;
   new: boolean;
   active: boolean;
+  certifications?: string[];
+  specifications?: {
+    packaging: string;
+    shelfLife: string;
+    storage: string;
+    origin: string;
+  };
 }
 
 export interface CategoryData {

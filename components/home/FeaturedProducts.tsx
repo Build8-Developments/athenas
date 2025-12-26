@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Button from "@/components/shared/Button";
@@ -11,48 +11,41 @@ interface FeaturedProductsProps {
   products: ProductData[];
 }
 
+const getVisibleItems = () => {
+  if (typeof window === "undefined") return 3;
+  if (window.innerWidth < 640) return 1;
+  if (window.innerWidth < 1024) return 2;
+  return 3;
+};
+
 export default function FeaturedProducts({ products }: FeaturedProductsProps) {
   const t = useTranslations("products");
   const locale = useLocale();
   const isRTL = locale === "ar";
-  const [wishlist, setWishlist] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [visibleItems, setVisibleItems] = useState(3);
+  const [visibleItems, setVisibleItems] = useState(() => getVisibleItems());
   const sliderRef = useRef<HTMLDivElement>(null);
+
+  // Handle resize with useCallback to avoid recreating the handler
+  const handleResize = useCallback(() => {
+    setVisibleItems(getVisibleItems());
+  }, []);
 
   // Number of visible items based on screen size
   useEffect(() => {
-    const getVisibleItems = () => {
-      if (typeof window === "undefined") return 3;
-      if (window.innerWidth < 640) return 1;
-      if (window.innerWidth < 1024) return 2;
-      return 3;
-    };
-
     let resizeTimeout: NodeJS.Timeout;
-    const handleResize = () => {
+    const debouncedResize = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        setVisibleItems(getVisibleItems());
-      }, 100);
+      resizeTimeout = setTimeout(handleResize, 100);
     };
 
-    setVisibleItems(getVisibleItems());
-    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("resize", debouncedResize, { passive: true });
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", debouncedResize);
       clearTimeout(resizeTimeout);
     };
-  }, []);
-
-  // Load wishlist from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("athenas-wishlist");
-    if (saved) {
-      setWishlist(JSON.parse(saved));
-    }
-  }, []);
+  }, [handleResize]);
 
   // Auto-play slider
   useEffect(() => {
@@ -64,17 +57,6 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
     }, 4000);
     return () => clearInterval(timer);
   }, [isAutoPlaying, visibleItems, products.length]);
-
-  // Toggle wishlist
-  const toggleWishlist = (productId: string) => {
-    setWishlist((prev) => {
-      const newWishlist = prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId];
-      localStorage.setItem("athenas-wishlist", JSON.stringify(newWishlist));
-      return newWishlist;
-    });
-  };
 
   const nextSlide = () => {
     setIsAutoPlaying(false);
@@ -137,11 +119,7 @@ export default function FeaturedProducts({ products }: FeaturedProductsProps) {
                   className="shrink-0 px-2 md:px-3 py-2 md:py-3"
                   style={{ width: `${100 / visibleItems}%` }}
                 >
-                  <ProductCard
-                    product={product}
-                    wishlist={wishlist}
-                    onToggleWishlist={toggleWishlist}
-                  />
+                  <ProductCard product={product} />
                 </div>
               ))}
             </div>

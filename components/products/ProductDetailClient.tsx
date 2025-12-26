@@ -117,7 +117,7 @@ export default function ProductDetailClient({
       `Hello,\n\nI am interested in the following product:\n\n` +
         `Product: ${product.name}\n` +
         `Category: ${product.category}\n` +
-        `Quantity: ${quantity} ${product.priceUnit}\n` +
+        `Quantity: ${quantity} units\n` +
         `Please provide more information about:\n` +
         `- Bulk pricing for this quantity\n` +
         `- Shipping options\n` +
@@ -315,9 +315,7 @@ export default function ProductDetailClient({
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <span className="text-sm text-primary/50">
-                {product.priceUnit === "kg" ? "kg" : "tons"}
-              </span>
+              <span className="text-sm text-primary/50">{t("units")}</span>
             </div>
 
             {/* Actions */}
