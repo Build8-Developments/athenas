@@ -2,7 +2,15 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { MapPin, Mail, Phone, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import {
+  MapPin,
+  Mail,
+  Phone,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+} from "lucide-react";
 import Image from "next/image";
 
 export default function Footer() {
@@ -32,11 +40,11 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
               <Image
-                src="/logo.png"
+                src="/logo/logo-white.png"
                 alt="Athenas Logo"
-                width={48}
-                height={48}
-                className="w-12 h-12 object-contain brightness-0 invert"
+                width={140}
+                height={42}
+                className="h-10 w-auto object-contain"
               />
               <span className="text-xl font-bold">Athenas Foods</span>
             </div>

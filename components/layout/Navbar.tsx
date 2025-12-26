@@ -64,11 +64,11 @@ export default function FloatingNavbar() {
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Image
-              src="/logo.png"
+              src="/logo/logo-twilight.png"
               alt="Athenas Logo"
-              width={40}
-              height={40}
-              className="w-10 h-10 object-contain"
+              width={120}
+              height={36}
+              className="h-8 w-auto object-contain"
               priority
               fetchPriority="high"
             />
