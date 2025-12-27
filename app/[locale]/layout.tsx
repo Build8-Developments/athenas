@@ -37,7 +37,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={isRTL ? "rtl" : "ltr"}>
       <head>
-        <link rel="preconnect" href="https://placehold.co" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
       <body className="antialiased bg-accent/20 font-sans">
         <NextIntlClientProvider messages={messages}>

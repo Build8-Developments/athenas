@@ -7,20 +7,36 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useWishlist } from "@/hooks/useWishlist";
 import ContactFormModal from "@/components/wishlist/ContactFormModal";
-import type { ProductData } from "@/lib/data";
+import type { ProductData, CategoryData } from "@/lib/data";
 
 interface WishlistClientProps {
   products: ProductData[];
+  categories: (CategoryData & { count: number })[];
   locale: string;
 }
 
 export default function WishlistClient({
   products,
+  categories,
   locale,
 }: WishlistClientProps) {
   const t = useTranslations("wishlist");
   const { wishlist, removeFromWishlist } = useWishlist();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Create a map of category slug to category name for quick lookup
+  const categoryMap = useMemo(() => {
+    const map = new Map<string, string>();
+    categories.forEach((category) => {
+      map.set(category.slug, category.name);
+    });
+    return map;
+  }, [categories]);
+
+  // Helper function to get category name
+  const getCategoryName = (categorySlug: string): string => {
+    return categoryMap.get(categorySlug) || categorySlug;
+  };
 
   // Create a map of slug to product for the current locale
   const productsBySlug = useMemo(() => {
@@ -135,8 +151,8 @@ export default function WishlistClient({
 
             {/* Category Column */}
             <div className="col-span-3 flex items-center">
-              <span className="px-3 py-1 bg-accent/60 text-primary/80 text-sm font-medium rounded-full capitalize">
-                {product.category}
+              <span className="px-3 py-1 bg-accent/60 text-primary/80 text-sm font-medium rounded-full">
+                {getCategoryName(product.category)}
               </span>
             </div>
 
@@ -186,8 +202,8 @@ export default function WishlistClient({
                 <h3 className="font-semibold text-primary truncate mb-1">
                   {product.name}
                 </h3>
-                <span className="inline-block px-2 py-0.5 bg-accent/60 text-primary/80 text-xs font-medium rounded-full capitalize mb-2">
-                  {product.category}
+                <span className="inline-block px-2 py-0.5 bg-accent/60 text-primary/80 text-xs font-medium rounded-full mb-2">
+                  {getCategoryName(product.category)}
                 </span>
                 <p className="text-sm text-primary/60 line-clamp-2">
                   {product.description}

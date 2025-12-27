@@ -3,7 +3,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import AboutHero from "@/components/about/AboutHero";
 import StorySection from "@/components/about/StorySection";
 import ValuesSection from "@/components/about/ValuesSection";
-import TeamSection from "@/components/about/TeamSection";
+
 import CertificationsSection from "@/components/about/CertificationsSection";
 import MapSection from "@/components/about/MapSection";
 import PartnersSection from "@/components/home/PartnersSection";
@@ -52,7 +52,7 @@ export default async function AboutPage({ params }: Props) {
       <AboutHero />
       <StorySection />
       <ValuesSection />
-      <TeamSection />
+
       <CertificationsSection />
       <MapSection />
       <PartnersSection />

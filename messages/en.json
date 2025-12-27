@@ -106,15 +106,19 @@
     "quickLinks": "Quick Links",
     "products": "Products",
     "contact": "Contact Us",
-    "address": "Industrial Zone, 10th of Ramadan City, Egypt",
+    "address": "Al-Ostaz Street, in front of Tanta Sports Club - Tanta - Gharbia - 31511",
     "email": "info@athenasfoods.com",
-    "phone": "+20 123 456 7890",
+    "phone": "01013993233\n01004312829",
     "followUs": "Follow Us",
     "copyright": "© 2025 Athenas Foods. All rights reserved.",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service"
   },
   "wishlist": {
+    "hero": {
+      "title": "Your Wishlist",
+      "subtitle": "View and manage your saved products"
+    },
     "title": "Your Wishlist",
     "empty": "Your wishlist is empty",
     "emptyDescription": "Start adding products to your wishlist by clicking the heart icon on any product.",
@@ -168,6 +172,10 @@
     }
   },
   "productsPage": {
+    "hero": {
+      "title": "Our Products",
+      "subtitle": "Discover our diverse range of high-quality frozen products"
+    },
     "noProductsFound": "No Products found",
     "metaTitle": "Our Products | Athenas Foods - Premium Frozen Products",
     "metaDescription": "Browse our complete range of premium frozen vegetables, fruits, herbs, and mixed blends. IQF processed, certified quality, ready for global export.",
@@ -368,6 +376,10 @@
       "title": "Something went wrong",
       "message": "We couldn't send your message. Please try again or contact us directly.",
       "retry": "Try Again"
+    },
+    "logos": {
+      "title": "Our Brand",
+      "subtitle": "Representing quality and excellence in Egyptian frozen products"
     }
   },
   "aboutPage": {

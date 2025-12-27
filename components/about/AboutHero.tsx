@@ -11,7 +11,7 @@ export default function AboutHero() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/hero/hero-bg-2.jpg"
+          src="/hero/hero-bg-3.jpg"
           alt="About hero background"
           fill
           priority

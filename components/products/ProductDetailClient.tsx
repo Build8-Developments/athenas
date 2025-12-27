@@ -20,17 +20,19 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
-import type { ProductData } from "@/lib/data";
+import type { ProductData, CategoryData } from "@/lib/data";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 interface ProductDetailClientProps {
   product: ProductData;
   relatedProducts: ProductData[];
+  categories: (CategoryData & { count: number })[];
 }
 
 export default function ProductDetailClient({
   product,
   relatedProducts,
+  categories,
 }: ProductDetailClientProps) {
   const t = useTranslations("productDetail");
   const tPage = useTranslations("productsPage");
@@ -42,6 +44,12 @@ export default function ProductDetailClient({
   const [sectionRef, isVisible] = useScrollAnimation<HTMLDivElement>({
     threshold: 0.1,
   });
+
+  // Helper function to get category name
+  const getCategoryName = (categorySlug: string): string => {
+    const category = categories.find(cat => cat.slug === categorySlug);
+    return category?.name || categorySlug;
+  };
 
   // Sync wishlist state from localStorage after mount (avoids hydration mismatch)
   useEffect(() => {
@@ -116,7 +124,7 @@ export default function ProductDetailClient({
     const body = encodeURIComponent(
       `Hello,\n\nI am interested in the following product:\n\n` +
         `Product: ${product.name}\n` +
-        `Category: ${product.category}\n` +
+        `Category: ${getCategoryName(product.category)}\n` +
         `Quantity: ${quantity} units\n` +
         `Please provide more information about:\n` +
         `- Bulk pricing for this quantity\n` +
@@ -255,8 +263,8 @@ export default function ProductDetailClient({
             }`}
           >
             {/* Category */}
-            <span className="inline-block px-3 py-1 bg-accent/60 text-primary/80 text-sm font-medium rounded-full mb-4 capitalize">
-              {product.category}
+            <span className="inline-block px-3 py-1 bg-accent/60 text-primary/80 text-sm font-medium rounded-full mb-4">
+              {getCategoryName(product.category)}
             </span>
 
             {/* Title */}

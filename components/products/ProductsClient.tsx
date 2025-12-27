@@ -91,24 +91,8 @@ export default function ProductsClient({
   }, [initialProducts, selectedCategory, searchQuery, sortBy]);
 
   return (
-    <div ref={sectionRef} className="max-w-7xl mx-auto px-6 py-8">
-      {/* Page Header */}
-      <div className="text-center mb-10">
-        <h1
-          className={`text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          {t("title")}
-        </h1>
-        <p
-          className={`text-primary/70 text-lg max-w-2xl mx-auto transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          {t("subtitle")}
-        </p>
-      </div>
+    <div ref={sectionRef} className="max-w-7xl mx-auto px-6 py-8 pt-16">
+      {/* Products Grid and Filters */}
 
       {/* Filters */}
       <div
@@ -184,9 +168,9 @@ export default function ProductsClient({
                   style={{ transitionDelay: `${300 + index * 50}ms` }}
                 >
                   {viewMode === "grid" ? (
-                    <ProductCard product={product} />
+                    <ProductCard product={product} categories={categories} />
                   ) : (
-                    <ProductListCard product={product} />
+                    <ProductListCard product={product} categories={categories} />
                   )}
                 </div>
               ))}

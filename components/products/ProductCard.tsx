@@ -6,19 +6,27 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useWishlist } from "@/hooks/useWishlist";
-import type { ProductData } from "@/lib/data";
+import type { ProductData, CategoryData } from "@/lib/data";
 
 interface ProductCardProps {
   product: ProductData;
+  categories?: (CategoryData & { count: number })[];
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, categories }: ProductCardProps) {
   const t = useTranslations("productsPage");
   const [isHovered, setIsHovered] = useState(false);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   // Use slug for wishlist to support cross-locale consistency
   const inWishlist = isInWishlist(product.slug);
+
+  // Helper function to get category name
+  const getCategoryName = (categorySlug: string): string => {
+    if (!categories) return categorySlug;
+    const category = categories.find(cat => cat.slug === categorySlug);
+    return category?.name || categorySlug;
+  };
 
   return (
     <article
@@ -84,8 +92,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Category */}
-          <span className="absolute bottom-2 sm:bottom-4 start-2 sm:start-4 px-2 sm:px-3 py-0.5 sm:py-1 bg-secondary/90 backdrop-blur-sm text-white text-[10px] sm:text-xs font-medium rounded-full capitalize">
-            {product.category}
+          <span className="absolute bottom-2 sm:bottom-4 start-2 sm:start-4 px-2 sm:px-3 py-0.5 sm:py-1 bg-secondary/90 backdrop-blur-sm text-white text-[10px] sm:text-xs font-medium rounded-full">
+            {getCategoryName(product.category)}
           </span>
         </div>
 

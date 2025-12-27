@@ -145,7 +145,7 @@ export default function ContactForm() {
         </p>
         <button
           onClick={resetForm}
-          className="px-6 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-medium transition-colors"
+          className="px-6 py-2 bg-[#03045e] hover:bg-[#020340] text-white rounded-lg font-medium transition-colors"
         >
           {t("form.submit")}
         </button>
@@ -168,7 +168,7 @@ export default function ContactForm() {
         </p>
         <button
           onClick={handleRetry}
-          className="px-6 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-medium transition-colors"
+          className="px-6 py-2 bg-[#03045e] hover:bg-[#020340] text-white rounded-lg font-medium transition-colors"
         >
           {t("error.retry")}
         </button>
@@ -205,10 +205,10 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleInputChange}
             placeholder={t("form.namePlaceholder")}
-            className={`w-full px-4 py-2.5 rounded-lg border ${
+            className={`w-full px-4 py-2.5 rounded-lg border-2 ${
               errors.name
-                ? "border-red-500 focus:ring-red-500"
-                : "border-accent/50 focus:ring-secondary"
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-[#03045e] focus:border-[#03045e]"
             } focus:outline-none focus:ring-2 transition-colors rtl:text-right`}
             disabled={status === "submitting"}
           />
@@ -234,10 +234,10 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleInputChange}
             placeholder={t("form.emailPlaceholder")}
-            className={`w-full px-4 py-2.5 rounded-lg border ${
+            className={`w-full px-4 py-2.5 rounded-lg border-2 ${
               errors.email
-                ? "border-red-500 focus:ring-red-500"
-                : "border-accent/50 focus:ring-secondary"
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-[#03045e] focus:border-[#03045e]"
             } focus:outline-none focus:ring-2 transition-colors rtl:text-right`}
             disabled={status === "submitting"}
           />
@@ -263,10 +263,10 @@ export default function ContactForm() {
             value={formData.phone}
             onChange={handleInputChange}
             placeholder={t("form.phonePlaceholder")}
-            className={`w-full px-4 py-2.5 rounded-lg border ${
+            className={`w-full px-4 py-2.5 rounded-lg border-2 ${
               errors.phone
-                ? "border-red-500 focus:ring-red-500"
-                : "border-accent/50 focus:ring-secondary"
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-[#03045e] focus:border-[#03045e]"
             } focus:outline-none focus:ring-2 transition-colors rtl:text-right`}
             disabled={status === "submitting"}
           />
@@ -292,10 +292,10 @@ export default function ContactForm() {
             value={formData.subject}
             onChange={handleInputChange}
             placeholder={t("form.subjectPlaceholder")}
-            className={`w-full px-4 py-2.5 rounded-lg border ${
+            className={`w-full px-4 py-2.5 rounded-lg border-2 ${
               errors.subject
-                ? "border-red-500 focus:ring-red-500"
-                : "border-accent/50 focus:ring-secondary"
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-[#03045e] focus:border-[#03045e]"
             } focus:outline-none focus:ring-2 transition-colors rtl:text-right`}
             disabled={status === "submitting"}
           />
@@ -321,10 +321,10 @@ export default function ContactForm() {
             onChange={handleInputChange}
             placeholder={t("form.messagePlaceholder")}
             rows={5}
-            className={`w-full px-4 py-2.5 rounded-lg border ${
+            className={`w-full px-4 py-2.5 rounded-lg border-2 ${
               errors.message
-                ? "border-red-500 focus:ring-red-500"
-                : "border-accent/50 focus:ring-secondary"
+                ? "border-red-500 focus:ring-red-500 focus:border-red-500"
+                : "border-gray-300 focus:ring-[#03045e] focus:border-[#03045e]"
             } focus:outline-none focus:ring-2 transition-colors resize-none rtl:text-right`}
             disabled={status === "submitting"}
           />
@@ -339,7 +339,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="w-full py-3 bg-secondary hover:bg-primary text-white rounded-lg font-medium transition-all duration-200 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 rtl:font-arabic"
+          className="w-full py-3 bg-[#03045e] hover:bg-[#020340] text-white rounded-lg font-medium transition-all duration-200 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 rtl:font-arabic"
         >
           {status === "submitting" ? (
             <>

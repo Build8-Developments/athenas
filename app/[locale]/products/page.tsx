@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import ProductsHero from "@/components/products/ProductsHero";
 import ProductsClient from "@/components/products/ProductsClient";
 import Footer from "@/components/layout/Footer";
 import { getProducts, getCategoriesWithCounts } from "@/lib/data";
@@ -50,12 +51,15 @@ export default async function ProductsPage({ params, searchParams }: Props) {
   ]);
 
   return (
-    <div className="w-full pt-24 bg-light min-h-screen">
-      <ProductsClient
-        initialProducts={productsData.products}
-        categories={categories}
-        initialCategory={category || null}
-      />
+    <div className="w-full">
+      <ProductsHero />
+      <div className="bg-light min-h-screen">
+        <ProductsClient
+          initialProducts={productsData.products}
+          categories={categories}
+          initialCategory={category || null}
+        />
+      </div>
       <Footer />
     </div>
   );

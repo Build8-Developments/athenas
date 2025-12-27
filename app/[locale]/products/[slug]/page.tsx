@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
-import { getProductBySlug, getRelatedProducts, getProducts } from "@/lib/data";
+import { getProductBySlug, getRelatedProducts, getProducts, getCategoriesWithCounts } from "@/lib/data";
 import ProductDetailClient from "@/components/products/ProductDetailClient";
 import Footer from "@/components/layout/Footer";
 
@@ -72,19 +72,18 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  // Get related products from the same category
-  const relatedProducts = await getRelatedProducts(
-    slug,
-    product.category,
-    locale,
-    4
-  );
+  // Get related products from the same category and categories data
+  const [relatedProducts, categories] = await Promise.all([
+    getRelatedProducts(slug, product.category, locale, 4),
+    getCategoriesWithCounts(locale),
+  ]);
 
   return (
     <>
       <ProductDetailClient
         product={product}
         relatedProducts={relatedProducts}
+        categories={categories}
       />
       <Footer />
     </>

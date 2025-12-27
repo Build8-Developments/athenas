@@ -12,16 +12,16 @@ export default function LogosSection() {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  // Placeholder company logos (replace with actual partner logos)
+  // Partner company logos - using geometric shapes from Unsplash
   const logos = [
-    { name: "Partner 1", src: "https://placehold.co/200x80?text=Partner+1" },
-    { name: "Partner 2", src: "https://placehold.co/200x80?text=Partner+2" },
-    { name: "Partner 3", src: "https://placehold.co/200x80?text=Partner+3" },
-    { name: "Partner 4", src: "https://placehold.co/200x80?text=Partner+4" },
-    { name: "Partner 5", src: "https://placehold.co/200x80?text=Partner+5" },
-    { name: "Partner 6", src: "https://placehold.co/200x80?text=Partner+6" },
-    { name: "Partner 7", src: "https://placehold.co/200x80?text=Partner+7" },
-    { name: "Partner 8", src: "https://placehold.co/200x80?text=Partner+8" },
+    { name: "Partner 1", src: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=80&fit=crop&crop=center" },
+    { name: "Partner 2", src: "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=200&h=80&fit=crop&crop=center" },
+    { name: "Partner 3", src: "https://images.unsplash.com/photo-1614680376408-81e91ffe3db7?w=200&h=80&fit=crop&crop=center" },
+    { name: "Partner 4", src: "https://images.unsplash.com/photo-1614680376739-414d95ff43df?w=200&h=80&fit=crop&crop=center" },
+    { name: "Partner 5", src: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=200&h=80&fit=crop&crop=center" },
+    { name: "Partner 6", src: "https://images.unsplash.com/photo-1614680376428-da3d9b39760b?w=200&h=80&fit=crop&crop=center" },
+    { name: "Partner 7", src: "https://images.unsplash.com/photo-1614680376417-1e7dc4723f8e?w=200&h=80&fit=crop&crop=center" },
+    { name: "Partner 8", src: "https://images.unsplash.com/photo-1614680376451-54d6931473aa?w=200&h=80&fit=crop&crop=center" },
   ];
 
   // Touch/Mouse handlers for manual scrolling

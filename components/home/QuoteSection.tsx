@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Quote } from "lucide-react";
+import { Quote, User } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export default function QuoteSection() {
@@ -49,12 +49,8 @@ export default function QuoteSection() {
                 : "opacity-0 translate-y-6"
             }`}
           >
-            <div className="w-16 h-16 rounded-full bg-white/20 mb-4 overflow-hidden">
-              <img
-                src="https://placehold.co/100x100?text=CEO"
-                alt={t("author")}
-                className="w-full h-full object-cover"
-              />
+            <div className="w-16 h-16 rounded-full bg-white/20 mb-4 flex items-center justify-center">
+              <User className="w-8 h-8 text-white" />
             </div>
             <p className="text-white font-bold text-lg">{t("author")}</p>
             <p className="text-white/70 text-sm">{t("role")}</p>

@@ -5,18 +5,26 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useWishlist } from "@/hooks/useWishlist";
-import type { ProductData } from "@/lib/data";
+import type { ProductData, CategoryData } from "@/lib/data";
 
 interface ProductListCardProps {
   product: ProductData;
+  categories?: (CategoryData & { count: number })[];
 }
 
-export default function ProductListCard({ product }: ProductListCardProps) {
+export default function ProductListCard({ product, categories }: ProductListCardProps) {
   const t = useTranslations("productsPage");
   const { isInWishlist, toggleWishlist } = useWishlist();
 
   // Use slug for wishlist to support cross-locale consistency
   const inWishlist = isInWishlist(product.slug);
+
+  // Helper function to get category name
+  const getCategoryName = (categorySlug: string): string => {
+    if (!categories) return categorySlug;
+    const category = categories.find(cat => cat.slug === categorySlug);
+    return category?.name || categorySlug;
+  };
 
   return (
     <article className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-accent/30">
@@ -49,8 +57,8 @@ export default function ProductListCard({ product }: ProductListCardProps) {
               </div>
 
               {/* Category Badge - Mobile Only */}
-              <span className="sm:hidden absolute bottom-3 start-3 px-2.5 py-1 bg-secondary/90 backdrop-blur-sm text-white text-xs font-medium rounded-full capitalize">
-                {product.category}
+              <span className="sm:hidden absolute bottom-3 start-3 px-2.5 py-1 bg-secondary/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                {getCategoryName(product.category)}
               </span>
             </div>
           </div>
@@ -61,8 +69,8 @@ export default function ProductListCard({ product }: ProductListCardProps) {
               <div className="flex items-start justify-between gap-4 mb-2">
                 <div>
                   {/* Category - Desktop */}
-                  <span className="hidden sm:inline-block px-2.5 py-1 bg-accent/60 text-primary/80 text-xs font-medium rounded-full capitalize mb-3">
-                    {product.category}
+                  <span className="hidden sm:inline-block px-2.5 py-1 bg-accent/60 text-primary/80 text-xs font-medium rounded-full mb-3">
+                    {getCategoryName(product.category)}
                   </span>
 
                   <h3 className="text-xl md:text-2xl font-bold text-primary mb-2 group-hover/title:text-secondary transition-colors duration-200">

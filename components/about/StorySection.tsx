@@ -69,11 +69,10 @@ export default function StorySection() {
           >
             <div className="relative w-full aspect-4/3 rounded-2xl md:rounded-3xl overflow-hidden shadow-xl">
               <Image
-                src="/hero/hero-bg-1.jpg"
+                src="/logos/3.jpg"
                 alt="Athenas Foods Story"
                 fill
                 className="object-cover"
-                unoptimized
               />
               {/* Subtle gradient overlay */}
               <div className="absolute inset-0 bg-linear-to-t from-primary/20 to-transparent" />

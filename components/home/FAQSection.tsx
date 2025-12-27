@@ -37,8 +37,19 @@ export default function FAQSection() {
   ];
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-accent/30">
-      <div className="max-w-4xl mx-auto px-6">
+    <section 
+      ref={sectionRef} 
+      className="py-16 md:py-24 bg-accent/30 relative overflow-hidden"
+      style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&h=1080&fit=crop&crop=center')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed"
+      }}
+    >
+      {/* Light overlay */}
+      <div className="absolute inset-0 bg-white/85"></div>
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2

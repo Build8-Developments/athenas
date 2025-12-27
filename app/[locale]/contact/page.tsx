@@ -47,7 +47,6 @@ export default async function ContactPage({ params }: Props) {
       <ContactHero />
       <ContactMethods />
       <ContactFormSection />
-      <StatsSection />
       <Footer />
     </div>
   );

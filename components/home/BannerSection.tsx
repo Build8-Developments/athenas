@@ -57,7 +57,7 @@ export default function BannerSection() {
             }`}
           >
             <img
-              src="https://placehold.co/800x600?text=Premium+Products"
+              src="/logos/2.jpg"
               alt="Premium frozen products"
               className="absolute inset-0 w-full h-full object-cover"
             />

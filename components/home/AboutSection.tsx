@@ -13,11 +13,11 @@ export default function AboutSection() {
     threshold: 0.2,
   });
 
-  // Portrait images for the slider
+  // Local about section images
   const slides = [
-    "https://placehold.co/600x800?text=Portrait%201",
-    "https://placehold.co/600x800?text=Portrait%202",
-    "https://placehold.co/600x800?text=Portrait%203",
+    "/logos/2.jpg",
+    "/logos/2.jpg",
+    "/logos/2.jpg",
   ];
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -110,7 +110,7 @@ export default function AboutSection() {
           >
             {slides.map((slide, index) => (
               <div
-                key={slide}
+                key={index}
                 className={`absolute inset-0 transition-opacity duration-1000 ${
                   index === currentSlide ? "opacity-100" : "opacity-0"
                 }`}
@@ -120,7 +120,7 @@ export default function AboutSection() {
                   alt={`About image ${index + 1}`}
                   fill
                   className="object-cover"
-                  unoptimized
+                  priority={index === 0}
                 />
               </div>
             ))}

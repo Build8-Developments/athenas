@@ -191,7 +191,7 @@ export default function DashboardPage() {
                           <img
                             src={
                               product.image ||
-                              "https://placehold.co/100x100?text=No+Image"
+                              "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=100&h=100&fit=crop&crop=center"
                             }
                             alt=""
                             className="w-full h-full object-cover"

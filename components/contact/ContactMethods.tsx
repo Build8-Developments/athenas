@@ -49,20 +49,20 @@ export default function ContactMethods() {
             const content = (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
+                className="flex flex-col items-center text-center p-8 bg-white rounded-xl shadow-sm h-48"
               >
                 {/* Icon */}
-                <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                  <Icon className="w-7 h-7 text-primary" />
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                  <Icon className="w-8 h-8 text-primary" />
                 </div>
 
                 {/* Label */}
-                <h3 className="text-lg font-semibold text-primary mb-2 rtl:font-arabic">
+                <h3 className="text-xl font-semibold text-primary mb-3 rtl:font-arabic">
                   {method.label}
                 </h3>
 
                 {/* Value */}
-                <p className="text-gray-600 rtl:font-arabic">{method.value}</p>
+                <p className="text-gray-600 rtl:font-arabic text-lg leading-relaxed whitespace-pre-line">{method.value}</p>
               </div>
             );
 
@@ -72,7 +72,7 @@ export default function ContactMethods() {
                 <a
                   key={index}
                   href={method.href}
-                  className="block hover:scale-[1.02] transition-transform duration-200"
+                  className="block"
                 >
                   {content}
                 </a>

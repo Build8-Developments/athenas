@@ -12,7 +12,7 @@ export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Background images for the slider
+  // Local hero background images
   const slides = [
     "/hero/hero-bg-1.jpg",
     "/hero/hero-bg-2.jpg",

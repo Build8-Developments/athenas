@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import WishlistHero from "@/components/wishlist/WishlistHero";
 import WishlistClient from "@/components/wishlist/WishlistClient";
 import WishlistSkeleton from "@/components/wishlist/WishlistSkeleton";
 import Footer from "@/components/layout/Footer";
-import { getProducts } from "@/lib/data";
+import { getProducts, getCategoriesWithCounts } from "@/lib/data";
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -35,8 +36,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // Async component to fetch products
 async function WishlistContent({ locale }: { locale: string }) {
-  const productsData = await getProducts(locale);
-  return <WishlistClient products={productsData.products} locale={locale} />;
+  const [productsData, categories] = await Promise.all([
+    getProducts(locale),
+    getCategoriesWithCounts(locale),
+  ]);
+  return <WishlistClient products={productsData.products} categories={categories} locale={locale} />;
 }
 
 export default async function WishlistPage({ params }: Props) {
@@ -46,19 +50,15 @@ export default async function WishlistPage({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "wishlist" });
 
   return (
-    <div className="w-full pt-24 bg-light min-h-screen">
-      <div className="max-w-7xl h-full mx-auto px-6 py-8">
-        {/* Page Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-4">
-            {t("title")}
-          </h1>
+    <div className="w-full">
+      <WishlistHero />
+      <div className="bg-light min-h-screen">
+        <div className="max-w-7xl mx-auto px-6 py-8 pt-16">
+          {/* Wishlist Content with Suspense */}
+          <Suspense fallback={<WishlistSkeleton />}>
+            <WishlistContent locale={locale} />
+          </Suspense>
         </div>
-
-        {/* Wishlist Content with Suspense */}
-        <Suspense fallback={<WishlistSkeleton />}>
-          <WishlistContent locale={locale} />
-        </Suspense>
       </div>
       <Footer />
     </div>
