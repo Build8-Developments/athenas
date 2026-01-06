@@ -10,7 +10,6 @@ export interface ProductData {
   description: string;
   category: string;
   image: string;
-  gallery: string[];
   weight: string;
   minOrder: string;
   grade: string;
