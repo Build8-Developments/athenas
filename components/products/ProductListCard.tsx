@@ -85,14 +85,6 @@ export default function ProductListCard({ product, categories }: ProductListCard
 
               {/* Product Details */}
               <div className="hidden md:flex flex-wrap gap-x-6 gap-y-2 text-sm text-primary/60">
-                {product.weight && (
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-medium text-primary/80">
-                      {t("weight")}:
-                    </span>
-                    <span>{product.weight}</span>
-                  </div>
-                )}
                 {product.grade && (
                   <div className="flex items-center gap-1.5">
                     <span className="font-medium text-primary/80">

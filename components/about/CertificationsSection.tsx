@@ -1,26 +1,34 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Shield, CheckCircle, Leaf, LucideIcon } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import Image from "next/image";
 
 interface Certification {
   key: string;
-  icon: LucideIcon;
+  image: string;
 }
 
 const certifications: Certification[] = [
   {
-    key: "iso",
-    icon: Shield,
+    key: "iso9001",
+    image: "/certifications/iso9001.png",
+  },
+  {
+    key: "iso22000",
+    image: "/certifications/iso22000.png",
   },
   {
     key: "haccp",
-    icon: CheckCircle,
+    image: "https://placehold.co/200x200?text=200x200",
   },
   {
-    key: "globalGap",
-    icon: Leaf,
+    key: "halal",
+    image: "/certifications/halal.png",
+  },
+  {
+    key: "fda",
+    image: "/certifications/fda.png",
   },
 ];
 
@@ -48,22 +56,26 @@ export default function CertificationsSection() {
         </div>
 
         {/* Certifications Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           {certifications.map((cert, index) => {
-            const Icon = cert.icon;
             return (
               <div
                 key={cert.key}
-                className={`bg-light rounded-2xl p-6 md:p-8 text-center transition-all duration-700 hover:shadow-lg hover:-translate-y-1 ${
+                className={`w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1.34rem)] bg-light rounded-2xl p-6 md:p-8 text-center transition-all duration-700 hover:shadow-lg hover:-translate-y-1 ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8"
                 }`}
                 style={{ transitionDelay: `${index * 100 + 200}ms` }}
               >
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-secondary/10 text-secondary mb-4 md:mb-6">
-                  <Icon className="w-8 h-8 md:w-10 md:h-10" />
+                {/* Image */}
+                <div className="relative w-32 h-32 md:w-40 md:h-40 mx-auto mb-4 md:mb-6">
+                  <Image
+                    src={cert.image}
+                    alt={t(`${cert.key}.name`)}
+                    fill
+                    className="object-contain"
+                  />
                 </div>
 
                 {/* Name */}

@@ -134,13 +134,9 @@ export default function ProductCard({ product, categories }: ProductCardProps) {
                 inWishlist ? "fill-red-500" : ""
               }`}
             />
-            <span className="hidden sm:inline">
-              {inWishlist ? t("inWishlist") : t("addToWishlist")}
-            </span>
           </button>
           <button className="flex-1 cursor-pointer flex items-center justify-center gap-1 sm:gap-2 py-2 sm:py-3 bg-secondary hover:bg-primary text-white text-xs sm:text-sm font-medium hover:shadow-lg transition-all duration-200">
             <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="hidden sm:inline">{t("viewDetails")}</span>
           </button>
         </div>
       </Link>

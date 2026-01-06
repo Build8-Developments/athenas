@@ -7,7 +7,6 @@ import { Link } from "@/i18n/navigation";
 import {
   Heart,
   Share2,
-  ChevronLeft,
   ChevronRight,
   Check,
   Package,
@@ -37,7 +36,6 @@ export default function ProductDetailClient({
   const t = useTranslations("productDetail");
   const tPage = useTranslations("productsPage");
 
-  const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [showShareTooltip, setShowShareTooltip] = useState(false);
@@ -60,8 +58,7 @@ export default function ProductDetailClient({
     }
   }, [product._id]);
 
-  // All images including main and gallery
-  const allImages = [product.image, ...(product.gallery || [])];
+
 
   // Quantity controls
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
@@ -107,16 +104,7 @@ export default function ProductDetailClient({
     }
   };
 
-  // Navigate gallery
-  const nextImage = () => {
-    setSelectedImage((prev) => (prev + 1) % allImages.length);
-  };
 
-  const prevImage = () => {
-    setSelectedImage(
-      (prev) => (prev - 1 + allImages.length) % allImages.length
-    );
-  };
 
   // Generate inquiry email
   const generateInquiryEmail = () => {
@@ -125,7 +113,7 @@ export default function ProductDetailClient({
       `Hello,\n\nI am interested in the following product:\n\n` +
         `Product: ${product.name}\n` +
         `Category: ${getCategoryName(product.category)}\n` +
-        `Quantity: ${quantity} units\n` +
+        `Quantity: ${quantity} ${quantity > 1 ? "Tons" : "Ton"}\n` +
         `Please provide more information about:\n` +
         `- Bulk pricing for this quantity\n` +
         `- Shipping options\n` +
@@ -185,7 +173,7 @@ export default function ProductDetailClient({
             {/* Main Image */}
             <div className="relative aspect-square rounded-3xl overflow-hidden bg-white shadow-lg mb-4">
               <Image
-                src={allImages[selectedImage]}
+                src={product.image}
                 alt={product.name}
                 fill
                 className="object-cover"
@@ -206,52 +194,7 @@ export default function ProductDetailClient({
                   </span>
                 )}
               </div>
-
-              {/* Gallery Navigation */}
-              {allImages.length > 1 && (
-                <>
-                  <button
-                    onClick={prevImage}
-                    className="absolute start-4 top-1/2 -translate-y-1/2 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors"
-                    aria-label="Previous image"
-                  >
-                    <ChevronLeft className="w-5 h-5 text-primary rtl:rotate-180" />
-                  </button>
-                  <button
-                    onClick={nextImage}
-                    className="absolute end-4 top-1/2 -translate-y-1/2 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md hover:bg-white transition-colors"
-                    aria-label="Next image"
-                  >
-                    <ChevronRight className="w-5 h-5 text-primary rtl:rotate-180" />
-                  </button>
-                </>
-              )}
             </div>
-
-            {/* Thumbnail Gallery */}
-            {allImages.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto py-2 px-1 -mx-1">
-                {allImages.map((img, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden shrink-0 transition-all duration-200 ${
-                      selectedImage === index
-                        ? "ring-2 ring-secondary ring-offset-2 scale-105"
-                        : "opacity-60 hover:opacity-100 hover:scale-105"
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt={`${product.name} ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      unoptimized
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
           {/* Product Info */}
@@ -303,25 +246,30 @@ export default function ProductDetailClient({
               <span className="text-sm font-medium text-primary/70">
                 {t("quantity")}:
               </span>
-              <div className="flex items-center gap-1 bg-white rounded-xl border border-accent/30 shadow-sm">
-                <button
-                  onClick={decrementQuantity}
-                  disabled={quantity <= 1}
-                  className="p-3 text-primary hover:bg-accent/30 rounded-s-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="w-12 text-center font-semibold text-primary">
-                  {quantity}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1 bg-white rounded-xl border border-accent/30 shadow-sm">
+                  <button
+                    onClick={decrementQuantity}
+                    disabled={quantity <= 1}
+                    className="p-3 text-primary hover:bg-accent/30 rounded-s-xl transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="w-12 text-center font-semibold text-primary">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={incrementQuantity}
+                    className="p-3 text-primary hover:bg-accent/30 rounded-e-xl transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+                <span className="text-gray-600 font-medium">
+                  {t("unit_ton")}
                 </span>
-                <button
-                  onClick={incrementQuantity}
-                  className="p-3 text-primary hover:bg-accent/30 rounded-e-xl transition-colors"
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
               </div>
             </div>
 

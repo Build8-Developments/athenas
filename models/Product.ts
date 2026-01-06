@@ -19,7 +19,6 @@ export interface IProduct extends Document {
   minOrder: string; // From CSV: Minimum Order column
   grade: string; // From CSV: Grade column
   image: string;
-  gallery: string[];
   featured: boolean;
   new: boolean;
   active: boolean;
@@ -69,10 +68,6 @@ const ProductSchema = new Schema<IProduct>(
     image: {
       type: String,
       required: true,
-    },
-    gallery: {
-      type: [String],
-      default: [],
     },
     featured: {
       type: Boolean,

@@ -27,7 +27,6 @@ interface ProductData {
   description_ar: string;
   category: string;
   image: string;
-  gallery: string[];
   weight: string;
   minOrder: string;
   grade: string;
@@ -43,7 +42,6 @@ interface ProductFormProps {
       description: string;
       category: string;
       image: string;
-      gallery: string[];
       weight: string;
       minOrder: string;
       grade: string;
@@ -77,7 +75,6 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
     description_ar: "",
     category: "",
     image: "",
-    gallery: [],
     weight: "",
     minOrder: "",
     grade: "",
@@ -86,7 +83,6 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
   });
 
   // Remove unused state variables
-  const [newGalleryImage, setNewGalleryImage] = useState("");
 
   // Fetch categories
   useEffect(() => {
@@ -116,7 +112,6 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
         description_ar: initialData.ar.description,
         category: initialData.en.category,
         image: initialData.en.image,
-        gallery: initialData.en.gallery || [],
         weight: initialData.en.weight,
         minOrder: initialData.en.minOrder,
         grade: initialData.en.grade,
@@ -149,7 +144,6 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
         description_ar: formData.description_ar,
         category: formData.category,
         image: formData.image,
-        gallery: formData.gallery,
         weight: formData.weight,
         minOrder: formData.minOrder,
         grade: formData.grade,
@@ -182,24 +176,7 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
     }
   };
 
-  // Add gallery image
-  const addGalleryImage = () => {
-    if (newGalleryImage) {
-      setFormData((prev) => ({
-        ...prev,
-        gallery: [...prev.gallery, newGalleryImage],
-      }));
-      setNewGalleryImage("");
-    }
-  };
 
-  // Remove gallery image
-  const removeGalleryImage = (url: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      gallery: prev.gallery.filter((g) => g !== url),
-    }));
-  };
 
   if (loading) {
     return (
@@ -567,47 +544,6 @@ export default function ProductForm({ initialData, isEdit }: ProductFormProps) {
                   Enter the URL of the main product image
                 </p>
               </div>
-            </div>
-          </div>
-
-          {/* Gallery */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h2 className="font-semibold text-gray-900 mb-4">Gallery Images</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              {formData.gallery.map((url, index) => (
-                <div key={index} className="relative group">
-                  <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                    <img
-                      src={url}
-                      alt={`Gallery ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeGalleryImage(url)}
-                    className="absolute top-2 right-2 p-1.5 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="url"
-                value={newGalleryImage}
-                onChange={(e) => setNewGalleryImage(e.target.value)}
-                placeholder="https://example.com/gallery-image.jpg"
-                className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-              />
-              <button
-                type="button"
-                onClick={addGalleryImage}
-                className="px-4 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90"
-              >
-                Add Image
-              </button>
             </div>
           </div>
         </div>

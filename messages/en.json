@@ -60,8 +60,10 @@
     "subtitle": "We proudly serve clients across continents, building lasting relationships based on trust and quality.",
     "locations": {
       "egypt": "Cairo, Egypt - Headquarters",
-      "uae": "Dubai, UAE - Distribution Hub",
-      "germany": "Hamburg, Germany - European Partner"
+      "spain": "Spain",
+      "greece": "Greece",
+      "uae": "UAE",
+      "saudi": "Saudi Arabia"
     }
   },
   "stats": {
@@ -85,7 +87,7 @@
       },
       {
         "question": "What certifications do you have?",
-        "answer": "Athenas Foods holds ISO 22000, HACCP, and GLOBALG.A.P certifications. We comply with international food safety standards and undergo regular audits to ensure quality."
+        "answer": "Athenas Foods holds ISO 9001, ISO 22000, HACCP, Halal, and FDA certifications. We comply with international food safety standards."
       },
       {
         "question": "What is your minimum order quantity?",
@@ -97,7 +99,11 @@
       },
       {
         "question": "Which countries do you ship to?",
-        "answer": "We export to over 25 countries across Europe, Middle East, Asia, and Africa. Contact us to confirm shipping availability to your specific location."
+        "answer": "We currently export to major markets including Spain, Greece, UAE, and Saudi Arabia. Contact us to confirm shipping availability to your location."
+      },
+      {
+        "question": "Do you offer Private Label service?",
+        "answer": "Yes, we offer Private Label services. Please contact us for details regarding Minimum Order Quantities (MOQ) and the process."
       }
     ]
   },
@@ -107,8 +113,9 @@
     "products": "Products",
     "contact": "Contact Us",
     "address": "Al-Ostaz Street, in front of Tanta Sports Club - Tanta - Gharbia - 31511",
-    "email": "info@athenasfoods.com",
-    "phone": "01013993233\n01004312829",
+    "email": "contact@athenasfoods.com",
+    "phone": "+201004312829\n+201013993233",
+    "taxId": "Tax ID: 845-539-318",
     "followUs": "Follow Us",
     "copyright": "© 2025 Athenas Foods. All rights reserved.",
     "privacy": "Privacy Policy",
@@ -245,7 +252,8 @@
     "relatedProducts": "Related Products",
     "inquirySubject": "Product Inquiry",
     "productNotFound": "Product Not Found",
-    "productNotFoundDesc": "The product you're looking for doesn't exist or has been removed."
+    "productNotFoundDesc": "The product you're looking for doesn't exist or has been removed.",
+    "unit_ton": "Ton"
   },
   "productItems": {
     "greenPeas": {
@@ -434,22 +442,37 @@
     "certifications": {
       "title": "Our Certifications",
       "subtitle": "Quality you can trust",
-      "iso": {
+      "iso22000": {
         "name": "ISO 22000",
-        "description": "Food Safety Management System certification ensuring the highest food safety standards."
+        "description": "Food Safety Management System certification."
+      },
+      "iso9001": {
+        "name": "ISO 9001",
+        "description": "Quality Management System certification."
       },
       "haccp": {
         "name": "HACCP",
-        "description": "Hazard Analysis Critical Control Points certification for systematic food safety."
+        "description": "Hazard Analysis Critical Control Points certification."
       },
-      "globalGap": {
-        "name": "GLOBALG.A.P",
-        "description": "Good Agricultural Practices certification ensuring responsible farming."
+      "halal": {
+        "name": "Halal",
+        "description": "Halal Certification for compliance with Islamic dietary laws."
+      },
+      "fda": {
+        "name": "FDA Registered",
+        "description": "Registered with the U.S. Food and Drug Administration."
       }
     },
     "map": {
       "title": "Our Location",
-      "subtitle": "Visit us at our headquarters in 10th of Ramadan City, Egypt"
+      "subtitle": "Visit us at our headquarters in 10th of Ramadan City, Egypt",
+      "globalReach": "Global Reach",
+      "locations": {
+        "spain": "Spain",
+        "greece": "Greece",
+        "uae": "UAE",
+        "saudi": "Saudi Arabia"
+      }
     }
   },
   "dashboard": {

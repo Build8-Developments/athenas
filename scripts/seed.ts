@@ -465,7 +465,6 @@ async function seedDatabase() {
           minOrder: product.minOrder || "Contact for details",
           grade: product.grade,
           image: imageUrl,
-          gallery: [imageUrl],
           featured: index < 8, // First 8 products are featured
           new: index < 4, // First 4 products are new
           active: true,
@@ -484,7 +483,6 @@ async function seedDatabase() {
           minOrder: product.minOrder || "اتصل للحصول على التفاصيل",
           grade: product.grade,
           image: imageUrl,
-          gallery: [imageUrl],
           featured: index < 8,
           new: index < 4,
           active: true,

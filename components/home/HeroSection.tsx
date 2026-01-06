@@ -134,7 +134,7 @@ export default function HeroSection() {
       {/* Scroll Down Indicator */}
       <button
         onClick={scrollToContent}
-        className={`absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-primary/70 hover:text-primary transition-all duration-500 delay-700 cursor-pointer ${
+        className={`absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-primary/70 hover:text-primary transition-all duration-500 delay-700 cursor-pointer ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
         aria-label="Scroll to content"

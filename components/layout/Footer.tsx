@@ -97,6 +97,10 @@ export default function Footer() {
                   {t("phone")}
                 </a>
               </li>
+              <li className="flex items-center gap-3">
+                <span className="text-secondary font-bold text-sm">#</span>
+                <span className="text-white/70">{t("taxId")}</span>
+              </li>
             </ul>
           </div>
 
