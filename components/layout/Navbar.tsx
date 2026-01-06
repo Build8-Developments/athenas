@@ -53,22 +53,38 @@ export default function FloatingNavbar() {
   return (
     <>
       {/* Desktop & Mobile Navbar */}
-      <nav
-        className={`fixed left-1/2 z-50 -translate-x-1/2 w-[calc(100%-2rem)] md:w-fit md:min-w-max rounded-full px-4 md:px-6 py-3 shadow-lg backdrop-blur border transition-all duration-500 ${
+    <nav
+        className={`fixed left-1/2 z-50 -translate-x-1/2 w-[calc(100%-1rem)] md:w-fit md:min-w-max rounded-full px-3 md:px-6 py-2 md:py-3 shadow-lg backdrop-blur border transition-all duration-500 ${
           isScrolled
             ? "bg-white/95 border-primary/15 shadow-xl"
             : "bg-white/90 border-primary/10"
-        } ${isLoaded ? "top-6 opacity-100" : "-top-8 opacity-0"}`}
+        } ${isLoaded ? "top-2 md:top-6 opacity-100" : "-top-8 opacity-0"}`}
       >
-        <div className="flex items-center justify-between md:gap-4">
-          {/* Logo */}
-          <Link href="/" className="shrink-0">
+        <div className="flex items-center justify-between md:gap-4 relative">
+          {/* Mobile Menu Toggle - Left */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 -ml-2 hover:bg-secondary/10 rounded-full transition-colors duration-200"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? (
+              <X className="w-5 h-5 text-primary" />
+            ) : (
+              <Menu className="w-5 h-5 text-primary" />
+            )}
+          </button>
+
+          {/* Logo - Centered on Mobile, Left on Desktop */}
+          <Link 
+            href="/" 
+            className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 shrink-0"
+          >
             <Image
               src="/logo/logo.png"
               alt="Athenas Logo"
               width={300}
               height={80}
-              className="h-[32px] md:h-[40px] w-auto object-contain"
+              className="h-[28px] md:h-[40px] w-auto object-contain"
               priority
               fetchPriority="high"
             />
@@ -89,18 +105,18 @@ export default function FloatingNavbar() {
           </ul>
 
           {/* Right Side Icons */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-1 md:gap-2 shrink-0">
             {/* Divider - Desktop Only */}
             <div className="hidden md:block h-6 w-px bg-primary/20" />
 
             {/* Language Toggle */}
             <button
               onClick={toggleLocale}
-              className="p-2 hover:bg-secondary/10 rounded-full transition-colors duration-200 flex items-center gap-1"
+              className="p-1.5 md:p-2 hover:bg-secondary/10 rounded-full transition-colors duration-200 flex items-center gap-1"
               aria-label="Toggle language"
             >
-              <Globe className="w-5 h-5 text-primary" />
-              <span className="text-xs font-medium text-primary uppercase">
+              <Globe className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+              <span className="text-[10px] md:text-xs font-medium text-primary uppercase">
                 {locale === "en" ? "AR" : "EN"}
               </span>
             </button>
@@ -109,23 +125,10 @@ export default function FloatingNavbar() {
             <Link
               href="/wishlist"
               aria-label="Wishlist"
-              className="p-2 hover:bg-secondary/10 rounded-full transition-colors duration-200"
+              className="p-1.5 md:p-2 hover:bg-secondary/10 rounded-full transition-colors duration-200"
             >
-              <Heart className="w-5 h-5 text-primary" />
+              <Heart className="w-4 h-4 md:w-5 md:h-5 text-primary" />
             </Link>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 hover:bg-secondary/10 rounded-full transition-colors duration-200"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? (
-                <X className="w-5 h-5 text-primary" />
-              ) : (
-                <Menu className="w-5 h-5 text-primary" />
-              )}
-            </button>
           </div>
         </div>
       </nav>
