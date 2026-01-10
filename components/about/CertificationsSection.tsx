@@ -20,7 +20,7 @@ const certifications: Certification[] = [
   },
   {
     key: "haccp",
-    image: "https://placehold.co/200x200?text=200x200",
+    image: "/certifications/haccp.png",
   },
   {
     key: "halal",
