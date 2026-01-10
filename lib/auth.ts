@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 
 const JWT_SECRET =
   process.env.JWT_SECRET || "your-super-secret-key-change-in-production";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 export interface AuthPayload {
   username: string;
