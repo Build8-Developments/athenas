@@ -1,40 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useSwipe } from "@/hooks/useSwipe";
 
 export default function AboutSection() {
   const t = useTranslations("about");
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [sectionRef, isVisible] = useScrollAnimation<HTMLElement>({
     threshold: 0.2,
   });
-
-  // Local about section images
-  const slides = [
-    "/logos/2.jpg",
-    "/logos/2.jpg",
-    "/logos/2.jpg",
-  ];
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-
-  // Touch gestures
-  const swipeHandlers = useSwipe({
-    onSwipeLeft: nextSlide,
-    onSwipeRight: prevSlide,
-  });
-
-  // Auto-advance slides every 4 seconds
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 4000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
 
   const qualityPoints = [
     t("points.0"),
@@ -99,46 +72,23 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Right Side - Image Slider */}
+          {/* Right Side - Video */}
           <div
             className={`relative w-full h-87.5 sm:h-112.5 md:h-137.5 lg:h-162.5 xl:h-175 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl transition-all duration-1000 delay-300 ${
               isVisible
                 ? "opacity-100 translate-x-0 scale-100"
                 : "opacity-0 translate-x-12 scale-95"
             }`}
-            {...swipeHandlers}
           >
-            {slides.map((slide, index) => (
-              <div
-                key={index}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <Image
-                  src={slide}
-                  alt={`About image ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  priority={index === 0}
-                />
-              </div>
-            ))}
-
-            {/* Slider Indicators */}
-            <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 sm:gap-2">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${
-                    index === currentSlide
-                      ? "bg-light w-6 sm:w-8"
-                      : "bg-light/50 hover:bg-light/70"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+            <div className="absolute inset-0">
+              <video
+                className="w-full h-full object-cover"
+                playsInline
+                muted
+                autoPlay
+                loop
+                src="/quality-section.webm"
+              />
             </div>
           </div>
         </div>

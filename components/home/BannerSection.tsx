@@ -57,12 +57,12 @@ export default function BannerSection() {
             }`}
           >
             <img
-              src="/logos/2.jpg"
+              src="/cta-section.jpg"
               alt="Premium frozen products"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover "
             />
             {/* Decorative Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white/20" />
+            <div className="absolute inset-0 bg-linear-to-l from-transparent via-transparent to-white/20" />
           </div>
         </div>
       </div>

@@ -2,71 +2,35 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import Button from "@/components/shared/Button";
 import { ChevronDown } from "lucide-react";
-import { useSwipe } from "@/hooks/useSwipe";
 
 export default function HeroSection() {
   const t = useTranslations("hero");
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // Local hero background images
-  const slides = [
-    "/hero/hero-bg-1.jpg",
-    "/hero/hero-bg-2.jpg",
-    "/hero/hero-bg-3.jpg",
-  ];
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
-  const prevSlide = () =>
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-
-  // Touch gestures
-  const swipeHandlers = useSwipe({
-    onSwipeLeft: nextSlide,
-    onSwipeRight: prevSlide,
-  });
 
   // Trigger entrance animation on mount
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
-  // Auto-advance slides every 5 seconds
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 5000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
-
   const scrollToContent = () => {
     window.scrollTo({ top: window.innerHeight - 100, behavior: "smooth" });
   };
 
   return (
-    <section
-      className="relative w-full h-screen overflow-hidden"
-      {...swipeHandlers}
-    >
-      {/* Background Image Slider */}
-      {slides.map((slide, index) => (
-        <div
-          key={slide}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          <Image
-            src={slide}
-            alt={`Hero background ${index + 1}`}
-            fill
-            priority={index === 0}
-            className="object-cover"
-            unoptimized
-          />
-        </div>
-      ))}
+    <section className="relative w-full h-screen overflow-hidden">
+      {/* Background Video */}
+      <div className="absolute inset-0">
+        <video
+          className="w-full h-full object-cover"
+          playsInline
+          muted
+          autoPlay
+          loop
+          src="/hero/hero.webm"
+        />
+      </div>
 
       {/* Overlay with blur */}
       <div className="absolute inset-0 bg-light/75 backdrop-blur-xs" />
@@ -113,22 +77,6 @@ export default function HeroSection() {
             <Button href="/contact">{t("cta")}</Button>
           </div>
         </div>
-      </div>
-
-      {/* Slider Indicators */}
-      <div className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentSlide
-                ? "bg-primary w-8"
-                : "bg-primary/30 hover:bg-primary/50"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
       </div>
 
       {/* Scroll Down Indicator */}

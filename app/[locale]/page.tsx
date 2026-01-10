@@ -60,7 +60,6 @@ export default async function HomePage({ params }: Props) {
     <div className="w-full">
       <HeroSection />
       <AboutSection />
-
       <QuoteSection />
       <FeaturedProducts products={featuredProducts} />
       <CategoriesSection categories={categories} />

@@ -8,9 +8,9 @@ import type { CategoryData } from "@/lib/data";
 
 // High-quality category images from Unsplash with variety
 const categoryImages: Record<string, string> = {
-  veggie: "https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2084&q=80",
-  fruit: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2086&q=80",
-  "french-fries": "https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2025&q=80",
+  veggie: "/products-categories/veggie.jpg",
+  fruit: "/products-categories/fruit.jpg",
+  "french-fries": "/products-categories/fries.jpg",
   fresh: "https://images.unsplash.com/photo-1767416901203-6374d6cecab4",
 };
 
