@@ -32,11 +32,6 @@ export default function LoginPage() {
         >
           <LoginForm />
         </Suspense>
-
-        {/* Help text */}
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Default credentials: admin / admin123
-        </p>
       </div>
     </div>
   );
