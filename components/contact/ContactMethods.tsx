@@ -49,10 +49,10 @@ export default function ContactMethods() {
             const content = (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-8 bg-white rounded-xl shadow-sm h-48"
+                className="flex flex-col items-center text-center p-8 bg-white rounded-xl shadow-sm h-full"
               >
                 {/* Icon */}
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 shrink-0">
                   <Icon className="w-8 h-8 text-primary" />
                 </div>
 
@@ -72,7 +72,7 @@ export default function ContactMethods() {
                 <a
                   key={index}
                   href={method.href}
-                  className="block"
+                  className="block h-full"
                 >
                   {content}
                 </a>

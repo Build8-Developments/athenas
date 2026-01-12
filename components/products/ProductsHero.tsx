@@ -7,7 +7,7 @@ export default function ProductsHero() {
   const t = useTranslations("productsPage.hero");
 
   return (
-    <section className="relative w-full h-[33vh] min-h-[250px] overflow-hidden">
+    <section className="relative w-full h-[33vh] min-h-[350px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -20,10 +20,10 @@ export default function ProductsHero() {
       </div>
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-secondary/60" />
+      <div className="absolute inset-0 bg-linear-to-r from-primary/80 to-secondary/60" />
 
       {/* Hero Content */}
-      <div className="relative z-10 flex h-full items-center justify-center px-6">
+      <div className="relative z-10 pt-16 flex h-full items-center justify-center px-6">
         <div className="text-center max-w-3xl">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3 leading-tight">
             {t("title")}

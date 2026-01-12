@@ -7,7 +7,7 @@ export default function AboutHero() {
   const t = useTranslations("aboutPage.hero");
 
   return (
-    <section className="relative w-full h-[33vh] min-h-[250px] overflow-hidden">
+    <section className="relative w-full h-[33vh] min-h-[350px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -24,7 +24,7 @@ export default function AboutHero() {
       <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-secondary/60" />
 
       {/* Hero Content */}
-      <div className="relative z-10 flex h-full items-center justify-center px-6">
+      <div className="relative z-10 pt-16 flex h-full items-center justify-center px-6">
         <div className="text-center max-w-3xl">
           {/* Title */}
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 rtl:font-arabic">
