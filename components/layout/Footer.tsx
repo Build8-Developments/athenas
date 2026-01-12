@@ -45,7 +45,7 @@ export default function Footer() {
                   alt="Athenas Logo"
                   width={800}
                   height={450}
-                  className="h-30 w-auto object-contain mx-auto object-left"
+                  className="h-18 w-auto object-contain  object-left"
                 />
               </Link>
             </div>
@@ -129,22 +129,9 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
             <p className="text-white/60 text-sm">{t("copyright")}</p>
-            <div className="flex gap-6">
-              <Link
-                href="/privacy"
-                className="text-white/60 hover:text-white text-sm transition-colors duration-200"
-              >
-                {t("privacy")}
-              </Link>
-              <Link
-                href="/terms"
-                className="text-white/60 hover:text-white text-sm transition-colors duration-200"
-              >
-                {t("terms")}
-              </Link>
-            </div>
+
           </div>
         </div>
       </div>
