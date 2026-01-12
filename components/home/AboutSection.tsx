@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
@@ -8,6 +9,16 @@ export default function AboutSection() {
   const [sectionRef, isVisible] = useScrollAnimation<HTMLElement>({
     threshold: 0.2,
   });
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      videoRef.current.play().catch((error) => {
+        console.warn("Video autoplay failed:", error);
+      });
+    }
+  }, []);
 
   const qualityPoints = [
     t("points.0"),
@@ -82,6 +93,7 @@ export default function AboutSection() {
           >
             <div className="absolute inset-0">
               <video
+                ref={videoRef}
                 className="w-full h-full object-cover"
                 playsInline
                 muted
